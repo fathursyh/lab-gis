@@ -1,18 +1,29 @@
 import { useFonts } from "expo-font";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useAuth } from "../stores/useAuth";
-
+export {
+    ErrorBoundary,
+} from "expo-router";
 SplashScreen.preventAutoHideAsync();
 
+export const unstable_settings = {
+    initialRouteName: "(app)",
+};
 export default function RootLayout() {
     const { persistLogin } = useAuth();
     const [loaded] = useFonts({
         poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        ...MaterialIcons.font
     });
+
     useEffect(() => {
-        persistLogin()
+        persistLogin();
+    }, []);
+
+    useEffect(() => {
         if (loaded) {
             SplashScreen.hideAsync();
         }

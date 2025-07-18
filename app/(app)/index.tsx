@@ -6,8 +6,9 @@ import useSecureStore from "../../utils/useSecureStore";
 export default function HomeTab() {
     const {logout} = useAuth()
     async function coba() {
-        const data = await useSecureStore().getValue('token');
-        console.log(data);
+        const data = await useSecureStore().getValue('user');
+        console.log(data)
+        
     }
     return (
         <View>
