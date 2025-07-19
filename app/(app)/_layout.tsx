@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
 import { Pressable } from "react-native";
-import { BottomTabBarProps, BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
     return (
@@ -33,7 +33,7 @@ export default function TabLayout() {
 }
 
 const options: BottomTabNavigationOptions = {
-    headerTitleAlign: "center",
+    headerTitleAlign: "left",
     headerStyle: { backgroundColor: colors.accent },
     headerTintColor: "white",
     headerTitleStyle: { fontFamily: "poppins" },
