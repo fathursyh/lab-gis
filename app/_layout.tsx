@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { useAuth } from "../stores/useAuth";
+
 export {
     ErrorBoundary,
 } from "expo-router";
@@ -42,16 +43,16 @@ function StackLayout() {
 
     return (
         <>
-        <StatusBar style="light" />
-        <Stack>
-            <Stack.Protected guard={isAuthenticated}>
-                <Stack.Screen name="(app)" options={{ headerShown: false }} />
-            </Stack.Protected>
-            <Stack.Protected guard={!isAuthenticated}>
-                <Stack.Screen name="sign-in" options={{ title: "Login" }} />
-                <Stack.Screen name="sign-up" options={{ title: "Register" }} />
-            </Stack.Protected>
-        </Stack>
+            <StatusBar style="light" />
+            <Stack>
+                <Stack.Protected guard={isAuthenticated}>
+                    <Stack.Screen name="(app)" options={{ headerShown: false }} />
+                </Stack.Protected>
+                <Stack.Protected guard={!isAuthenticated}>
+                    <Stack.Screen name="sign-in" options={{ title: "Login" }} />
+                    <Stack.Screen name="sign-up" options={{ title: "Register" }} />
+                </Stack.Protected>
+            </Stack>
         </>
     );
 }
