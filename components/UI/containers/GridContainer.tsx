@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react"
 import { Dimensions, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native"
 
 type GridContainerProps = {
-    items: any[], childStyle?: ViewStyle, bgColor: string
+    items: any[], childStyle?: ViewStyle, bgColor?: string
 }
 const { width } = Dimensions.get('window');
 export default function GridContainer({ items, children, childStyle, bgColor = 'white' }: PropsWithChildren & GridContainerProps) {
