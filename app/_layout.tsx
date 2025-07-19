@@ -1,15 +1,28 @@
 import { useFonts } from "expo-font";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-
+import { useAuth } from "../stores/useAuth";
+export {
+    ErrorBoundary,
+} from "expo-router";
 SplashScreen.preventAutoHideAsync();
 
+export const unstable_settings = {
+    initialRouteName: "(app)",
+};
 export default function RootLayout() {
+    const { persistLogin } = useAuth();
     const [loaded] = useFonts({
         poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        ...MaterialIcons.font
     });
+
+    useEffect(() => {
+        persistLogin();
+    }, []);
 
     useEffect(() => {
         if (loaded) {
@@ -25,15 +38,16 @@ export default function RootLayout() {
 }
 
 function StackLayout() {
-    const loggedIn = true;
+    const { isAuthenticated } = useAuth();
+
     return (
         <>
         <StatusBar style="light" />
         <Stack>
-            <Stack.Protected guard={loggedIn}>
+            <Stack.Protected guard={isAuthenticated}>
                 <Stack.Screen name="(app)" options={{ headerShown: false }} />
             </Stack.Protected>
-            <Stack.Protected guard={!loggedIn}>
+            <Stack.Protected guard={!isAuthenticated}>
                 <Stack.Screen name="sign-in" options={{ title: "Login" }} />
                 <Stack.Screen name="sign-up" options={{ title: "Register" }} />
             </Stack.Protected>
