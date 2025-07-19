@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
@@ -26,6 +27,8 @@ export default function RootLayout() {
 function StackLayout() {
     const loggedIn = true;
     return (
+        <>
+        <StatusBar style="light" />
         <Stack>
             <Stack.Protected guard={loggedIn}>
                 <Stack.Screen name="(app)" options={{ headerShown: false }} />
@@ -35,5 +38,6 @@ function StackLayout() {
                 <Stack.Screen name="sign-up" options={{ title: "Register" }} />
             </Stack.Protected>
         </Stack>
+        </>
     );
 }

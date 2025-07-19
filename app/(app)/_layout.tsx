@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
 import { Pressable } from "react-native";
-import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import { BottomTabBarProps, BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
     return (
@@ -37,7 +37,7 @@ const options: BottomTabNavigationOptions = {
     headerStyle: { backgroundColor: colors.accent },
     headerTintColor: "white",
     headerTitleStyle: { fontFamily: "poppins" },
-    tabBarButton: (props) => <Pressable android_ripple={{ color: "gray" }} {...(props as any)} />,
+    tabBarButton: (props : any) => (<Pressable {...props} android_ripple={{ color: colors.accent, borderless: true }}  />),
     tabBarActiveTintColor: colors.accent,
     sceneStyle: { backgroundColor: colors.background },
 };

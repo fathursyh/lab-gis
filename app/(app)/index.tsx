@@ -1,10 +1,12 @@
-import { Text, View } from "react-native";
-import { cts } from "../../assets/styles/styles";
+import { Text } from "react-native";
+import GridContainer from "../../components/UI/containers/GridContainer";
 
 export default function HomeTab() {
+    const tes = [1, 2, 3, 4, 5, 6];
     return (
-        <View>
-            <Text style={cts.text}>Home</Text>
-        </View>
+       <GridContainer items={tes}>
+            <Text>Child</Text>
+       </GridContainer>
     )
 }
+
