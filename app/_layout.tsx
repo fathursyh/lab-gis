@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { useAuth } from "../stores/useAuth";
 import ToastManager from 'toastify-react-native'
 import { ToastManagerProps } from "toastify-react-native/utils/interfaces";
+import { Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -14,6 +16,8 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
     initialRouteName: "(app)",
 };
+
+const windowHeight = Dimensions.get('window').height
 export default function RootLayout() {
     const { persistLogin } = useAuth();
     const [loaded] = useFonts({
@@ -40,6 +44,7 @@ export default function RootLayout() {
 
 function StackLayout() {
     const { isAuthenticated } = useAuth();
+    const insets = useSafeAreaInsets();
 
     return (
         <>
@@ -53,13 +58,12 @@ function StackLayout() {
                     <Stack.Screen name="sign-up" options={{ title: "Register" }} />
                 </Stack.Protected>
             </Stack>
-            <ToastManager {...toastOptions} />
+            <ToastManager bottomOffset={insets.bottom > 24 ? windowHeight/7.5 : windowHeight/10} {...toastOptions} />
         </>
     );
 }
 
 const toastOptions : ToastManagerProps = {
-    bottomOffset:80,
     position:'bottom',
     showProgressBar: false,
     useModal: false,

@@ -6,7 +6,9 @@ export default function HomeTab() {
     return (
        <View style={styles.rootContainer}>
             <CustomCarousel />
-            <Button title="Show" onPress={() => Toast.success('Hati-hati memori.')} />
+            <Button title="Success" onPress={() => Toast.success('Sesuatu berhasil ditambahkan!')} />
+            <Button title="Warning" onPress={() => Toast.warn('Kuota sudah penuh!')} />
+            <Button title="Error" onPress={() => Toast.error('Gagal mengupdate tugas!')} />
        </View>
     )
 }
