@@ -1,12 +1,21 @@
-import { Text } from "react-native";
-import GridContainer from "../../components/UI/containers/GridContainer";
+import { Button, StyleSheet, Text, View } from "react-native";
+import CustomCarousel from "../../components/UI/CustomCarousel";
+import { Toast } from "toastify-react-native";
 
 export default function HomeTab() {
-    const tes = [1, 2, 3, 4, 5, 6];
     return (
-       <GridContainer items={tes}>
-            <Text>Child</Text>
-       </GridContainer>
+       <View style={styles.rootContainer}>
+            <CustomCarousel />
+            <Button title="Success" onPress={() => Toast.success('Sesuatu berhasil ditambahkan!')} />
+            <Button title="Warning" onPress={() => Toast.warn('Kuota sudah penuh!')} />
+            <Button title="Info" onPress={() => Toast.info('Kuota sudah penuh!')} />
+            <Button title="Error" onPress={() => Toast.error('Kuota sudah penuh!')} />
+       </View>
     )
 }
 
+const styles = StyleSheet.create({
+    rootContainer: {
+        flex: 1
+    }
+})
