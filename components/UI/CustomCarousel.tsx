@@ -14,7 +14,7 @@ function CustomCarousel() {
   return (
     <Carousel
       data={data}
-      autoPlay={true}
+      autoPlay={false}
       autoPlayInterval={3000}
       scrollAnimationDuration={1400}
       width={width}

@@ -5,10 +5,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { useAuth } from "../stores/useAuth";
-import ToastManager from 'toastify-react-native'
-import { ToastManagerProps } from "toastify-react-native/utils/interfaces";
+import ToastManager from "toastify-react-native";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { toastConfig, toastOptions } from "../utils/toast-helper";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -17,7 +17,7 @@ export const unstable_settings = {
     initialRouteName: "(app)",
 };
 
-const windowHeight = Dimensions.get('window').height
+const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
     const { persistLogin } = useAuth();
     const [loaded] = useFonts({
@@ -41,11 +41,9 @@ export default function RootLayout() {
 
     return <StackLayout />;
 }
-
 function StackLayout() {
     const { isAuthenticated } = useAuth();
     const insets = useSafeAreaInsets();
-
     return (
         <>
             <StatusBar style="light" />
@@ -58,14 +56,9 @@ function StackLayout() {
                     <Stack.Screen name="sign-up" options={{ title: "Register" }} />
                 </Stack.Protected>
             </Stack>
-            <ToastManager bottomOffset={insets.bottom > 24 ? windowHeight/7.5 : windowHeight/10} {...toastOptions} />
+            <ToastManager config={toastConfig} bottomOffset={insets.bottom > 24 ? windowHeight / 7.5 : windowHeight / 10} {...toastOptions} />
         </>
     );
 }
 
-const toastOptions : ToastManagerProps = {
-    position:'bottom',
-    showProgressBar: false,
-    useModal: false,
-    showCloseIcon: false,
-}
+
