@@ -4,5 +4,6 @@ export const colors = {
     accent: '#7A73D1',
     background: '#d1c8ebff',
     light: 'white',
-    dark: '#363636ff'
+    dark: '#363636ff',
+    error: '#d33838ff'
 }

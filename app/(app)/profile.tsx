@@ -1,6 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import GridContainer from "../../components/UI/containers/GridContainer";
 import { useAuth } from "../../stores/useAuth";
+import CustomButton from "../../components/UI/CustomButton";
 
 export default function ProfileTab() {
     const tes = [1, 2, 3, 4, 5, 6];
@@ -10,7 +11,7 @@ export default function ProfileTab() {
             <GridContainer items={tes}>
                 <Text>Child</Text>
             </GridContainer>
-            <Button title="Logout" onPress={logout} />
+            <CustomButton onPress={logout} type="danger">Logout</CustomButton>
         </View>
     )
 }
