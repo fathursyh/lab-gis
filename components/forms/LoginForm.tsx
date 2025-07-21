@@ -44,7 +44,7 @@ export default function LoginForm() {
         <>
             <View style={styles.formContainer}>
                 <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => {passRef.current?.focus()}} />
-                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} />
+                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} returnKeyType="go" />
             </View>
             {
                 !isLoading ?

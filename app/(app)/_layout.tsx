@@ -17,7 +17,9 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="project"
                 options={{
+                    tabBarBadge: 3,
                     title: "Projects",
+                    headerShown: true,
                     tabBarIcon: ({ color }) => <MaterialIcons size={28} name="book" color={color} />,
                 }}
             />
@@ -40,7 +42,7 @@ const options: BottomTabNavigationOptions = {
     },
     headerTintColor: colors.light,
     headerTitleStyle: { fontFamily: "poppins" },
-    tabBarButton: (props : any) => (<Pressable {...props} android_ripple={{ color: colors.background, borderless: true }}  />),
+    tabBarButton: (props: any) => (<Pressable {...props} android_ripple={{ color: colors.background, borderless: true }} />),
     tabBarActiveTintColor: colors.light,
     tabBarInactiveTintColor: colors.background,
     sceneStyle: { backgroundColor: colors.light },
