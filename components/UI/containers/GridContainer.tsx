@@ -1,25 +1,24 @@
-import { PropsWithChildren } from "react"
-import { Dimensions, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native"
+import { Dimensions, Pressable, StyleSheet, View, ViewStyle } from "react-native"
+import { colors } from "../../../constants/colors";
+import { router } from "expo-router";
 
 type GridContainerProps = {
-    items: any[], childStyle?: ViewStyle, bgColor?: string
+    items: any[], itemKey: string, childStyle?: ViewStyle, children: Function, handlePress?: Function
 }
 const { width } = Dimensions.get('window');
-export default function GridContainer({ items, children, childStyle, bgColor = 'white' }: PropsWithChildren & GridContainerProps) {
+export default function GridContainer({ items, itemKey, children, childStyle, handlePress}: GridContainerProps) {
     return (
-        <ScrollView style={{ flex: 1 }} >
             <View style={styles.rootContainer}>
                 {
                     items.map(item => (
-                        <View key={item} style={styles.grid}>
-                            <Pressable android_ripple={{ color: bgColor !== 'white' ? 'white' : '#ccc', radius: 123 }} style={[styles.gridItem, childStyle]}>
-                                {children}
+                        <View key={item[itemKey]} style={styles.grid}>
+                            <Pressable android_ripple={{ color: 'white', radius: 125 }} style={[styles.gridItem, childStyle, {backgroundColor: item.color ?? colors.light}]} onPress={handlePress ? () => handlePress(item) :  () => router.navigate(item.link)}>
+                                {children(item)}
                             </Pressable>
                         </View>
                     ))
                 }
             </View>
-        </ScrollView>
     )
 }
 
@@ -35,7 +34,6 @@ const styles = StyleSheet.create({
         padding: 8
     },
     gridItem: {
-        backgroundColor: 'white',
         shadowColor: 'black',
         shadowOpacity: 0.3,
         shadowOffset: { width: 0, height: 0 },

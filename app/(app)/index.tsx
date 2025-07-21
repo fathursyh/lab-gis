@@ -1,21 +1,60 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import CustomCarousel from "../../components/UI/CustomCarousel";
-import { Toast } from "toastify-react-native";
+import { colors } from "../../constants/colors";
+import GridContainer from "../../components/UI/containers/GridContainer";
 
+const menuGrid = [
+    {title: 'Project', link: '/profile', color: '#C85C5C'},
+    {title: 'Forum', link: '/project', color: '#eac55eff'},
+    {title: 'Menu', link: '/project', color: '#4A90A4'},
+    {title: 'Bebas', link: '/project', color: '#7BAE7F'},
+];
 export default function HomeTab() {
     return (
-       <View style={styles.rootContainer}>
+       <ScrollView style={styles.rootContainer} bounces={false} alwaysBounceVertical={false}>
+        <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Selamat Datang, Nama User!</Text>
+            <View style={{ position: 'absolute', bottom: -60 }}>
             <CustomCarousel />
-            <Button title="Success" onPress={() => Toast.success('Sesuatu berhasil ditambahkan!')} />
-            <Button title="Warning" onPress={() => Toast.warn('Kuota sudah penuh!')} />
-            <Button title="Info" onPress={() => Toast.info('Kuota sudah penuh!')} />
-            <Button title="Error" onPress={() => Toast.error('Kuota sudah penuh!')} />
-       </View>
+            </View>
+        </View>
+        <View style={{ flex: 1 }}>
+        <GridContainer items={ menuGrid } itemKey="title" children={(value: any) => {
+            return (
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemTitle}>{ value.title }</Text>
+                </View>
+            )
+        }} />
+        </View>
+       </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     rootContainer: {
-        flex: 1
+        flex: 1,
+    },
+    headerContainer: {
+        paddingTop: 20,
+        height: 250,
+        backgroundColor: colors.secondary500,
+        marginBottom: 60,
+    },
+    headerText: {
+        fontFamily: 'poppins-bold',
+        textAlign: 'center',
+        fontSize: 22,
+        color: colors.light
+    },
+    itemContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    itemTitle: {
+        fontFamily: 'poppins-semi',
+        fontSize: 18,
+        color: colors.light
     }
 })
