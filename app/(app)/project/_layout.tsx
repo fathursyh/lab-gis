@@ -4,12 +4,10 @@ import { Tabs } from "expo-router";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { Pressable, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 
 export default function ProjectLayout() {
     return (
         <>
-            <StatusBar style="dark" />
             <Tabs screenOptions={options} backBehavior="none">
                 <Tabs.Screen
                     name="index"
@@ -36,7 +34,7 @@ const options: BottomTabNavigationOptions = {
     headerShown: false,
     tabBarLabel: ({ children, focused }) => {
         return (
-            <LinearGradient dither={false} colors={['transparent', 'transparent', focused ? '#dddafcff' : 'transparent']} end={{ x: 0.5, y: 1.2 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', borderBottomWidth: focused ? 0.2:0, borderStyle: 'dashed', borderColor: colors.accent}}>
+            <LinearGradient dither={false} colors={['transparent', focused ? '#dddafcff' : 'transparent']} end={{ x: 0.5, y: 2 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', borderBottomWidth: focused ? 0.2:0, borderStyle: 'dashed', borderColor: colors.accent}}>
                 <Text style={{ color: colors.secondary500, fontFamily: 'poppins-semi' }}>{children}</Text>
             </LinearGradient>
         )
@@ -45,7 +43,7 @@ const options: BottomTabNavigationOptions = {
     tabBarPosition: 'top',
     tabBarIconStyle: { position: 'absolute', right: '22%', zIndex: 1 },
     tabBarStyle: {
-        height: '12%',
+        height: '10%',
         paddingTop: 0,
     },
     tabBarIcon: () => (<></>) ,

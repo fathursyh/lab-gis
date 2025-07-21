@@ -1,12 +1,15 @@
 import { Pressable, StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Link } from "expo-router";
 
 export default function AddButton() {
     return (
-        <Pressable style={[styles.buttonContainer]}>
+        <Link href={'/project/create'} asChild style={[styles.buttonContainer]}>
+        <Pressable android_ripple={{ color: colors.light }} >
             <MaterialIcons name="add" color={colors.light} size={32} />
         </Pressable>
+        </Link>
     )
 }
 
