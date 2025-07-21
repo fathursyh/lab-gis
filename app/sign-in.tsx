@@ -2,6 +2,7 @@ import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 
 import { colors } from "../constants/colors";
 import LoginForm from "../components/forms/LoginForm";
 import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
+import { Link } from "expo-router";
 
 export default function SignInScreen() {
     return (
@@ -15,6 +16,10 @@ export default function SignInScreen() {
                     <LoginForm />
                 </View>
             </KeyboardAvoidingView>
+            <View style={{ zIndex: 1, marginHorizontal: 'auto', marginTop: 8, flexDirection: 'row', gap: 4 }}>
+                <Text style={{ fontFamily: 'poppins' }}>Belum memiliki akun?</Text>
+                <Link replace href={'/sign-up'} style={{ color: colors.primary500, fontFamily: 'poppins-med', textDecorationLine: 'underline' }}>Daftar</Link>
+            </View>
             <Animated.View entering={SlideInDown.duration(400)} style={styles.bg} />
         </ScrollView>
     );
@@ -49,11 +54,11 @@ const styles = StyleSheet.create({
     bg: {
         backgroundColor: colors.light,
         position: "absolute",
-        minHeight: "80%",
+        height: "80%",
         width: "100%",
         bottom: 0,
         borderTopLeftRadius: 80,
         borderTopRightRadius: 80,
-        boxShadow: "0px 0px 30px 0px #ccc",
+        boxShadow: "0px 0px 24px 0px #ccc",
     },
 });

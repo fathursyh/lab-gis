@@ -38,7 +38,7 @@ export const useAuth = create<AuthState>((set) => ({
         }
     },
     logout: async () => {
-        const confirmation = await confirm("Yakin ingin keluar akun?", "Anda akan keluar dari akun user.", "Keluar", "destructive");
+        const confirmation = await confirm("Logout dari iGIS?", "Anda akan keluar dari akun.", "Keluar", "destructive");
         if (!confirmation) return;
         set({ isAuthenticated: false, user: null, token: null });
         await useSecureStore().deleteItem("token");
