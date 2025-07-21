@@ -1,21 +1,22 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import { useAuth } from "../stores/useAuth";
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/colors";
-import CustomButton from "../components/UI/CustomButton";
+import LoginForm from "../components/forms/LoginForm";
+import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
 export default function SignInScreen() {
-    const { login } = useAuth();
-    async function loginUser() {
-        login("email", "password");
-    }
     return (
-        <View style={styles.rootContainer}>
-            <View style={styles.formContainer}>
-                <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
-                <Text style={styles.formTitle}>iGIS</Text>
-                <CustomButton type="primary" onPress={loginUser}>Login</CustomButton>
-            </View>
-        </View>
+        <ScrollView contentContainerStyle={styles.rootContainer} keyboardShouldPersistTaps="always">
+            <KeyboardAvoidingView behavior="padding">
+                <View style={styles.formContainer}>
+                    <Animated.View entering={FadeIn.delay(400)}>
+                        <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
+                    </Animated.View>
+                    <Text style={styles.formTitle}>iGIS Lab</Text>
+                    <LoginForm />
+                </View>
+            </KeyboardAvoidingView>
+            <Animated.View entering={SlideInDown.duration(400)} style={styles.bg} />
+        </ScrollView>
     );
 }
 
@@ -23,13 +24,12 @@ const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
         justifyContent: "center",
-        backgroundColor: colors.light,
+        backgroundColor: colors.primary500,
     },
     formContainer: {
-        width: "100%",
-        minHeight: 400,
-        padding: 14,
-        alignItems: 'center'
+        alignItems: "center",
+        paddingHorizontal: "14%",
+        zIndex: 1,
     },
     formImage: {
         height: 80,
@@ -39,7 +39,21 @@ const styles = StyleSheet.create({
     formTitle: {
         fontFamily: "poppins-bold",
         fontSize: 24,
+        marginBottom: 12,
         textAlign: "center",
-        color: colors.primary500
+        color: colors.primary500,
+    },
+    submitButton: {
+        marginTop: 4,
+    },
+    bg: {
+        backgroundColor: colors.light,
+        position: "absolute",
+        minHeight: "80%",
+        width: "100%",
+        bottom: 0,
+        borderTopLeftRadius: 80,
+        borderTopRightRadius: 80,
+        boxShadow: "0px 0px 30px 0px #ccc",
     },
 });

@@ -56,13 +56,11 @@ function StackLayout() {
                     <Stack.Screen name="(app)" />
                 </Stack.Protected>
                 <Stack.Protected guard={!isAuthenticated}>
-                    <Stack.Screen name="sign-in" options={{ title: "Login", animation: 'slide_from_bottom' }} />
-                    <Stack.Screen name="sign-up" options={{ title: "Register", animation: 'slide_from_bottom' }} />
+                    <Stack.Screen name="sign-in" options={{ title: "Login", animation: 'fade' }} />
+                    <Stack.Screen name="sign-up" options={{ title: "Register", animation: 'fade' }} />
                 </Stack.Protected>
             </Stack>
             <ToastManager config={toastConfig} bottomOffset={insets.bottom > 24 ? windowHeight / 7.5 : windowHeight / 10} {...toastOptions} />
         </>
     );
 }
-
-

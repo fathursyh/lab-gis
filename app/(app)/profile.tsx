@@ -8,9 +8,9 @@ export default function ProfileTab() {
     const {logout} = useAuth();
     return (
         <View style={styles.rootContainer}>
-            <GridContainer items={tes}>
+            {/* <GridContainer items={tes}>
                 <Text>Child</Text>
-            </GridContainer>
+            </GridContainer> */}
             <CustomButton onPress={logout} type="danger">Logout</CustomButton>
         </View>
     )
