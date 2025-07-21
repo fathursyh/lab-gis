@@ -15,7 +15,8 @@ export default function ProjectLayout() {
                     name="index"
                     options={{
                         title: "All Projects",
-                        animation: 'shift'
+                        animation: 'shift',
+                        tabBarBadge: 3,
                     }}
                 />
                 <Tabs.Screen
@@ -35,19 +36,19 @@ const options: BottomTabNavigationOptions = {
     headerShown: false,
     tabBarLabel: ({ children, focused }) => {
         return (
-            <LinearGradient dither={false} colors={['transparent', 'transparent', focused ? '#dddafcff' : 'transparent']} end={{ x: 0.5, y: 1.2 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+            <LinearGradient dither={false} colors={['transparent', 'transparent', focused ? '#dddafcff' : 'transparent']} end={{ x: 0.5, y: 1.2 }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', borderBottomWidth: focused ? 0.2:0, borderStyle: 'dashed', borderColor: colors.accent}}>
                 <Text style={{ color: colors.secondary500, fontFamily: 'poppins-semi' }}>{children}</Text>
             </LinearGradient>
         )
     },
     sceneStyle: { backgroundColor: colors.light },
     tabBarPosition: 'top',
-    tabBarIconStyle: { display: 'none', },
+    tabBarIconStyle: { position: 'absolute', right: '22%', zIndex: 1 },
     tabBarStyle: {
         height: '12%',
-        // backgroundColor: 'black',
         paddingTop: 0,
     },
+    tabBarIcon: () => (<></>) ,
     tabBarButton: (props: any) => (<Pressable {...props} style={[props.style, {padding: 0}]} android_ripple={{ color: colors.background, borderless: false }} />),
     tabBarLabelPosition: 'beside-icon',
     tabBarActiveTintColor: colors.light,
