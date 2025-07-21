@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import BasicInput from "../UI/BasicInput";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useAuth } from "../../stores/useAuth";
 import CustomButton from "../UI/CustomButton";
 
@@ -12,6 +12,7 @@ export default function LoginForm() {
         email: '',
         password: '',
     });
+    const passRef = useRef<any>(null);
     const { login } = useAuth();
 
     const loginUser = useCallback(async () => {
@@ -42,8 +43,8 @@ export default function LoginForm() {
     return (
         <>
             <View style={styles.formContainer}>
-                <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} />
-                <BasicInput label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" />
+                <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => {passRef.current?.focus()}} />
+                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} />
             </View>
             {
                 !isLoading ?

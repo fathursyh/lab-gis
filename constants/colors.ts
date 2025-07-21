@@ -5,5 +5,5 @@ export const colors = {
     background: '#d1c8ebff',
     light: 'white',
     dark: '#363636ff',
-    error: '#d33838ff'
+    error: '#da4b4bff'
 }
