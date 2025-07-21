@@ -18,10 +18,15 @@ export default function LoginForm() {
     const loginUser = useCallback(async () => {
         try {
             setIsLoading(true);
-            if (email === '' || password === '') {
-                setError(prev => ({ email: email === '' ? 'Email tidak boleh kosong.' : prev.email, password: password === '' ? 'Password tidak boleh kosong.' : prev.password }));
+            const [invalidEmail, invalidPass] = [email === '', password === ''];
+            if (invalidEmail || invalidPass) {
+                setError(prev => ({
+                    email: invalidEmail ? 'Email tidak boleh kosong': prev.email,
+                    password: invalidPass ? 'Password tidak boleh kosong': prev.password,
+                }));
                 throw new Error();
             }
+            // start login logic
             const { error } = await login(email, password);
             if (error) {
                 setError(({ email: error.email, password: error.password }));
@@ -34,11 +39,7 @@ export default function LoginForm() {
     }, [error]);
 
     const resetError = (field: string) => {
-        if (field === 'email') {
-            setError(prev => ({ ...prev, email: '' }))
-        } else {
-            setError(prev => ({ ...prev, password: '' }))
-        }
+        setError((prev) => ({...prev, [field]: ''}));
     }
     return (
         <>

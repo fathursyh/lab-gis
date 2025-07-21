@@ -1,23 +1,40 @@
 import { Alert } from "react-native";
 
-export const confirm = (title: string, message: string, confirm: string, style?: 'default' | 'cancel' | 'destructive' | undefined) : Promise< boolean > => {
-  return new Promise((resolve) => {
-    Alert.alert(
-      title,
-      message,
-      [
-        {
-          text: 'Batal',
-          onPress: () => resolve(false),
-          style: 'cancel',
-        },
-        {
-          text: confirm,
-          style: style || 'default',
-          onPress: () => resolve(true),
-        },
-      ],
-      { cancelable: false, }
-    );
-  });
+export const confirm = (title: string, message: string, confirm: string, style?: "default" | "cancel" | "destructive" | undefined): Promise<boolean> => {
+    return new Promise((resolve) => {
+        Alert.alert(
+            title,
+            message,
+            [
+                {
+                    text: "Batal",
+                    onPress: () => resolve(false),
+                    style: "cancel",
+                },
+                {
+                    text: confirm,
+                    style: style || "default",
+                    onPress: () => resolve(true),
+                },
+            ],
+            { cancelable: false }
+        );
+    });
 };
+
+type Resolver = (value: string | null) => void;
+
+let resolver: Resolver | null = null;
+
+export function waitForModalResult(): Promise<string | null> {
+    return new Promise((res) => {
+        resolver = res;
+    });
+}
+
+export function resolveModalResult(value: any) {
+    if (resolver) {
+        resolver(value);
+        resolver = null;
+    }
+}

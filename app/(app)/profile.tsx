@@ -12,18 +12,24 @@ export default function ProfileTab() {
             <View style={styles.headerContainer}>
                 <View style={styles.profile}>
                     <MaterialIcons name="person" size={50} color={colors.light} />
-                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileText}>Nama Pengguna Panjang</Text>
+                    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileText}>
+                        Nama Pengguna Panjang
+                    </Text>
                     <Text style={styles.profileDesc}>Informasi tambahan</Text>
                 </View>
             </View>
             <View style={styles.detailContainer}>
                 <View style={styles.detailContent}>
-                    <View style={{ flex: 1 }}></View>
-                    <CustomButton onPress={logout} fullWidth type="danger" customStyle={{ borderRadius: 0, paddingVertical: 14 }} size="lg" >Logout</CustomButton>
+                    <View style={{ flex: 1 }}>
+                        
+                    </View>
+                    <CustomButton onPress={logout} fullWidth type="danger" customStyle={{ borderRadius: 0, paddingVertical: 14 }} size="lg">
+                        Logout
+                    </CustomButton>
                 </View>
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -33,37 +39,34 @@ const styles = StyleSheet.create({
     headerContainer: {
         height: 180,
         backgroundColor: colors.secondary500,
-        justifyContent: 'center'
+        justifyContent: "center",
     },
     profile: {
-        alignItems: 'center',
-        paddingHorizontal: 32
+        alignItems: "center",
+        paddingHorizontal: 32,
     },
     profileText: {
-        fontFamily: 'poppins-semi',
+        fontFamily: "poppins-semi",
         color: colors.light,
         fontSize: 18,
-        textAlign: 'center',
+        textAlign: "center",
     },
     profileDesc: {
-        fontFamily: 'poppins',
-        color: colors.background
-        
+        fontFamily: "poppins",
+        color: colors.background,
     },
     detailContainer: {
         flex: 1,
         padding: 14,
-        backgroundColor: '#ccc',
+        backgroundColor: "#ccc",
     },
     detailContent: {
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         borderRadius: 4,
         backgroundColor: colors.light,
-        overflow: 'hidden',
-        elevation: 2
+        overflow: "hidden",
+        elevation: 2,
     },
-    detailText: {
-
-    },
-})
+    detailText: {},
+});
