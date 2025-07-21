@@ -1,4 +1,5 @@
 import { Dimensions, FlatList, ListRenderItem, Pressable, StyleSheet, View, ViewStyle } from "react-native"
+import { colors } from "../../../constants/colors";
 
 const { width } = Dimensions.get('window');
 
@@ -26,13 +27,10 @@ const styles = StyleSheet.create({
     grid: {
         width: width / 2,
         aspectRatio: 1,
-        padding: 8
+        padding: 8,
     },
     gridItem: {
-        shadowColor: 'black',
-        shadowOpacity: 0.3,
-        shadowOffset: { width: 0, height: 0 },
-        elevation: 4,
+        boxShadow: `0px 2px 4px -1px ${colors.background}`,
         borderRadius: 4,
         flex: 1,
     }

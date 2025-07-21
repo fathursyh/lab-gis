@@ -21,7 +21,11 @@ const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
     const { persistLogin } = useAuth();
     const [loaded] = useFonts({
-        poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        'poppins-light': require("../assets/fonts/Poppins-Light.ttf"),
+        'poppins': require("../assets/fonts/Poppins-Regular.ttf"),
+        'poppins-med': require("../assets/fonts/Poppins-Medium.ttf"),
+        'poppins-semi': require("../assets/fonts/Poppins-SemiBold.ttf"),
+        'poppins-bold': require("../assets/fonts/Poppins-Bold.ttf"),
         ...MaterialIcons.font,
     });
 
@@ -47,18 +51,16 @@ function StackLayout() {
     return (
         <>
             <StatusBar style="light" />
-            <Stack>
+            <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Protected guard={isAuthenticated}>
-                    <Stack.Screen name="(app)" options={{ headerShown: false }} />
+                    <Stack.Screen name="(app)" />
                 </Stack.Protected>
                 <Stack.Protected guard={!isAuthenticated}>
-                    <Stack.Screen name="sign-in" options={{ title: "Login" }} />
-                    <Stack.Screen name="sign-up" options={{ title: "Register" }} />
+                    <Stack.Screen name="sign-in" options={{ title: "Login", animation: 'fade' }} />
+                    <Stack.Screen name="sign-up" options={{ title: "Register", animation: 'fade' }} />
                 </Stack.Protected>
             </Stack>
             <ToastManager config={toastConfig} bottomOffset={insets.bottom > 24 ? windowHeight / 7.5 : windowHeight / 10} {...toastOptions} />
         </>
     );
 }
-
-

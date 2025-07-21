@@ -3,18 +3,13 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { colors } from "../../constants/colors";
 
-const data = [
-  'https://img.freepik.com/free-photo/black-cat-with-green-eyes-resting-grass_181624-30967.jpg?semt=ais_hybrid&w=740',
-  'https://t3.ftcdn.net/jpg/02/36/99/22/360_F_236992283_sNOxCVQeFLd5pdqaKGh8DRGMZy7P4XKm.jpg',
-  'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg?w=1200'
-];
 const width = Dimensions.get("window").width;
 
-function CustomCarousel() {
+function CustomCarousel({data, autoplay = false} : {data: string[], autoplay?: boolean}) {
   return (
     <Carousel
       data={data}
-      autoPlay={false}
+      autoPlay={autoplay}
       autoPlayInterval={3000}
       scrollAnimationDuration={1400}
       width={width}
