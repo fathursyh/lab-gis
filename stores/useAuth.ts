@@ -2,6 +2,7 @@ import { create } from "zustand";
 import useSecureStore from "../utils/useSecureStore";
 import { Toast } from "toastify-react-native";
 import { confirm } from "../utils/helpers";
+import axios from "axios";
 
 type AuthState = {
     isAuthenticated: boolean;

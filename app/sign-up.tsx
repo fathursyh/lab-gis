@@ -13,7 +13,7 @@ export default function SignUpScreen() {
                     <Animated.View entering={FadeIn.delay(200)}>
                         <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
                     </Animated.View>
-                    <Text style={styles.formTitle}>iGIS Lab</Text>
+                    <Text style={styles.formTitle}>iLab GIS</Text>
                     <RegisterForm />
                 </View>
             </KeyboardAvoidingView>
