@@ -18,7 +18,7 @@ export default function LoginForm() {
     const loginUser = useCallback(async () => {
         try {
             setIsLoading(true);
-            const [invalidEmail, invalidPass] = [email === '', password === ''];
+            const [invalidEmail, invalidPass] = [email.length === 0, password.length === 0];
             if (invalidEmail || invalidPass) {
                 setError(prev => ({
                     email: invalidEmail ? 'Email tidak boleh kosong': prev.email,
@@ -44,8 +44,8 @@ export default function LoginForm() {
     return (
         <>
             <View style={styles.formContainer}>
-                <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => {passRef.current?.focus()}} />
-                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} returnKeyType="go" />
+                {/* <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => {passRef.current?.focus()}} />
+                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} returnKeyType="go" /> */}
             </View>
             {
                 !isLoading ?

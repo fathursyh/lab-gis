@@ -30,6 +30,7 @@ export const useAuth = create<AuthState>((set) => ({
             Toast.success("Registrasi telah berhasil!");
             return {error: null}
         } catch (e: any) {
+            console.log(e);
             if (e.status === 500) return { error: "Ada kesalahan pada server. Coba lagi nanti." };
             return { error: "Terjadi kesalahan, coba lagi nanti." };
         }
