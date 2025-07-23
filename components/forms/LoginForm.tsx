@@ -1,60 +1,77 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import BasicInput from "../UI/BasicInput";
-import { useCallback, useRef, useState } from "react";
-import { useAuth } from "../../stores/useAuth";
 import CustomButton from "../UI/CustomButton";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "../../stores/useAuth";
+import { Toast } from "toastify-react-native";
+import { isEmail } from "../../utils/helpers";
 
+type LoginInput = {
+    email: string;
+    password: string;
+};
 export default function LoginForm() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState({
-        email: '',
-        password: '',
-    });
-    const passRef = useRef<any>(null);
     const { login } = useAuth();
-
-    const loginUser = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            const [invalidEmail, invalidPass] = [email.length === 0, password.length === 0];
-            if (invalidEmail || invalidPass) {
-                setError(prev => ({
-                    email: invalidEmail ? 'Email tidak boleh kosong': prev.email,
-                    password: invalidPass ? 'Password tidak boleh kosong': prev.password,
-                }));
-                throw new Error();
-            }
-            // start login logic
-            const { error } = await login(email, password);
-            if (error) {
-                setError(({ email: error, password: error}));
-                throw new Error();
-            }
-        } catch (e) {
-            setIsLoading(false);
-            return;
+    const {
+        control,
+        setError,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginInput>({ mode: "onSubmit", reValidateMode: "onBlur" });
+    const onSubmit: SubmitHandler<LoginInput> = async (data) => {
+        const { error } = await login(data.email, data.password);
+        if (error) {
+            setError("email", {
+                message: error,
+            });
+            setError("password", {
+                message: error,
+            });
+            Toast.error(error);
         }
-    }, [error]);
-
-    const resetError = (field: string) => {
-        setError((prev) => ({...prev, [field]: ''}));
-    }
+    };
     return (
         <>
             <View style={styles.formContainer}>
-                {/* <BasicInput label="Email" placeholder="Masukan email" autoCorrect={false} id="email" inputMode="email" onChangeText={setEmail} errorMessage={error.email} onChange={() => resetError('email')} returnKeyType="next" submitBehavior="submit" onSubmitEditing={() => {passRef.current?.focus()}} />
-                <BasicInput ref={passRef} label="Password" password id="password" placeholder="Masukan password" inputMode="text" onChangeText={setPassword} errorMessage={error.password} onChange={() => resetError('password')} submitBehavior="blurAndSubmit" onSubmitEditing={loginUser} returnKeyType="go" /> */}
+                <BasicInput
+                    label="Email"
+                    placeholder="Masukan email"
+                    autoCorrect={false}
+                    id="email"
+                    inputMode="email"
+                    control={control}
+                    name="email"
+                    errorMessage={errors.email?.message}
+                    rules={{
+                        required: "Email tidak boleh kosong.",
+                        validate: {
+                            checkEmail: (value) => {
+                                return isEmail(value) || "Alamat email harus valid.";
+                            },
+                        },
+                    }}
+                />
+                <BasicInput
+                    label="Password"
+                    password
+                    id="password"
+                    placeholder="Masukan password"
+                    inputMode="text"
+                    control={control}
+                    name="password"
+                    errorMessage={errors.password?.message}
+                    rules={{
+                        required: "Password tidak boleh kosong",
+                    }}
+                />
             </View>
-            {
-                !isLoading ?
-                    <CustomButton type="primary" fullWidth onPress={loginUser}>
-                        Login
-                    </CustomButton>
-                    :
-                    <ActivityIndicator size={'large'} />
-            }
+            {!isSubmitting ? (
+                <CustomButton type="primary" fullWidth onPress={handleSubmit(onSubmit)}>
+                    Login
+                </CustomButton>
+            ) : (
+                <ActivityIndicator size={"large"} />
+            )}
         </>
     );
 }

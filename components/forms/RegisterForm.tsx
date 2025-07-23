@@ -4,14 +4,14 @@ import BasicInput from "../UI/BasicInput";
 import { useAuth } from "../../stores/useAuth";
 import { Toast } from "toastify-react-native";
 import {  SubmitHandler, useForm } from "react-hook-form";
+import { isEmail } from "../../utils/helpers";
 
 type RegisterInput = {
     email: string, fullName: string, password: string, confirmPassword: string
 }
-const isEmail = (email: string) =>
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
 export default function RegisterForm() {
+    const { register } = useAuth();
     const {
         control,
         handleSubmit,
@@ -20,7 +20,6 @@ export default function RegisterForm() {
     } = useForm<RegisterInput>({mode: 'onSubmit', reValidateMode: 'onSubmit'});
 
     const password = watch('password');
-    const { register } = useAuth();
     const onSubmit: SubmitHandler<RegisterInput> = async(data) => {
         const {error} = await register(data.email, data.fullName, data.password);
         if (error) {
@@ -37,7 +36,7 @@ export default function RegisterForm() {
                         validate: {
                             checkEmail: (value) => {
                                 return (
-                                    isEmail(value) || 'Email harus valid.'
+                                    isEmail(value) || 'Alamat email harus valid.'
                                 )
                             }
                         }
