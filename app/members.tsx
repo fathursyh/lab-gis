@@ -1,90 +1,45 @@
-import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import { colors } from "../constants/colors";
+import MemberList from "../components/members/MemberList";
+import { useRef, useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-const customData = [
-    { id: "aa", fullName: "Fathur Syah", role: "member" },
-    { id: "ab", fullName: "Fathur Syah", role: "member" },
-    { id: "22", fullName: "Fathur Syah", role: "member" },
-    { id: "14", fullName: "Fathur Syah", role: "member" },
-    { id: "a5", fullName: "Fathur Syah", role: "member" },
-    { id: "ac", fullName: "Fathur Syah", role: "member" },
-    { id: "ac2", fullName: "Fathur Syah", role: "member" },
-    { id: "ac5", fullName: "Fathur Syah", role: "member" },
-    { id: "24", fullName: "Fathur Syah", role: "member" },
-    { id: "5a", fullName: "Fathur Syah", role: "member" },
-];
 export default function Members() {
+    const inputRef = useRef<TextInput>(null);
+    const inputText = useRef('');
+    const [search, setSearch] = useState("");
+    function changeSearch() {
+        setSearch(inputText.current);
+    }
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
-                <TextInput style={styles.searchbar} placeholder="Cari member" inputMode="search" clearButtonMode="while-editing" autoCorrect verticalAlign="middle" />
-                <CustomButton size="sm">Cari</CustomButton>
+                <View style={{ flex: 1, flexDirection: "row" }}>
+                    <TextInput
+                    ref={inputRef}
+                        style={styles.searchbar}
+                        placeholder="Cari member"
+                        inputMode="search"
+                        clearButtonMode="while-editing"
+                        autoCorrect
+                        verticalAlign="middle"
+                        submitBehavior="blurAndSubmit"
+                        onChangeText={(value) => inputText.current = value}
+                        onSubmitEditing={changeSearch}
+                        placeholderTextColor={colors.placeholder}
+                    />
+                    <TouchableOpacity style={styles.clearButton} onPress={() => {
+                        inputRef.current?.clear(); setSearch('');
+                    }}>
+                        <MaterialIcons name="close" size={20} color={colors.placeholder} />
+                    </TouchableOpacity>
+                </View>
+                <CustomButton size="sm" onPress={changeSearch}>
+                    Cari
+                </CustomButton>
             </View>
-            <FlatList
-                contentContainerStyle={styles.memberContainer}
-                data={customData}
-                renderItem={({ item }) => (
-                    <View
-                        style={{
-                            backgroundColor: colors.accent,
-                            borderRadius: 4,
-                            flexDirection: "row",
-                            height: 80,
-                            borderWidth: 0.4,
-                            padding: 4,
-                            elevation: 4,
-                        }}
-                    >
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
-                            <MaterialIcons name="person" size={32} color={colors.light} />
-                        </View>
-                        <View
-                            style={{
-                                flex: 4,
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontFamily: "poppins-med",
-                                    color: colors.light,
-                                }}
-                            >
-                                {item.fullName}
-                            </Text>
-                            <Text
-                                style={{
-                                    fontFamily: "poppins",
-                                    color: colors.background,
-                                }}
-                            >
-                                {item.role}
-                            </Text>
-                            <Text
-                                style={{
-                                    fontFamily: "poppins-light",
-                                    fontSize: 12,
-                                    color: colors.background,
-                                }}
-                            >
-                                Bergabung 20 Jun 2025
-                            </Text>
-                        </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', aspectRatio: 1 }}>
-                            <Pressable android_ripple={{ color: colors.light, borderless: true }}>
-                                <MaterialIcons name="info" size={32} color={colors.light} />
-                            </Pressable>
-                        </View>
-                    </View>
-                )}
-            />
+            <MemberList search={search} />
         </View>
     );
 }
@@ -111,10 +66,16 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 12,
         fontFamily: "poppins",
+        color: colors.primary500,
+        paddingEnd: 32
     },
-    memberContainer: {
-        paddingHorizontal: 14,
-        paddingBottom: 14,
-        gap: 4,
+    clearButton: {
+        position: "absolute",
+        right: -4,
+        height: "100%",
+        aspectRatio: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 8,
     },
 });

@@ -10,6 +10,7 @@ import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toastConfig, toastOptions } from "../utils/toast-helper";
 import { colors } from "../constants/colors";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -17,6 +18,8 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
     initialRouteName: "(app)",
 };
+
+const queryClient = new QueryClient()
 
 const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
@@ -44,7 +47,11 @@ export default function RootLayout() {
         return null;
     }
 
-    return <StackLayout />;
+    return (
+        <QueryClientProvider client={queryClient}>
+            <StackLayout />
+        </QueryClientProvider>
+    );
 }
 function StackLayout() {
     const { isAuthenticated } = useAuth();
