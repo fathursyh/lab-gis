@@ -29,7 +29,7 @@ export default function LoginForm() {
             // start login logic
             const { error } = await login(email, password);
             if (error) {
-                setError(({ email: error.email, password: error.password }));
+                setError(({ email: error, password: error}));
                 throw new Error();
             }
         } catch (e) {
