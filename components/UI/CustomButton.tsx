@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         elevation: 4,
         shadowColor: 'black',
+        justifyContent: 'center',
         shadowOpacity: 0.4,
         shadowOffset: {width: 0, height: 0}
     },
