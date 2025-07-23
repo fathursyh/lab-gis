@@ -2,8 +2,12 @@ import { PropsWithChildren, RefAttributes, useCallback, useMemo, useState } from
 import { Pressable, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native";
 import { colors } from "../../constants/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Controller, type RegisterOptions } from "react-hook-form";
 
 type InputProps = {
+    control: any;
+    name: string,
+    rules?: RegisterOptions,
     label: string;
     password?: boolean;
     containerStyle?: ViewStyle;
@@ -11,7 +15,7 @@ type InputProps = {
     errorMessage?: string | null;
 };
 
-export default function BasicInput({ label, extraStyle, containerStyle, password = false, errorMessage, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
+export default function BasicInput({ control, name, rules, label, extraStyle, containerStyle, password = false, errorMessage, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
     const [showPassword, setShowPassword] = useState(false);
 
     const secureText = useMemo(() => {
@@ -24,18 +28,22 @@ export default function BasicInput({ label, extraStyle, containerStyle, password
     }, [password]);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
-            <View style={[styles.inputContainer, errorMessage && { borderColor: colors.error }, containerStyle]}>
-                <TextInput style={[styles.input, extraStyle]} {...Attr} secureTextEntry={secureText} maxLength={100} autoCapitalize="none" />
-                { password && (
-                    <Pressable android_ripple={{ color: colors.background }} style={styles.eyeButton} onPress={togglePassword}>
-                        <MaterialIcons name="remove-red-eye" size={18} color={colors.accent} />
-                    </Pressable>
-                )}
+        <Controller control={control} name={name} render={({field: {value, onChange, onBlur}}) => (
+            <View style={styles.container}>
+                <Text style={styles.label}>{label}</Text>
+                <View style={[styles.inputContainer, errorMessage && { borderColor: colors.error }, containerStyle]}>
+                    <TextInput style={[styles.input, extraStyle]} {...Attr} secureTextEntry={secureText} maxLength={100} autoCapitalize="none" value={value} onChangeText={onChange} onBlur={onBlur} />
+                    {password && (
+                        <Pressable android_ripple={{ color: colors.background }} style={styles.eyeButton} onPress={togglePassword}>
+                            <MaterialIcons name="remove-red-eye" size={18} color={colors.accent} />
+                        </Pressable>
+                    )}
+                </View>
+                {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
             </View>
-            {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
-        </View>
+        )}
+        rules={rules}
+        />
     );
 }
 

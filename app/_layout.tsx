@@ -9,6 +9,7 @@ import ToastManager from "toastify-react-native";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toastConfig, toastOptions } from "../utils/toast-helper";
+import { colors } from "../constants/colors";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -21,11 +22,11 @@ const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
     const { persistLogin } = useAuth();
     const [loaded] = useFonts({
-        'poppins-light': require("../assets/fonts/Poppins-Light.ttf"),
-        'poppins': require("../assets/fonts/Poppins-Regular.ttf"),
-        'poppins-med': require("../assets/fonts/Poppins-Medium.ttf"),
-        'poppins-semi': require("../assets/fonts/Poppins-SemiBold.ttf"),
-        'poppins-bold': require("../assets/fonts/Poppins-Bold.ttf"),
+        "poppins-light": require("../assets/fonts/Poppins-Light.ttf"),
+        poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+        "poppins-med": require("../assets/fonts/Poppins-Medium.ttf"),
+        "poppins-semi": require("../assets/fonts/Poppins-SemiBold.ttf"),
+        "poppins-bold": require("../assets/fonts/Poppins-Bold.ttf"),
         ...MaterialIcons.font,
     });
 
@@ -51,13 +52,32 @@ function StackLayout() {
     return (
         <>
             <StatusBar style="light" />
-            <Stack screenOptions={{ headerShown: false }}>
+            <Stack
+                screenOptions={{
+                    headerShown: false,
+                    headerTitleAlign: "center",
+                    headerStyle: { backgroundColor: colors.accent },
+                    headerLargeStyle: {
+                        backgroundColor: colors.accent,
+                    },
+                    headerTintColor: colors.light,
+                    headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
+                }}
+            >
                 <Stack.Protected guard={isAuthenticated}>
                     <Stack.Screen name="(app)" />
+                    <Stack.Screen name="members" options={{ title: "All Members", headerShown: true, presentation: "modal" }} />
+                    <Stack.Screen
+                        name="modal"
+                        options={{
+                            presentation: "transparentModal",
+                            animation: "fade",
+                        }}
+                    />
                 </Stack.Protected>
                 <Stack.Protected guard={!isAuthenticated}>
-                    <Stack.Screen name="sign-in" options={{ title: "Login", animation: 'fade' }} />
-                    <Stack.Screen name="sign-up" options={{ title: "Register", animation: 'fade' }} />
+                    <Stack.Screen name="sign-in" options={{ title: "Login", animation: "fade" }} />
+                    <Stack.Screen name="sign-up" options={{ title: "Register", animation: "fade" }} />
                 </Stack.Protected>
             </Stack>
             <ToastManager config={toastConfig} bottomOffset={insets.bottom > 24 ? windowHeight / 7.5 : windowHeight / 10} {...toastOptions} />

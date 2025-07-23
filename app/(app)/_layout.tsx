@@ -35,14 +35,14 @@ export default function TabLayout() {
 }
 
 const options: BottomTabNavigationOptions = {
-    headerTitleAlign: "left",
+    headerTitleAlign: "center",
     headerStyle: { backgroundColor: colors.accent },
     tabBarStyle: {
-        backgroundColor: colors.accent
+        backgroundColor: colors.accent,
     },
     headerTintColor: colors.light,
-    headerTitleStyle: { fontFamily: "poppins" },
-    tabBarButton: (props: any) => (<Pressable {...props} android_ripple={{ color: colors.background, borderless: true }} />),
+    headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
+    tabBarButton: (props: any) => <Pressable {...props} android_ripple={{ color: colors.background, borderless: true }} />,
     tabBarActiveTintColor: colors.light,
     tabBarInactiveTintColor: colors.background,
     sceneStyle: { backgroundColor: colors.light },

@@ -7,7 +7,7 @@ import { GridItemType } from "../../types/Types";
 
 const menuGrid: GridItemType[] = [
     { title: 'My Project', link: '/project', color: '#C85C5C', icon: 'book' },
-    { title: 'Forum', link: '/project', color: '#eac55eff', icon: 'people' },
+    { title: 'Members', link: '/members', color: '#eac55eff', icon: 'people' },
     { title: 'Menu', link: '/project', color: '#4A90A4', icon: 'approval' },
     { title: 'Todo', link: '/project', color: '#7BAE7F', icon: 'checklist' },
 ];

@@ -12,7 +12,7 @@ export default function SignInScreen() {
                     <Animated.View entering={FadeIn.delay(400)}>
                         <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
                     </Animated.View>
-                    <Text style={styles.formTitle}>iGIS Lab</Text>
+                    <Text style={styles.formTitle}>iLab GIS</Text>
                     <LoginForm />
                 </View>
             </KeyboardAvoidingView>

@@ -2,12 +2,17 @@ import { create } from "zustand";
 import useSecureStore from "../utils/useSecureStore";
 import { Toast } from "toastify-react-native";
 import { confirm } from "../utils/helpers";
+import axios from "axios";
+import { host } from '../secrets';
+
+const pc = host ?? "http://localhost:3000";
 
 type AuthState = {
     isAuthenticated: boolean;
     token: null | string;
     user: null | { id: string; name: string };
-    login: (email: string, password: string) => Promise<any>;
+    register: (email: string, fullName: string, password: string) => Promise<{error: string | null}>;
+    login: (email: string, password: string) => Promise<{error: string | null}>;
     logout: () => Promise<void>;
     persistLogin: () => Promise<void>;
 };
@@ -16,25 +21,31 @@ export const useAuth = create<AuthState>((set) => ({
     isAuthenticated: false,
     token: null,
     user: null,
-    login: async (email, password) => {
-        const user = { id: "siapa", name: "nama" };
-        const token = "contoh-token";
+    register: async (email, fullName, password) => {
         try {
-            // ? login logic di sini
-            // todo: const res = await apapun
-            const res = false;
-            // if (email !== 'fathur@keren.com' || password !== 'test12345') throw new Error('Email atau password salah.');
-            if (res) throw new Error('Email atau password salah.');
-
-            set({ isAuthenticated: true, user: user, token: token });
-            await useSecureStore().save("user", JSON.stringify(user));
-            await useSecureStore().save("token", token);
-            Toast.success("Login telah berhasil!");
+            const res = (await axios.post(`${pc}/api/auth/register`, { email: email, fullName: fullName, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.' })).data;
+            set({ isAuthenticated: true, user: res.user, token: res.token });
+            await useSecureStore().save("user", JSON.stringify(res.user));
+            await useSecureStore().save("token", res.token);
+            Toast.success("Registrasi telah berhasil!");
+            return {error: null}
         } catch (e: any) {
-            return {error: {
-                email: e.message,
-                password: e.message,
-            }}
+            console.log(e);
+            if (e.status === 500) return { error: "Ada kesalahan pada server. Coba lagi nanti." };
+            return { error: "Terjadi kesalahan, coba lagi nanti." };
+        }
+    },
+    login: async (email: string, password: string) => {
+        try {
+            const res = (await axios.post(`${pc}/api/auth/login`, { email: email, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.' })).data;
+            set({ isAuthenticated: true, user: res.user, token: res.token });
+            await useSecureStore().save("user", JSON.stringify(res.user));
+            await useSecureStore().save("token", res.token);
+            Toast.success("Login telah berhasil!");
+            return {error: null}
+        } catch (e: any) {
+            if (e.status === 500) return { error: "Ada kesalahan pada server. Coba lagi nanti." };
+            return { error: "Email atau password salah." };
         }
     },
     logout: async () => {
@@ -50,13 +61,15 @@ export const useAuth = create<AuthState>((set) => ({
             .getValue("user")
             .then((data) => JSON.parse(data));
         const storedToken = await useSecureStore().getValue("token");
-        // check token dulu, refresh kalo ga valid
-        if (storedUser && storedToken) {
-            // ceritanya token baru / atau lama
-            const token = "contoh-token";
-            set({ isAuthenticated: true, user: storedToken, token: token });
-            await useSecureStore().save("user", storedUser);
-            await useSecureStore().save("token", token);
+        const res = await axios.get(`${pc}/api/user/token-check`, { headers: { Authorization: `Bearer ${storedToken}` } });
+        if (res.status !== 200) {
+            set({ isAuthenticated: false, user: null, token: null });
+            await useSecureStore().deleteItem("user");
+            await useSecureStore().deleteItem("token");
+            return;
         }
+        set({ isAuthenticated: true, user: storedUser, token: storedToken });
+        await useSecureStore().save("user", storedUser);
+        await useSecureStore().save("token", storedToken);
     },
 }));

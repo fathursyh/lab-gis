@@ -1,6 +1,5 @@
 import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/colors";
-import LoginForm from "../components/forms/LoginForm";
 import Animated, { FadeIn, SlideInUp } from "react-native-reanimated";
 import { Link } from "expo-router";
 import RegisterForm from "../components/forms/RegisterForm";
@@ -13,7 +12,7 @@ export default function SignUpScreen() {
                     <Animated.View entering={FadeIn.delay(200)}>
                         <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
                     </Animated.View>
-                    <Text style={styles.formTitle}>iGIS Lab</Text>
+                    <Text style={styles.formTitle}>iLab GIS</Text>
                     <RegisterForm />
                 </View>
             </KeyboardAvoidingView>
