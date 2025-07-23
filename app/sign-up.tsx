@@ -1,6 +1,5 @@
 import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/colors";
-import LoginForm from "../components/forms/LoginForm";
 import Animated, { FadeIn, SlideInUp } from "react-native-reanimated";
 import { Link } from "expo-router";
 import RegisterForm from "../components/forms/RegisterForm";
