@@ -3,9 +3,9 @@ import { colors } from "../../../constants/colors";
 
 const { width } = Dimensions.get('window');
 
-type GridFlatProps = { items: any[], flatKey: (item: any) => string, childStyle?: ViewStyle, bgColor?: string, renderItem: ListRenderItem<any> }
+type GridFlatProps = { items: any[], flatKey: (item: any) => string, childStyle?: ViewStyle, bgColor?: string, handleLoadMore?: VoidFunction, renderItem: ListRenderItem<any> }
 
-export default function GridFlat({ items, flatKey, renderItem, childStyle, bgColor = 'white' }: GridFlatProps) {
+export default function GridFlat({ items, flatKey, handleLoadMore, renderItem, childStyle, bgColor = 'white' }: GridFlatProps) {
     return (
         <FlatList data={items} style={{ flex: 1 }} keyExtractor={flatKey} renderItem={({ item }) => (
             <View style={styles.grid}>
@@ -13,7 +13,7 @@ export default function GridFlat({ items, flatKey, renderItem, childStyle, bgCol
                     {renderItem(item)}
                 </Pressable>
             </View>
-        )} numColumns={2} />
+        )} numColumns={2} onEndReachedThreshold={0.5} onEndReached={handleLoadMore} />
 
     )
 }

@@ -16,11 +16,9 @@ export default function MemberList({ search }: PropsWithChildren & any) {
         staleTime: 1000 * 60 * 2,
         refetchOnWindowFocus: true,
     });
-    const renderItem = useCallback(({item}: any) => {
-        return (
-            <MemberItem {...item} />
-        )
-    }, [])
+    const renderItem = useCallback(({ item }: any) => {
+        return <MemberItem {...item} />;
+    }, []);
     const filteredData = useMemo(() => {
         return data?.filter((item: MemberType) => item.fullName.toLowerCase().includes(search.toLowerCase()));
     }, [search, isLoading]);
@@ -41,8 +39,19 @@ export default function MemberList({ search }: PropsWithChildren & any) {
 
     return (
         <>
-        <Text style={styles.topInfo}>- {filteredData.length} <Text style={{ fontFamily: 'poppins-light' }}>anggota</Text> -</Text>
-        <FlatList initialNumToRender={10} maxToRenderPerBatch={10} contentContainerStyle={styles.memberContainer} data={filteredData} renderItem={renderItem} keyExtractor={(item) => item.id} />
+            <Text style={styles.topInfo}>
+                - {filteredData.length} <Text style={{ fontFamily: "poppins-light" }}>anggota</Text> -
+            </Text>
+            {filteredData.length > 0 && (
+                <FlatList
+                    initialNumToRender={10}
+                    maxToRenderPerBatch={10}
+                    contentContainerStyle={styles.memberContainer}
+                    data={filteredData}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                />
+            )}
         </>
     );
 }
@@ -63,9 +72,9 @@ const styles = StyleSheet.create({
         height: "60%",
     },
     topInfo: {
-        fontFamily: 'poppins-med',
+        fontFamily: "poppins-med",
         fontSize: 12,
-        textAlign: 'center',
+        textAlign: "center",
         color: colors.primary500,
-    }
+    },
 });
