@@ -25,6 +25,7 @@ export default function Members() {
                         autoCorrect
                         verticalAlign="middle"
                         submitBehavior="blurAndSubmit"
+                        returnKeyType="search"
                         onChangeText={(value) => inputText.current = value}
                         onSubmitEditing={changeSearch}
                         placeholderTextColor={colors.placeholder}
@@ -32,7 +33,7 @@ export default function Members() {
                     <TouchableOpacity style={styles.clearButton} onPress={() => {
                         inputRef.current?.clear(); setSearch('');
                     }}>
-                        <MaterialIcons name="close" size={20} color={colors.placeholder} />
+                        <MaterialIcons name="close" size={18} color={colors.placeholder} />
                     </TouchableOpacity>
                 </View>
                 <CustomButton size="sm" onPress={changeSearch}>

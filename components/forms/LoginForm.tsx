@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Keyboard, StyleSheet, View } from "react-native";
 import BasicInput from "../UI/BasicInput";
 import CustomButton from "../UI/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,9 +16,11 @@ export default function LoginForm() {
         control,
         setError,
         handleSubmit,
+        setFocus,
         formState: { errors, isSubmitting },
     } = useForm<LoginInput>({ mode: "onSubmit", reValidateMode: "onBlur" });
     const onSubmit: SubmitHandler<LoginInput> = async (data) => {
+        Keyboard.dismiss();
         const { error } = await login(data.email, data.password);
         if (error) {
             setError("email", {
@@ -42,6 +44,9 @@ export default function LoginForm() {
                     control={control}
                     name="email"
                     errorMessage={errors.email?.message}
+                    onSubmitEditing={() => setFocus('password')}
+                    submitBehavior="submit"
+                    returnKeyType="next"
                     rules={{
                         required: "Email tidak boleh kosong.",
                         validate: {
@@ -63,6 +68,8 @@ export default function LoginForm() {
                     rules={{
                         required: "Password tidak boleh kosong",
                     }}
+                    submitBehavior="blurAndSubmit"
+                    onSubmitEditing={handleSubmit(onSubmit)}
                 />
             </View>
             {!isSubmitting ? (

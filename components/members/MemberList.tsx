@@ -13,7 +13,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
     const { data, isLoading, error } = useQuery({
         queryKey: ["members"],
         queryFn: () => fetchMembers(token!),
-        staleTime: 1000 * 60 * 1, // cache 1 menit
+        staleTime: 1000 * 60 * 2,
         refetchOnWindowFocus: true,
     });
     const renderItem = useCallback(({item}: any) => {
@@ -42,7 +42,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
     return (
         <>
         <Text style={styles.topInfo}>- {filteredData.length} <Text style={{ fontFamily: 'poppins-light' }}>anggota</Text> -</Text>
-        <FlatList initialNumToRender={10} maxToRenderPerBatch={10} contentContainerStyle={styles.memberContainer} data={filteredData} renderItem={renderItem} />
+        <FlatList initialNumToRender={10} maxToRenderPerBatch={10} contentContainerStyle={styles.memberContainer} data={filteredData} renderItem={renderItem} keyExtractor={(item) => item.id} />
         </>
     );
 }

@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 
 export default function SignInScreen() {
     return (
-        <ScrollView contentContainerStyle={styles.rootContainer} keyboardShouldPersistTaps="always">
+        <ScrollView contentContainerStyle={styles.rootContainer} keyboardShouldPersistTaps="handled">
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.formContainer}>
                     <Animated.View entering={FadeIn.delay(400)}>

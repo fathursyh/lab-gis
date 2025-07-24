@@ -37,7 +37,7 @@ export const useAuth = create<AuthState>((set) => ({
     },
     login: async (email: string, password: string) => {
         try {
-            const res = (await axios.post(`${pc}/api/auth/login`, { email: email, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.' })).data;
+            const res = (await axios.post(`${pc}/api/auth/login`, { email: email, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.'})).data;
             set({ isAuthenticated: true, user: res.user, token: res.token });
             await useSecureStore().save("user", JSON.stringify(res.user));
             await useSecureStore().save("token", res.token);
@@ -45,6 +45,7 @@ export const useAuth = create<AuthState>((set) => ({
             return {error: null}
         } catch (e: any) {
             if (e.status === 500) return { error: "Ada kesalahan pada server. Coba lagi nanti." };
+            if (e.message === 'Network Error') return {error: "Ada kesalahan jaringan, coba lagi nanti."}
             return { error: "Email atau password salah." };
         }
     },
