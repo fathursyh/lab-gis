@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from "../../stores/useAuth";
 import { fetchMembers } from "../../api/member";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -10,26 +10,43 @@ import { MemberType } from "../../types/MemberType";
 
 export default function MemberList({ search }: PropsWithChildren & any) {
     const { token } = useAuth();
-    const { data, isLoading, error } = useQuery({
+        const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status } = useInfiniteQuery({
         queryKey: ["members"],
-        queryFn: () => fetchMembers(token!),
-        staleTime: 1000 * 60 * 2,
+        queryFn: (params) => fetchMembers(token!, params.pageParam),
+        initialPageParam: 1,
+        staleTime: 1000 * 60 * 1,
         refetchOnWindowFocus: true,
+        getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
     });
+
+       const loadMore = () => {
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    };
+
+
     const renderItem = useCallback(({ item }: any) => {
         return <MemberItem {...item} />;
-    }, []);
+    }, [data?.pages]);
+    // const filteredData = useMemo(() => {
+    //     return data?.filter((item: MemberType) => item.fullName.toLowerCase().includes(search.toLowerCase()));
+    // }, [search, isLoading]);
     const filteredData = useMemo(() => {
-        return data?.filter((item: MemberType) => item.fullName.toLowerCase().includes(search.toLowerCase()));
-    }, [search, isLoading]);
+        return data?.pages.flatMap((page) => page.data) ?? [];
+    }, [data?.pages])
+    const dataCount = useMemo(() => {
+        return data?.pages[0].pagination.total ?? [];
+    }, [data?.pages]);
 
-    if (isLoading)
+
+    if (status === 'pending')
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size={"large"} />
             </View>
         );
-    if (error)
+    if (status === 'error')
         return (
             <View style={styles.errorContainer}>
                 <MaterialIcons name="broken-image" size={50} color={colors.accent} />
@@ -40,7 +57,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
     return (
         <>
             <Text style={styles.topInfo}>
-                - {filteredData.length} <Text style={{ fontFamily: "poppins-light" }}>anggota</Text> -
+                - {dataCount} <Text style={{ fontFamily: "poppins-light" }}>anggota</Text> -
             </Text>
             {filteredData.length > 0 && (
                 <FlatList
@@ -50,6 +67,9 @@ export default function MemberList({ search }: PropsWithChildren & any) {
                     data={filteredData}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
+                    onEndReached={loadMore}
+                    onEndReachedThreshold={0.5}
+                    
                 />
             )}
         </>
