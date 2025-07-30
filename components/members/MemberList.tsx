@@ -6,35 +6,31 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-nativ
 import MemberItem from "./MemberItem";
 import { colors } from "../../constants/colors";
 import { PropsWithChildren, useCallback, useMemo } from "react";
-import { MemberType } from "../../types/MemberType";
 
 export default function MemberList({ search }: PropsWithChildren & any) {
     const { token } = useAuth();
-        const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status } = useInfiniteQuery({
-        queryKey: ["members"],
-        queryFn: (params) => fetchMembers(token!, params.pageParam),
+    const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status } = useInfiniteQuery({
+        queryKey: ["members", search],
+        queryFn: (params) => fetchMembers(token!, params.pageParam, search),
         initialPageParam: 1,
         staleTime: 1000 * 60 * 1,
         refetchOnWindowFocus: true,
         getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
     });
 
-       const loadMore = () => {
+    const loadMore = () => {
         if (hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
     };
 
-
     const renderItem = useCallback(({ item }: any) => {
         return <MemberItem {...item} />;
     }, [data?.pages]);
-    // const filteredData = useMemo(() => {
-    //     return data?.filter((item: MemberType) => item.fullName.toLowerCase().includes(search.toLowerCase()));
-    // }, [search, isLoading]);
+
     const filteredData = useMemo(() => {
         return data?.pages.flatMap((page) => page.data) ?? [];
-    }, [data?.pages])
+    }, [data?.pages, search])
     const dataCount = useMemo(() => {
         return data?.pages[0].pagination.total ?? [];
     }, [data?.pages]);
@@ -69,7 +65,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
                     keyExtractor={(item) => item.id}
                     onEndReached={loadMore}
                     onEndReachedThreshold={0.5}
-                    
+
                 />
             )}
         </>

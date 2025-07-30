@@ -15,10 +15,10 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="project"
+                name="my-bootcamp"
                 options={{
                     tabBarBadge: 3,
-                    title: "Projects",
+                    title: "My Bootcamp",
                     headerShown: true,
                     tabBarIcon: ({ color }) => <MaterialIcons size={28} name="book" color={color} />,
                 }}
