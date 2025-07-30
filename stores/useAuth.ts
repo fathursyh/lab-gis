@@ -10,7 +10,7 @@ const pc = host ?? "http://localhost:3000";
 type AuthState = {
     isAuthenticated: boolean;
     token: null | string;
-    user: null | { id: string; name: string };
+    user: null | { id: string; fullName: string, email: string, role: string };
     register: (email: string, fullName: string, password: string) => Promise<{error: string | null}>;
     login: (email: string, password: string) => Promise<{error: string | null}>;
     logout: () => Promise<void>;

@@ -6,16 +6,16 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function ProfileTab() {
     const tes = [1, 2, 3, 4, 5, 6];
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
                 <View style={styles.profile}>
                     <MaterialIcons name="person" size={50} color={colors.light} />
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileText}>
-                        Nama Pengguna Panjang
+                        { user?.fullName }
                     </Text>
-                    <Text style={styles.profileDesc}>Informasi tambahan</Text>
+                    <Text style={styles.profileDesc}>{user?.email}</Text>
                 </View>
             </View>
             <View style={styles.detailContainer}>
