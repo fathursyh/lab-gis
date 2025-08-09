@@ -22,8 +22,7 @@ export default function HomeTab() {
     return (
         <ScrollView style={styles.rootContainer} bounces={false} alwaysBounceVertical={false}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Selamat Datang, Nama User!</Text>
-                <View style={{ position: 'absolute', bottom: -60 }}>
+                <View style={{ position: 'absolute', bottom: -40 }}>
                     <CustomCarousel data={data} autoplay />
                 </View>
             </View>
@@ -46,10 +45,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        paddingTop: 20,
-        height: 250,
+        height: 220,
         backgroundColor: colors.secondary500,
-        marginBottom: 60,
+        marginBottom: 40,
     },
     headerText: {
         fontFamily: 'poppins-bold',
