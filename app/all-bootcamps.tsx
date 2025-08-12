@@ -1,10 +1,10 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import CustomButton from "../../components/UI/CustomButton";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRef, useState } from "react";
-import { colors } from "../../constants/colors";
+import { colors } from "../constants/colors";
+import CustomButton from "../components/UI/CustomButton";
 
-export default function myBootcampTab() {
+export default function AllBootcamps() {
     const inputRef = useRef<TextInput>(null);
     const inputText = useRef("");
     const [search, setSearch] = useState("");

@@ -74,6 +74,7 @@ function StackLayout() {
                 <Stack.Protected guard={isAuthenticated}>
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true, presentation: "modal" }} />
+                    <Stack.Screen name="all-bootcamps" options={{ title: "All Bootcamps", headerShown: true, presentation: "modal" }} />
                     <Stack.Screen
                         name="modal"
                         options={{
