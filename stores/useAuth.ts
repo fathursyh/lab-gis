@@ -9,6 +9,7 @@ const pc = host ?? "http://localhost:3000";
 
 type AuthState = {
     isAuthenticated: boolean;
+    isAdmin: boolean,
     token: null | string;
     user: null | { id: string; fullName: string, email: string, role: string };
     register: (email: string, fullName: string, password: string) => Promise<{error: string | null}>;
@@ -17,14 +18,19 @@ type AuthState = {
     persistLogin: () => Promise<void>;
 };
 
+function checkAdmin(role: string) {
+    return role === 'admin';
+}
+
 export const useAuth = create<AuthState>((set) => ({
     isAuthenticated: false,
     token: null,
     user: null,
+    isAdmin: false,
     register: async (email, fullName, password) => {
         try {
             const res = (await axios.post(`${pc}/api/auth/register`, { email: email, fullName: fullName, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.' })).data;
-            set({ isAuthenticated: true, user: res.user, token: res.token });
+            set({ isAuthenticated: true, user: res.user, token: res.token, isAdmin: checkAdmin(res.user.role) });
             await useSecureStore().save("user", JSON.stringify(res.user));
             await useSecureStore().save("token", res.token);
             Toast.success("Registrasi telah berhasil!");
@@ -38,7 +44,7 @@ export const useAuth = create<AuthState>((set) => ({
     login: async (email: string, password: string) => {
         try {
             const res = (await axios.post(`${pc}/api/auth/login`, { email: email, password: password }, { timeout: 10000, timeoutErrorMessage: 'Ada gangguan pada jaringan, coba lagi nanti.'})).data;
-            set({ isAuthenticated: true, user: res.user, token: res.token });
+            set({ isAuthenticated: true, user: res.user, token: res.token, isAdmin: checkAdmin(res.user.role) });
             await useSecureStore().save("user", JSON.stringify(res.user));
             await useSecureStore().save("token", res.token);
             Toast.success("Login telah berhasil!");
@@ -69,7 +75,7 @@ export const useAuth = create<AuthState>((set) => ({
             await useSecureStore().deleteItem("token");
             return;
         }
-        set({ isAuthenticated: true, user: storedUser, token: storedToken });
+        set({ isAuthenticated: true, user: storedUser, token: storedToken, isAdmin: checkAdmin(storedUser.role)});
         await useSecureStore().save("user", storedUser);
         await useSecureStore().save("token", storedToken);
     },

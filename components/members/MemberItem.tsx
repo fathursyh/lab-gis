@@ -7,13 +7,18 @@ import "dayjs/locale/id";
 import { useMemo } from "react";
 dayjs.locale("id");
 
-export default function MemberItem(item: MemberType) {
+type MemberProps = {
+    item: MemberType;
+    isAdmin: boolean;
+};
+
+export default function MemberItem({ item, isAdmin }: MemberProps) {
     const capitalizeRole = useMemo(() => {
         return `${item.role.charAt(0).toUpperCase()}${item.role.slice(1)}`;
     }, [item.role]);
     const roleColor = useMemo(() => {
-        return item.role === 'member' ? colors.primary500 : '#88ca5cff'
-    }, [item.role])
+        return item.role === "member" ? colors.primary500 : "#88ca5cff";
+    }, [item.role]);
     const formattedDate = useMemo(() => {
         return dayjs(item.createdAt).format("D MMMM YYYY");
     }, [item.createdAt]);
@@ -21,17 +26,21 @@ export default function MemberItem(item: MemberType) {
         <>
             <View style={styles.cardContainer}>
                 <View style={styles.avatar}>
-                    <MaterialIcons name="person" size={32} color={colors.light} />
+                    <MaterialIcons name="person" size={32} color={colors.primary500} />
                 </View>
                 <View style={styles.body}>
-                    <Text lineBreakMode="tail" numberOfLines={1} style={styles.name}>{item.fullName}</Text>
-                    <Text style={[styles.role, {backgroundColor: roleColor}]}>{capitalizeRole}</Text>
+                    <Text lineBreakMode="tail" numberOfLines={1} style={styles.name}>
+                        {item.fullName}
+                    </Text>
+                    <Text style={[styles.role, { backgroundColor: roleColor }]}>{capitalizeRole}</Text>
                     <Text style={styles.bergabung}>Bergabung {formattedDate}</Text>
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center", aspectRatio: 1 }}>
-                    <Pressable android_ripple={{ color: colors.light, borderless: true }}>
-                        <MaterialIcons name="info" size={32} color={colors.light} />
-                    </Pressable>
+                    {isAdmin && (
+                        <Pressable android_ripple={{ color: colors.light, borderless: true }}>
+                            <MaterialIcons name="menu" size={32} color={colors.accent} />
+                        </Pressable>
+                    )}
                 </View>
             </View>
         </>
@@ -40,7 +49,7 @@ export default function MemberItem(item: MemberType) {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        backgroundColor: colors.accent,
+        backgroundColor: colors.light,
         borderRadius: 4,
         flexDirection: "row",
         height: 80,
@@ -56,13 +65,13 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 4,
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        gap: 4,
+        alignItems: "flex-start",
+        justifyContent: "center",
+        gap: 2,
     },
     name: {
         fontFamily: "poppins-med",
-        color: colors.light,
+        color: colors.primary500,
         lineHeight: 18,
     },
     role: {
@@ -70,18 +79,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         borderRadius: 50,
         fontFamily: "poppins",
-        fontSize: 12,
+        fontSize: 10,
         color: colors.light,
         lineHeight: 18,
-        elevation: 2,
-        shadowColor: 'black',
-        shadowOpacity: 0.4,
-        shadowOffset: {width: 0, height: 0},
     },
     bergabung: {
         fontFamily: "poppins-light",
         fontSize: 12,
-        color: colors.background,
+        color: colors.primary500,
         lineHeight: 18,
     },
 });

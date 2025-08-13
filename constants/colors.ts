@@ -6,5 +6,6 @@ export const colors = {
     light: 'white',
     dark: '#363636ff',
     error: '#cd3535ff',
+    success: '#6acd35ff',
     placeholder: '#9a95e5ff'
 }

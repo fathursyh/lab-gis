@@ -8,7 +8,7 @@ import { PropsWithChildren, useCallback, useMemo } from "react";
 import { fetchMembers } from "../../api/fetch";
 
 export default function MemberList({ search }: PropsWithChildren & any) {
-    const { token } = useAuth();
+    const { token, isAdmin } = useAuth();
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status } = useInfiniteQuery({
         queryKey: ["members", search],
         queryFn: (params) => fetchMembers(token!, params.pageParam, search),
@@ -25,7 +25,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
     };
 
     const renderItem = useCallback(({ item }: any) => {
-        return <MemberItem {...item} />;
+        return <MemberItem item={item} isAdmin={isAdmin} />;
     }, [data?.pages]);
 
     const filteredData = useMemo(() => {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     memberContainer: {
         paddingHorizontal: 14,
         paddingBottom: 14,
-        gap: 4,
+        gap: 6,
     },
     loadingContainer: {
         height: "60%",

@@ -31,7 +31,7 @@ export default function Members() {
                         placeholderTextColor={colors.placeholder}
                     />
                     <TouchableOpacity style={styles.clearButton} onPress={() => {
-                        inputRef.current?.clear(); setSearch('');
+                        inputRef.current?.clear(); setSearch(''); inputText.current = "";
                     }}>
                         <MaterialIcons name="close" size={18} color={colors.placeholder} />
                     </TouchableOpacity>

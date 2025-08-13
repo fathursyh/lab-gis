@@ -6,7 +6,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ProfileData from "../../components/profile/ProfileData";
 
 export default function ProfileTab() {
-    const { user, logout } = useAuth();
+    const { user, logout, isAdmin } = useAuth();
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
@@ -16,6 +16,7 @@ export default function ProfileTab() {
                         { user?.fullName || 'Nama User' }
                     </Text>
                     <Text style={styles.profileDesc}>{user?.email || 'email@user.com'}</Text>
+                    <Text style={styles.profileDesc}>{isAdmin ? 'Admin' : 'Member' }</Text>
                 </View>
             </View>
             <View style={styles.detailContainer}>
