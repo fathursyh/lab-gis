@@ -72,6 +72,7 @@ function StackLayout() {
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
                     <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
+                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: true, presentation: 'modal', title: 'Bootcamp Detail' }} />
                     <Stack.Screen
                         name="modal"
                         options={{

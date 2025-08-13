@@ -14,3 +14,9 @@ export async function fetchAllBootcamps(token: string, pageParam: any, search: s
     if (res.status !== 200) throw new Error('Terjadi kesalahan, coba lagi.');
     return res.data;
 }
+
+export async function fetchBootcampDetail(token: string, id: string) {
+    const res = await axios.get(`${pc}/api/event/detail/${id}`, { headers: { Authorization: `Bearer ${token}` }, timeout: 5000, timeoutErrorMessage: 'Gagal fetch detail bootcamp.' });
+    if (res.status !== 200) throw new Error('Terjadi kesalahan, coba lagi.');
+    return res.data;
+}

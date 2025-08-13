@@ -3,13 +3,13 @@ import { colors } from "../../../constants/colors";
 
 const { width } = Dimensions.get('window');
 
-type GridFlatProps = { items: any[], flatKey: (item: any) => string, childStyle?: ViewStyle, bgColor?: string, handleLoadMore?: VoidFunction, renderItem: ListRenderItem<any> }
+type GridFlatProps = { items: any[], flatKey: (item: any) => string, childStyle?: ViewStyle, bgColor?: string, handleLoadMore?: VoidFunction, renderItem: ListRenderItem<any>, pressItem: (id: string) => void }
 
-export default function GridFlat({ items, flatKey, handleLoadMore, renderItem, childStyle, bgColor = 'white' }: GridFlatProps) {
+export default function GridFlat({ items, flatKey, handleLoadMore, renderItem, pressItem, childStyle, bgColor = 'white' }: GridFlatProps) {
     return (
         <FlatList data={items} style={{ flex: 1 }} keyExtractor={flatKey} renderItem={({ item }) => (
             <View style={styles.grid}>
-                <Pressable android_ripple={{ color: bgColor !== 'white' ? 'white' : '#ccc', radius: 123 }} style={[styles.gridItem, { backgroundColor: bgColor }, childStyle]}>
+                <Pressable android_ripple={{ color: bgColor !== 'white' ? 'white' : '#ccc', radius: 123 }} style={[styles.gridItem, { backgroundColor: bgColor }, childStyle]} onPress={() => pressItem(item.id)}>
                     {renderItem(item)}
                 </Pressable>
             </View>
