@@ -15,10 +15,10 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="my-bootcamp"
+                name="all-bootcamps"
                 options={{
                     tabBarBadge: 3,
-                    title: "My Bootcamp",
+                    title: "Bootcamps",
                     headerShown: true,
                     tabBarIcon: ({ color }) => <MaterialIcons size={28} name="book" color={color} />,
                 }}
@@ -37,6 +37,7 @@ export default function TabLayout() {
 const options: BottomTabNavigationOptions = {
     headerTitleAlign: "center",
     headerStyle: { backgroundColor: colors.accent },
+    
     tabBarStyle: {
         backgroundColor: colors.accent,
     },

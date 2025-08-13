@@ -6,7 +6,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { GridItemType } from "../../types/Types";
 
 const menuGrid: GridItemType[] = [
-    { title: "All Bootcamp", link: "/all-bootcamps", icon: "event" },
+    { title: "My Bootcamps", link: "/my-bootcamp", icon: "event" },
     { title: "Members", link: "/members", icon: "people" },
     { title: "Scan QR", link: "/project", icon: "qr-code" },
     { title: "Notes", link: "/project", icon: "notes" },

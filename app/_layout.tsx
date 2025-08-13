@@ -64,17 +64,14 @@ function StackLayout() {
                     headerShown: false,
                     headerTitleAlign: "center",
                     headerStyle: { backgroundColor: colors.accent },
-                    headerLargeStyle: {
-                        backgroundColor: colors.accent,
-                    },
                     headerTintColor: colors.light,
                     headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
                 }}
             >
                 <Stack.Protected guard={isAuthenticated}>
                     <Stack.Screen name="(app)" />
-                    <Stack.Screen name="members" options={{ title: "All Members", headerShown: true, presentation: "modal" }} />
-                    <Stack.Screen name="all-bootcamps" options={{ title: "All Bootcamps", headerShown: true, presentation: "modal" }} />
+                    <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
+                    <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
                     <Stack.Screen
                         name="modal"
                         options={{
