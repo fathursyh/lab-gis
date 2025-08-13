@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
-import { Pressable } from "react-native";
+import { Dimensions, Pressable } from "react-native";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
@@ -33,11 +33,12 @@ export default function TabLayout() {
         </Tabs>
     );
 }
-
+const screenHeight = Dimensions.get('window').height;
 const options: BottomTabNavigationOptions = {
     headerTitleAlign: "center",
-    headerStyle: { backgroundColor: colors.accent },
-    
+    headerStyle: { backgroundColor: colors.accent,
+        height: screenHeight * 0.1
+     },
     tabBarStyle: {
         backgroundColor: colors.accent,
     },

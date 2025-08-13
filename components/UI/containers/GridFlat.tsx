@@ -13,17 +13,18 @@ export default function GridFlat({ items, flatKey, handleLoadMore, renderItem, c
                     {renderItem(item)}
                 </Pressable>
             </View>
-        )} numColumns={2} onEndReachedThreshold={0.5} onEndReached={handleLoadMore} />
+        )} 
+            numColumns={2}
+            onEndReachedThreshold={0.5}
+            onEndReached={handleLoadMore}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+        />
 
     )
 }
 
 const styles = StyleSheet.create({
-    rootContainer: {
-        flex: 1,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-    },
     grid: {
         width: width / 2,
         aspectRatio: 1,
@@ -33,5 +34,6 @@ const styles = StyleSheet.create({
         boxShadow: `0px 2px 4px -1px ${colors.background}`,
         borderRadius: 4,
         flex: 1,
+        overflow: 'hidden'
     }
 })

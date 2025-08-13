@@ -34,13 +34,14 @@ export default function BootcampHeader({changeSearch, clearInput} : HeaderProps)
                     style={styles.clearButton}
                     onPress={() => {
                         inputRef.current?.clear();
+                        inputText.current = "";
                         clearInput();
                     }}
                 >
                     <MaterialIcons name="close" size={18} color={colors.placeholder} />
                 </TouchableOpacity>
             </View>
-            <CustomButton size="sm" onPress={() => changeSearch(inputText.current)}>
+            <CustomButton size="sm" customStyle={{ width: '25%' }} onPress={() => changeSearch(inputText.current)}>
                 Cari
             </CustomButton>
         </View>
@@ -54,9 +55,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 8,
         paddingVertical: 14,
-        gap: 4,
-        marginBottom: 8,
+        gap: 8,
         elevation: 4,
+        marginBottom: 4
     },
     searchbar: {
         borderWidth: 0.5,

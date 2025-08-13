@@ -12,7 +12,7 @@ export default function MemberItem(item: MemberType) {
         return `${item.role.charAt(0).toUpperCase()}${item.role.slice(1)}`;
     }, [item.role]);
     const roleColor = useMemo(() => {
-        return item.role === 'member' ? colors.secondary500 : '#88ca5cff'
+        return item.role === 'member' ? colors.primary500 : '#88ca5cff'
     }, [item.role])
     const formattedDate = useMemo(() => {
         return dayjs(item.createdAt).format("D MMMM YYYY");

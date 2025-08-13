@@ -1,11 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from "../../stores/useAuth";
-import { fetchMembers } from "../../api/member";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import MemberItem from "./MemberItem";
 import { colors } from "../../constants/colors";
 import { PropsWithChildren, useCallback, useMemo } from "react";
+import { fetchMembers } from "../../api/fetch";
 
 export default function MemberList({ search }: PropsWithChildren & any) {
     const { token } = useAuth();

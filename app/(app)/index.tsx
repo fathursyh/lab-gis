@@ -6,10 +6,10 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { GridItemType } from "../../types/Types";
 
 const menuGrid: GridItemType[] = [
-    { title: "My Bootcamps", link: "/my-bootcamp", icon: "event" },
+    { title: "All Bootcamps", link: "/all-bootcamps", icon: "event" },
+    { title: "My Bootcamps", link: "/my-bootcamp", icon: "inbox" },
     { title: "Members", link: "/members", icon: "people" },
     { title: "Scan QR", link: "/project", icon: "qr-code" },
-    { title: "Notes", link: "/project", icon: "notes" },
 ];
 
 const data = [
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         height: 220,
         backgroundColor: colors.primary500,
-        marginBottom: 32,
+        marginBottom: 36,
     },
     headerText: {
         fontFamily: "poppins-bold",
