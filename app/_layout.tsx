@@ -9,8 +9,8 @@ import ToastManager from "toastify-react-native";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toastConfig, toastOptions } from "../utils/toast-helper";
-import { colors } from "../constants/colors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { screenOptions } from "../utils/helpers";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -60,19 +60,13 @@ function StackLayout() {
         <>
             <StatusBar style="light" />
             <Stack
-                screenOptions={{
-                    headerShown: false,
-                    headerTitleAlign: "center",
-                    headerStyle: { backgroundColor: colors.accent },
-                    headerTintColor: colors.light,
-                    headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
-                }}
+                screenOptions={screenOptions as any}
             >
                 <Stack.Protected guard={isAuthenticated}>
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
                     <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
-                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: true, presentation: 'modal', title: 'Bootcamp Detail' }} />
+                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: false, presentation: 'modal' }} />
                     <Stack.Screen
                         name="modal"
                         options={{

@@ -1,4 +1,5 @@
 export type BootcampType = {
+    id?: string,
     title?: string,
     description?: string,
     mentor?: string,

@@ -14,6 +14,17 @@ type BootcampProps = {
     fetchFn: (token: string, params: any, search: string) => any
 }
 
+function ListInfo({ dataCount, refetch }: { dataCount: number, refetch: ({ }) => void }) {
+    return (
+        <View style={styles.listInfo}>
+            <Text style={styles.listInfoText}><Text style={{ fontFamily: 'poppins-semi', color: colors.primary500 }}>{dataCount}</Text> Bootcamp</Text>
+            <Pressable android_ripple={{ color: 'white' }} style={styles.refreshButton} onPress={() => refetch({ throwOnError: true })}>
+                <MaterialIcons name="refresh" size={24} />
+            </Pressable>
+        </View>
+    )
+}
+
 export default function BootcampList({ queryKey, search, fetchFn }: BootcampProps) {
     const { token } = useAuth();
     const router = useRouter();
@@ -21,8 +32,9 @@ export default function BootcampList({ queryKey, search, fetchFn }: BootcampProp
         router.navigate({
             pathname: `/(bootcamp-detail)/${data}`,
         })
-        
-    }, [])
+
+    }, []);
+    
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status, refetch } = useInfiniteQuery({
         queryKey: [queryKey, search],
         queryFn: (params) => fetchFn(token!, params.pageParam, search),
@@ -57,19 +69,18 @@ export default function BootcampList({ queryKey, search, fetchFn }: BootcampProp
 
     if (status === 'error')
         return (
-            <View style={styles.errorContainer}>
-                <MaterialIcons name="broken-image" size={50} color={colors.accent} />
-                <Text style={{ fontFamily: "poppins" }}>Gagal mengambil data.</Text>
-            </View>
+            <>
+                <ListInfo refetch={refetch} dataCount={dataCount} />
+                <View style={styles.errorContainer}>
+                    <MaterialIcons name="broken-image" size={50} color={colors.accent} />
+                    <Text style={{ fontFamily: "poppins" }}>Gagal mengambil data.</Text>
+                </View>
+            </>
         );
+
     return (
         <View style={styles.rootContainer}>
-            <View style={styles.listInfo}>
-                <Text style={styles.listInfoText}><Text style={{ fontFamily: 'poppins-semi', color: colors.primary500 }}>{dataCount}</Text> Bootcamp</Text>
-                <Pressable android_ripple={{ color: 'white' }} style={styles.refreshButton} onPress={() => refetch({ throwOnError: true })}>
-                    <MaterialIcons name="refresh" size={24} />
-                </Pressable>
-            </View>
+            <ListInfo refetch={refetch} dataCount={dataCount} />
             {filteredData.length > 0 ? (
                 <>
                     <GridFlat

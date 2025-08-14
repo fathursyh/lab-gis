@@ -20,7 +20,7 @@ export default function TabLayout() {
                     tabBarBadge: 3,
                     title: "Bootcamps",
                     headerShown: true,
-                    tabBarIcon: ({ color }) => <MaterialIcons size={28} name="book" color={color} />,
+                    tabBarIcon: ({ color }) => <MaterialIcons size={28} name="event" color={color} />,
                 }}
             />
             <Tabs.Screen

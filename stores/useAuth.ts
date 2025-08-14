@@ -67,7 +67,7 @@ export const useAuth = create<AuthState>((set) => ({
         const storedUser = await useSecureStore()
             .getValue("user")
             .then((data) => JSON.parse(data));
-        const storedToken = await useSecureStore().getValue("token");
+            const storedToken = await useSecureStore().getValue("token");
         const res = await axios.get(`${pc}/api/user/token-check`, { headers: { Authorization: `Bearer ${storedToken}` } });
         if (res.status !== 200) {
             set({ isAuthenticated: false, user: null, token: null });

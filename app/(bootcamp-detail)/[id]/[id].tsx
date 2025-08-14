@@ -1,16 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useLayoutEffect, useMemo } from "react";
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useAuth } from "../../stores/useAuth";
-import { fetchBootcampDetail } from "../../api/fetch";
-import BootcampDetailCard from "../../components/bootcamp/BootcampDetailCard";
-import { BootcampType } from "../../types/BootcampType";
+import { useAuth } from "../../../stores/useAuth";
+import { fetchBootcampDetail } from "../../../api/fetch";
+import BootcampDetailCard from "../../../components/bootcamp/BootcampDetailCard";
+import { BootcampType } from "../../../types/BootcampType";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import rupiahFormat from "../../utils/formatter";
-import CustomButton from "../../components/UI/CustomButton";
-import { colors } from "../../constants/colors";
+import rupiahFormat from "../../../utils/formatter";
+import CustomButton from "../../../components/UI/CustomButton";
 dayjs.locale("id");
 
 const defaultImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -67,7 +66,7 @@ export default function DetailBootcamp() {
                 <Image src={data?.banner ?? defaultImage} style={styles.banner} resizeMode="cover" />
             </View>
             <View style={styles.body}>
-                <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg">
+                <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
                     Daftar Bootcamp
                 </CustomButton>
                 <ScrollView contentContainerStyle={{ gap: 4 }}>

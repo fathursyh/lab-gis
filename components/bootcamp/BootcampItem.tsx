@@ -18,7 +18,7 @@ export default function BootcampItem({ title, startDate, mentor, quota, banner, 
         if (typeof(price) === 'number') {
             return rupiahFormat(price!);
         } else {
-            return price === 'registered' ? 'Terdaftar' : price === 'checked-in' ? 'Masuk' : 'Lulus';
+            return price;
         }
     }, [price])
     return (
@@ -31,7 +31,7 @@ export default function BootcampItem({ title, startDate, mentor, quota, banner, 
                 <Text style={[styles.contentText, { color: colors.accent }]} numberOfLines={1}>{mentor}</Text>
                 <View style={styles.contentInfo}>
                     <Text style={[styles.contentText, { color: 'gray', fontSize: 10 }]}>{ formattedDate }</Text>
-                    <Text style={[styles.contentText, { fontFamily: 'poppins-semi', color: colors.accent }]}>{formattedPrice}</Text>
+                    <Text style={[styles.contentText, { fontFamily: 'poppins-semi', color: colors.accent, textTransform: 'capitalize' }]}>{formattedPrice}</Text>
                 </View>
             </View>
         </View>
