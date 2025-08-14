@@ -9,7 +9,7 @@ const menuGrid: GridItemType[] = [
     { title: "All Bootcamps", link: "/all-bootcamps", icon: "event" },
     { title: "My Bootcamps", link: "/my-bootcamp", icon: "inbox" },
     { title: "Members", link: "/members", icon: "people" },
-    { title: "Scan QR", link: "/project", icon: "qr-code" },
+    { title: "Scan QR", link: "/qr-scanner", icon: "qr-code" },
 ];
 
 const data = [

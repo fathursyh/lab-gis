@@ -35,3 +35,19 @@ export async function checkPembayaranRegistrasi(token: string, registrationId: s
         return false;
     }
 }
+
+export async function absenQr(token: string, qrData: any) {
+       try {
+        const res = await axios(`${pc}/api/event/mark-attendance`, {
+            headers: { Authorization: `Bearer ${token}` },
+            method: 'post',
+            data: { eventId: qrData.eventId, date: qrData.date, qrCode: qrData.qrCode },
+            timeout: 5000,
+            timeoutErrorMessage: "Gagal absensi.",
+        });
+        return true;
+    } catch (err: any) {
+        console.log(err.response.data.message)
+        return false;
+    }
+}

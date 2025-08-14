@@ -66,6 +66,7 @@ function StackLayout() {
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
                     <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
+                    <Stack.Screen name="qr-scanner" options={{ title: "Scan QR", headerShown: true }} />
                     <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: false, presentation: 'modal' }} />
                     <Stack.Screen
                         name="modal"
