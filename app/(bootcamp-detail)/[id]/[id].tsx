@@ -23,7 +23,6 @@ export default function DetailBootcamp() {
         queryKey: [id],
         queryFn: () => fetchBootcampDetail(token!, id as string),
         refetchOnWindowFocus: true,
-        staleTime: 1000 * 60 * 1,
     });
 
     const formattedDate = useMemo(() => {
@@ -59,7 +58,6 @@ export default function DetailBootcamp() {
             </View>
         );
     }
-
     return (
         <View style={styles.rootContainer}>
             <View style={styles.header}>
@@ -67,7 +65,10 @@ export default function DetailBootcamp() {
             </View>
             <View style={styles.body}>
                 <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
-                    Daftar Bootcamp
+                    {
+                        data?.registrations.length > 0 ? 
+                        'Lihat Pembayaran' : 'Daftar Bootcamp'
+                    }
                 </CustomButton>
                 <ScrollView contentContainerStyle={{ gap: 4 }}>
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />

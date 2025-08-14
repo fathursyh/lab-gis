@@ -21,7 +21,7 @@ export async function daftarBootcamp(token: string, id: string) {
 
 export async function checkPembayaranRegistrasi(token: string, registrationId: string) {
     try {
-        const res = await axios(`${pc}/api/payments/check-payment`, {
+        await axios(`${pc}/api/payments/check-payment`, {
             headers: { Authorization: `Bearer ${token}` },
             method: 'post',
             data: { registrationId },
