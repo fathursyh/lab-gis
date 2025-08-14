@@ -13,7 +13,14 @@ const defaultImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df
 export default function BootcampItem({ title, startDate, mentor, quota, banner, price }: BootcampType) {
     const formattedDate = useMemo(() => {
         return dayjs(startDate).format("DD MMM YY");
-    }, [startDate])
+    }, [startDate]);
+    const formattedPrice = useMemo(() => {
+        if (typeof(price) === 'number') {
+            return rupiahFormat(price!);
+        } else {
+            return price === 'registered' ? 'Terdaftar' : price === 'checked-in' ? 'Masuk' : 'Lulus';
+        }
+    }, [price])
     return (
         <View style={styles.cardContainer}>
             <View style={styles.banner}>
@@ -24,7 +31,7 @@ export default function BootcampItem({ title, startDate, mentor, quota, banner, 
                 <Text style={[styles.contentText, { color: colors.accent }]} numberOfLines={1}>{mentor}</Text>
                 <View style={styles.contentInfo}>
                     <Text style={[styles.contentText, { color: 'gray', fontSize: 10 }]}>{ formattedDate }</Text>
-                    <Text style={[styles.contentText, { fontFamily: 'poppins-semi', color: colors.accent }]}>{rupiahFormat(price!)}</Text>
+                    <Text style={[styles.contentText, { fontFamily: 'poppins-semi', color: colors.accent }]}>{formattedPrice}</Text>
                 </View>
             </View>
         </View>

@@ -5,16 +5,16 @@ import { useCallback, useMemo } from "react";
 import BootcampItem from "./BootcampItem";
 import { useAuth } from "../../stores/useAuth";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchAllBootcamps } from "../../api/fetch";
 import GridFlat from "../UI/containers/GridFlat";
 import { useRouter } from "expo-router";
 
 type BootcampProps = {
     search: string,
     queryKey: string,
+    fetchFn: (token: string, params: any, search: string) => any
 }
 
-export default function BootcampList({ queryKey, search }: BootcampProps) {
+export default function BootcampList({ queryKey, search, fetchFn }: BootcampProps) {
     const { token } = useAuth();
     const router = useRouter();
     const selectItem = useCallback((data: string) => {
@@ -25,7 +25,7 @@ export default function BootcampList({ queryKey, search }: BootcampProps) {
     }, [])
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status, refetch } = useInfiniteQuery({
         queryKey: [queryKey, search],
-        queryFn: (params) => fetchAllBootcamps(token!, params.pageParam, search),
+        queryFn: (params) => fetchFn(token!, params.pageParam, search),
         initialPageParam: 1,
         staleTime: 1000 * 60 * 10,
         getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
