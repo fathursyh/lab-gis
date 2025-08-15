@@ -45,9 +45,8 @@ export async function absenQr(token: string, qrData: any) {
             timeout: 5000,
             timeoutErrorMessage: "Gagal absensi.",
         });
-        return true;
+        return res;
     } catch (err: any) {
-        console.log(err.response.data.message)
-        return false;
+        return err.response
     }
 }
