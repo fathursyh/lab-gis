@@ -8,24 +8,26 @@ import LottieView from "lottie-react-native";
 import Error from '../../assets/Error.json';
 import Success from '../../assets/Success.json';
 import { useRouter } from "expo-router";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 type DialogProps = {
     isScanned: boolean;
-    qrData: {date: Date, qrCode: string, eventId: string}
+    qrData: { date: Date, qrCode: string, eventId: string }
 };
 export default function ScannedDialog({ isScanned, qrData }: DialogProps) {
-    const {token} = useAuth();
-    const {dismissAll} = useRouter();
+    const { token } = useAuth();
+    const { dismissAll } = useRouter();
     const {
         data: response,
+        isFetching,
         isLoading
     } = useQuery<any>({
         queryKey: [qrData.qrCode],
         queryFn: () => absenQr(token!, qrData),
         refetchOnMount: true,
-        retry: false
+        retry: false,
     });
-    if (isLoading) return (
+    if (isLoading || isFetching) return (
         <View style={styles.modalContainer}>
             <ActivityIndicator size={32} />
         </View>
@@ -34,8 +36,12 @@ export default function ScannedDialog({ isScanned, qrData }: DialogProps) {
         <Modal animationType="slide" visible={isScanned}>
             <View style={styles.modalContainer}>
                 <Text style={styles.infoText}>{response.data.message}</Text>
-                <LottieView source={response.status === 200 ? Success : Error} autoPlay loop={false} style={styles.lottie}/>
-                <CustomButton type="accent" customStyle={styles.confirmButton} onPress={() => dismissAll()}>Tutup</CustomButton>
+                <LottieView source={response.status === 200 ? Success : Error} autoPlay loop={false} style={styles.lottie} />
+                <Animated.View
+                    entering={FadeInDown.delay(300).duration(800)}
+                >
+                    <CustomButton type="accent" customStyle={styles.confirmButton} onPress={() => dismissAll()}>Tutup</CustomButton>
+                </Animated.View>
             </View>
         </Modal>
     );
