@@ -19,7 +19,7 @@ export const unstable_settings = {
     initialRouteName: "(app)",
 };
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
@@ -54,27 +54,21 @@ export default function RootLayout() {
     );
 }
 function StackLayout() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isAdmin } = useAuth();
     const insets = useSafeAreaInsets();
     return (
         <>
             <StatusBar style="light" />
-            <Stack
-                screenOptions={screenOptions as any}
-            >
+            <Stack screenOptions={screenOptions as any}>
                 <Stack.Protected guard={isAuthenticated}>
+                    <Stack.Protected guard={isAuthenticated && isAdmin}>
+                        <Stack.Screen name="(admin)" />
+                    </Stack.Protected>
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
                     <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
                     <Stack.Screen name="qr-scanner" options={{ title: "Scan QR", headerShown: true }} />
-                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: false, presentation: 'modal' }} />
-                    <Stack.Screen
-                        name="modal"
-                        options={{
-                            presentation: "transparentModal",
-                            animation: "fade",
-                        }}
-                    />
+                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: false, presentation: "modal" }} />
                 </Stack.Protected>
                 <Stack.Protected guard={!isAuthenticated}>
                     <Stack.Screen name="sign-in" options={{ title: "Login", animation: "fade" }} />

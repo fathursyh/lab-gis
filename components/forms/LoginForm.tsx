@@ -66,7 +66,7 @@ export default function LoginForm() {
                     name="password"
                     errorMessage={errors.password?.message}
                     rules={{
-                        required: "Password tidak boleh kosong",
+                        required: "Password tidak boleh kosong.",
                     }}
                     submitBehavior="blurAndSubmit"
                     onSubmitEditing={handleSubmit(onSubmit)}

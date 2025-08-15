@@ -1,12 +1,21 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
-import { Dimensions, Pressable } from "react-native";
+import { Dimensions, Pressable, TouchableOpacity } from "react-native";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+const screenHeight = Dimensions.get("window").height;
 
 export default function TabLayout() {
+    const insets = useSafeAreaInsets();
+
     return (
-        <Tabs screenOptions={options}>
+        <Tabs
+            screenOptions={{
+                ...options,
+                headerStyle: { backgroundColor: colors.accent, height: insets.bottom > 24 ? screenHeight * 0.1 : screenHeight * 0.12 },
+            }}
+        >
             <Tabs.Screen
                 name="index"
                 options={{
@@ -33,12 +42,8 @@ export default function TabLayout() {
         </Tabs>
     );
 }
-const screenHeight = Dimensions.get('window').height;
 const options: BottomTabNavigationOptions = {
     headerTitleAlign: "center",
-    headerStyle: { backgroundColor: colors.accent,
-        height: screenHeight * 0.1
-     },
     tabBarStyle: {
         backgroundColor: colors.accent,
     },
