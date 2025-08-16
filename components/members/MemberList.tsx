@@ -1,42 +1,27 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useAuth } from "../../stores/useAuth";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import MemberItem from "./MemberItem";
 import { colors } from "../../constants/colors";
-import { PropsWithChildren, useCallback, useMemo } from "react";
+import { PropsWithChildren, useCallback } from "react";
 import { fetchMembers } from "../../api/fetch";
+import { useInfiniteFetch } from "../../hooks/useInfiniteFetch";
 
 export default function MemberList({ search }: PropsWithChildren & any) {
-    const { token, isAdmin } = useAuth();
-    const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status } = useInfiniteQuery({
-        queryKey: ["members", search],
-        queryFn: (params) => fetchMembers(token!, params.pageParam, search),
-        initialPageParam: 1,
-        staleTime: 1000 * 60 * 1,
-        refetchOnWindowFocus: true,
-        getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
-    });
-
-    const loadMore = () => {
-        if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    };
+    const {
+        data,
+        dataCount,
+        isRefetching,
+        status,
+        filteredData,
+        loadMore
+    } = useInfiniteFetch({ search, fetchFn: fetchMembers, queryKey: 'bootcamps', stale: 1000 * 60 * 5 });
 
     const renderItem = useCallback(({ item }: any) => {
-        return <MemberItem {...item}/>;
-    }, [data?.pages]);
-
-    const filteredData = useMemo(() => {
-        return data?.pages.flatMap((page) => page.data) ?? [];
-    }, [data?.pages, search])
-    const dataCount = useMemo(() => {
-        return data?.pages[0].pagination.total ?? [];
+        return <MemberItem {...item} />;
     }, [data?.pages]);
 
 
-    if (status === 'pending')
+    if (status === 'pending' || isRefetching)
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size={"large"} />

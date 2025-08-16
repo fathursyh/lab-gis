@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { MemberType } from "../../types/MemberType";
+import { useMemo } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import { useMemo } from "react";
 dayjs.locale("id");
 
 export default function MemberItem(item : MemberType) {

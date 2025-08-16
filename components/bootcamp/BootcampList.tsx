@@ -1,60 +1,36 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { colors } from "../../constants/colors";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import BootcampItem from "./BootcampItem";
-import { useAuth } from "../../stores/useAuth";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import GridFlat from "../UI/containers/GridFlat";
 import { useRouter } from "expo-router";
+import ListInfo from "../UI/ListInfo";
+import { useInfiniteFetch } from "../../hooks/useInfiniteFetch";
 
 type BootcampProps = {
     search: string,
     queryKey: string,
     fetchFn: (token: string, params: any, search: string) => any
 }
-
-function ListInfo({ dataCount, refetch }: { dataCount: number, refetch: ({ }) => void }) {
-    return (
-        <View style={styles.listInfo}>
-            <Text style={styles.listInfoText}><Text style={{ fontFamily: 'poppins-semi', color: colors.primary500 }}>{dataCount}</Text> Bootcamp</Text>
-            <Pressable android_ripple={{ color: 'white' }} style={styles.refreshButton} onPress={() => refetch({ throwOnError: true })}>
-                <MaterialIcons name="refresh" size={24} />
-            </Pressable>
-        </View>
-    )
-}
-
 export default function BootcampList({ queryKey, search, fetchFn }: BootcampProps) {
-    const { token } = useAuth();
     const router = useRouter();
     const selectItem = useCallback((data: string) => {
         router.navigate({
             pathname: `/(bootcamp-detail)/${data}`,
         })
-
     }, []);
-    
-    const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status, refetch } = useInfiniteQuery({
-        queryKey: [queryKey, search],
-        queryFn: (params) => fetchFn(token!, params.pageParam, search),
-        initialPageParam: 1,
-        staleTime: 1000 * 60 * 10,
-        getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
-    });
 
-    const loadMore = () => {
-        if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-        }
-    };
-
-    const filteredData = useMemo(() => {
-        return data?.pages.flatMap((page) => page.data) ?? [];
-    }, [data?.pages, search])
-    const dataCount = useMemo(() => {
-        return data?.pages[0].pagination.total ?? [];
-    }, [data?.pages]);
+    const {
+        data,
+        dataCount,
+        isRefetching,
+        isFetchingNextPage,
+        status,
+        filteredData,
+        refetch,
+        loadMore
+    } = useInfiniteFetch({ search, fetchFn: fetchFn, queryKey: 'bootcamps', stale: 1000 * 60 * 2 });
 
     const renderItem = useCallback((item: any) => {
         return <BootcampItem {...item} />;
@@ -106,23 +82,6 @@ export default function BootcampList({ queryKey, search, fetchFn }: BootcampProp
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-    },
-    listInfo: {
-        padding: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        paddingHorizontal: 16
-    },
-    listInfoText: {
-        fontFamily: 'poppins',
-        fontSize: 12,
-        color: 'gray'
-    },
-    refreshButton: {
-        padding: 4,
-        backgroundColor: colors.background,
-        borderRadius: '100%',
     },
     loadingContainer: {
         height: "60%",

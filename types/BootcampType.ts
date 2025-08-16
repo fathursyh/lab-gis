@@ -5,8 +5,8 @@ export type BootcampType = {
     mentor?: string,
     quota?: number,
     location?: string,
-    startDate?: Date,
-    endDate?: Date,
+    startDate?: Date | string,
+    endDate?: Date | string,
     banner?: string,
     price?: number,
     registrations?: any
