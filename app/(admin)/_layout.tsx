@@ -34,10 +34,11 @@ export default function AdminLayout() {
                         sceneStyle: {
                             backgroundColor: "#ece6e6ff",
                         },
-                        headerTitleStyle: {fontFamily: 'poppins-bold', lineHeight: 14, color: colors.accent}
+                        headerTitleStyle: {fontFamily: 'poppins-bold', lineHeight: 24, color: colors.accent}
                     }}
                 >
                     <Drawer.Screen name="dashboard" options={{ title: "Dashboard", drawerIcon: ({ size, color }) => <MaterialIcons name="home" size={size} color={color} /> }} />
+                    <Drawer.Screen name="(bootcamps)" options={{ title: "Bootcamps", drawerIcon: ({ size, color }) => <MaterialIcons name="event" size={size} color={color} /> }} />
                     <Drawer.Screen
                         name="logout"
                         listeners={{

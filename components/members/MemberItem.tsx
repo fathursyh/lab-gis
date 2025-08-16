@@ -7,12 +7,7 @@ import "dayjs/locale/id";
 import { useMemo } from "react";
 dayjs.locale("id");
 
-type MemberProps = {
-    item: MemberType;
-    isAdmin: boolean;
-};
-
-export default function MemberItem({ item, isAdmin }: MemberProps) {
+export default function MemberItem(item : MemberType) {
     const capitalizeRole = useMemo(() => {
         return `${item.role.charAt(0).toUpperCase()}${item.role.slice(1)}`;
     }, [item.role]);
@@ -34,13 +29,6 @@ export default function MemberItem({ item, isAdmin }: MemberProps) {
                     </Text>
                     <Text style={[styles.role, { backgroundColor: roleColor }]}>{capitalizeRole}</Text>
                     <Text style={styles.bergabung}>Bergabung {formattedDate}</Text>
-                </View>
-                <View style={{ justifyContent: "center", alignItems: "center", aspectRatio: 1 }}>
-                    {isAdmin && (
-                        <Pressable android_ripple={{ color: colors.light, borderless: true }}>
-                            <MaterialIcons name="menu" size={32} color={colors.accent} />
-                        </Pressable>
-                    )}
                 </View>
             </View>
         </>

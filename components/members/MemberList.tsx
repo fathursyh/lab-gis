@@ -25,7 +25,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
     };
 
     const renderItem = useCallback(({ item }: any) => {
-        return <MemberItem item={item} isAdmin={isAdmin} />;
+        return <MemberItem {...item}/>;
     }, [data?.pages]);
 
     const filteredData = useMemo(() => {
