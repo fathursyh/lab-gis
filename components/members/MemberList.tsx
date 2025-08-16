@@ -14,7 +14,7 @@ export default function MemberList({ search }: PropsWithChildren & any) {
         status,
         filteredData,
         loadMore
-    } = useInfiniteFetch({ search, fetchFn: fetchMembers, queryKey: 'bootcamps', stale: 1000 * 60 * 5 });
+    } = useInfiniteFetch({ search, fetchFn: fetchMembers, queryKey: 'members', stale: 1000 * 60 * 5 });
 
     const renderItem = useCallback(({ item }: any) => {
         return <MemberItem {...item} />;

@@ -30,7 +30,7 @@ export default function BootcampList({ queryKey, search, fetchFn }: BootcampProp
         filteredData,
         refetch,
         loadMore
-    } = useInfiniteFetch({ search, fetchFn: fetchFn, queryKey: 'bootcamps', stale: 1000 * 60 * 2 });
+    } = useInfiniteFetch({ search, fetchFn: fetchFn, queryKey: queryKey, stale: 1000 * 60 * 2 });
 
     const renderItem = useCallback((item: any) => {
         return <BootcampItem {...item} />;

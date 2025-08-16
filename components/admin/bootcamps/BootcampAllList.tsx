@@ -59,7 +59,7 @@ export default function BootcampAllList({ search }: { search: string }) {
         },
         onSettled: () => {
             search !== '' &&
-            queryClient.invalidateQueries({ queryKey: ['bootcamps', ''] })
+                queryClient.invalidateQueries({ queryKey: ['bootcamps', ''] })
         },
     });
 
@@ -78,6 +78,7 @@ export default function BootcampAllList({ search }: { search: string }) {
     if (status === 'error')
         return (
             <>
+                <ListInfo refetch={refetch} dataCount={dataCount} />
                 <View style={styles.basicContainer}>
                     <MaterialIcons name="broken-image" size={50} color={colors.accent} />
                     <Text style={{ fontFamily: "poppins" }}>Gagal mengambil data.</Text>

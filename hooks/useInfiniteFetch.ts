@@ -15,6 +15,7 @@ export function useInfiniteFetch({ search, queryKey, fetchFn, stale }: Props) {
         queryFn: (params) => fetchFn(token!, params.pageParam, search),
         initialPageParam: 1,
         staleTime: stale ?? undefined,
+        gcTime: search !== '' ? 0 : 5 * 60 * 1000,
         getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.pagination.page + 1 : undefined),
     });
 
