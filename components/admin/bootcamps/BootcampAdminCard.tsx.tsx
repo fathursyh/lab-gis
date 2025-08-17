@@ -6,6 +6,7 @@ import rupiahFormat from "../../../utils/formatter";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { confirm } from "../../../utils/helpers";
+import { useRouter } from "expo-router";
 dayjs.locale("id");
 
 type CardProps = {
@@ -13,6 +14,7 @@ type CardProps = {
   deleteFn?: any
 }
 export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
+  const router = useRouter();
   const formattedPrice = useMemo(() => {
     return rupiahFormat(item.price!)
   }, [item.price]);
@@ -61,7 +63,7 @@ export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
 
       {/* Actions */}
       <View style={styles.actions}>
-        <TouchableOpacity style={[styles.button, styles.editBtn]}>
+        <TouchableOpacity style={[styles.button, styles.editBtn]} onPress={() => router.push({pathname: '/event-modal', params: {editData: JSON.stringify(item)}})}>
           <Text style={styles.btnText}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.deleteBtn]} onPress={() => deleteEvent(item.id!, item.title!)}>

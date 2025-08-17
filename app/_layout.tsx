@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toastConfig, toastOptions } from "../utils/toast-helper";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { screenOptions } from "../utils/helpers";
+import { colors } from "../constants/colors";
 
 export { ErrorBoundary } from "expo-router";
 SplashScreen.preventAutoHideAsync();
@@ -62,6 +63,19 @@ function StackLayout() {
                 <Stack.Protected guard={isAuthenticated}>
                     <Stack.Protected guard={isAuthenticated && isAdmin}>
                         <Stack.Screen name="(admin)" />
+                        <Stack.Screen
+                            name="event-modal"
+                            options={{
+                                title: "Event Modal",
+                                presentation: "modal",
+                                animation: "slide_from_bottom",
+                                headerShown: true,
+                                headerStyle: { backgroundColor: colors.light },
+                                headerTitleStyle: { color: colors.accent, fontFamily: "poppins-bold" },
+                                headerTitleAlign: "left",
+                                headerTintColor: colors.accent,
+                            }}
+                        />
                     </Stack.Protected>
                     <Stack.Screen name="(app)" />
                     <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />

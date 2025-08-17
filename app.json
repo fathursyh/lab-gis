@@ -33,7 +33,13 @@
         [
         "expo-camera",
         {
-          "cameraPermission": "Allow iLab GIS to access your camera"
+          "cameraPermission": "Izinkan aplikasi iLAB GIS menggunakan kamera."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Izinkan aplikasi iLAB GIS mengakses foto di dalam perangkat."
         }
       ]
     ],

@@ -1,5 +1,5 @@
 import { Drawer } from "expo-router/drawer";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, Pressable } from "react-native-gesture-handler";
 import { useAuth } from "../../stores/useAuth";
 import { colors } from "../../constants/colors";
 import { Text } from "react-native";
@@ -8,6 +8,7 @@ import { DrawerContentComponentProps, DrawerContentScrollView } from "@react-nav
 import { CustomDrawerList } from "../../components/UI/CustomDrawerList";
 import { StatusBar } from "expo-status-bar";
 import DrawerHeader from "../../components/partials/DrawerHeader";
+import { Link } from "expo-router";
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
     return (
@@ -15,6 +16,16 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
             <DrawerHeader />
             <CustomDrawerList {...props} />
         </DrawerContentScrollView>
+    );
+}
+
+function AddButton() {
+    return (
+        <Link href={`/event-modal`} asChild>
+            <Pressable android_ripple={{ color: colors.background, radius: 32, borderless: true }} style={{ padding: 4, borderRadius: 30 }}>
+                <MaterialIcons name="add" size={32} />
+            </Pressable>
+        </Link>
     );
 }
 
@@ -34,11 +45,19 @@ export default function AdminLayout() {
                         sceneStyle: {
                             backgroundColor: "#ece6e6ff",
                         },
-                        headerTitleStyle: {fontFamily: 'poppins-bold', lineHeight: 24, color: colors.accent}
+                        headerTitleStyle: { fontFamily: "poppins-bold", lineHeight: 24, color: colors.accent },
                     }}
                 >
                     <Drawer.Screen name="dashboard" options={{ title: "Dashboard", drawerIcon: ({ size, color }) => <MaterialIcons name="home" size={size} color={color} /> }} />
-                    <Drawer.Screen name="(bootcamps)" options={{ title: "Bootcamps", drawerIcon: ({ size, color }) => <MaterialIcons name="event" size={size} color={color} /> }} />
+                    <Drawer.Screen
+                        name="(bootcamps)"
+                        options={{
+                            title: "Bootcamps",
+                            drawerIcon: ({ size, color }) => <MaterialIcons name="event" size={size} color={color} />,
+                            headerRight: () => <AddButton />,
+                            headerRightContainerStyle: { paddingRight: 24 },
+                        }}
+                    />
                     <Drawer.Screen
                         name="logout"
                         listeners={{

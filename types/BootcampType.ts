@@ -7,7 +7,7 @@ export type BootcampType = {
     location?: string,
     startDate?: Date | string,
     endDate?: Date | string,
-    banner?: string,
+    banner?: any,
     price?: number,
     registrations?: any
 }

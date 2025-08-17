@@ -33,7 +33,6 @@ export function useInfiniteFetch({ search, queryKey, fetchFn, stale }: Props) {
     }, [data?.pages]);
 
     return {
-        token,
         data,
         filteredData,
         dataCount,

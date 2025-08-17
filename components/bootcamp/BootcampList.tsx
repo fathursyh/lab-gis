@@ -24,7 +24,6 @@ export default function BootcampList({ queryKey, search, fetchFn }: BootcampProp
     const {
         data,
         dataCount,
-        isRefetching,
         isFetchingNextPage,
         status,
         filteredData,
