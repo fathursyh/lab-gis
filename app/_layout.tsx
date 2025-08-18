@@ -9,6 +9,8 @@ import ToastManager from "toastify-react-native";
 import { Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toastConfig, toastOptions } from "../utils/toast-helper";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { screenOptions } from "../utils/helpers";
 import { colors } from "../constants/colors";
 
 export { ErrorBoundary } from "expo-router";
@@ -17,6 +19,8 @@ SplashScreen.preventAutoHideAsync();
 export const unstable_settings = {
     initialRouteName: "(app)",
 };
+
+const queryClient = new QueryClient();
 
 const windowHeight = Dimensions.get("window").height;
 export default function RootLayout() {
@@ -43,37 +47,41 @@ export default function RootLayout() {
     if (!loaded) {
         return null;
     }
-
-    return <StackLayout />;
+    return (
+        <QueryClientProvider client={queryClient}>
+            <StackLayout />
+        </QueryClientProvider>
+    );
 }
 function StackLayout() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isAdmin } = useAuth();
     const insets = useSafeAreaInsets();
     return (
         <>
             <StatusBar style="light" />
-            <Stack
-                screenOptions={{
-                    headerShown: false,
-                    headerTitleAlign: "center",
-                    headerStyle: { backgroundColor: colors.accent },
-                    headerLargeStyle: {
-                        backgroundColor: colors.accent,
-                    },
-                    headerTintColor: colors.light,
-                    headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
-                }}
-            >
+            <Stack screenOptions={screenOptions as any}>
                 <Stack.Protected guard={isAuthenticated}>
+                    <Stack.Protected guard={isAuthenticated && isAdmin}>
+                        <Stack.Screen name="(admin)" />
+                        <Stack.Screen
+                            name="event-modal"
+                            options={{
+                                title: "Event Modal",
+                                presentation: "modal",
+                                animation: "slide_from_bottom",
+                                headerShown: true,
+                                headerStyle: { backgroundColor: colors.light },
+                                headerTitleStyle: { color: colors.accent, fontFamily: "poppins-bold" },
+                                headerTitleAlign: "left",
+                                headerTintColor: colors.accent,
+                            }}
+                        />
+                    </Stack.Protected>
                     <Stack.Screen name="(app)" />
-                    <Stack.Screen name="members" options={{ title: "All Members", headerShown: true, presentation: "modal" }} />
-                    <Stack.Screen
-                        name="modal"
-                        options={{
-                            presentation: "transparentModal",
-                            animation: "fade",
-                        }}
-                    />
+                    <Stack.Screen name="members" options={{ title: "All Members", headerShown: true }} />
+                    <Stack.Screen name="my-bootcamp" options={{ title: "My Bootcamps", headerShown: true }} />
+                    <Stack.Screen name="qr-scanner" options={{ title: "Scan QR", headerShown: true }} />
+                    <Stack.Screen name="(bootcamp-detail)/[id]" options={{ headerShown: false, presentation: "modal" }} />
                 </Stack.Protected>
                 <Stack.Protected guard={!isAuthenticated}>
                     <Stack.Screen name="sign-in" options={{ title: "Login", animation: "fade" }} />

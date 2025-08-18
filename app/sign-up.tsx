@@ -10,7 +10,7 @@ export default function SignUpScreen() {
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.formContainer}>
                     <Animated.View entering={FadeIn.delay(200)}>
-                        <Image style={styles.formImage} source={require("../assets/icon.png")} height={80} width={80} />
+                        <Image style={styles.formImage} source={require("../assets/gis-logo.jpeg")} height={80} width={80} />
                     </Animated.View>
                     <Text style={styles.formTitle}>iLab GIS</Text>
                     <RegisterForm />

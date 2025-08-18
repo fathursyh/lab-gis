@@ -1,12 +1,21 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
-import { Pressable } from "react-native";
+import { Dimensions, Pressable, TouchableOpacity } from "react-native";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+const screenHeight = Dimensions.get("window").height;
 
 export default function TabLayout() {
+    const insets = useSafeAreaInsets();
+
     return (
-        <Tabs screenOptions={options}>
+        <Tabs
+            screenOptions={{
+                ...options,
+                headerStyle: { backgroundColor: colors.accent, height: insets.bottom > 24 ? screenHeight * 0.1 : screenHeight * 0.12 },
+            }}
+        >
             <Tabs.Screen
                 name="index"
                 options={{
@@ -15,12 +24,12 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="project"
+                name="all-bootcamps"
                 options={{
                     tabBarBadge: 3,
-                    title: "Projects",
+                    title: "Bootcamps",
                     headerShown: true,
-                    tabBarIcon: ({ color }) => <MaterialIcons size={28} name="book" color={color} />,
+                    tabBarIcon: ({ color }) => <MaterialIcons size={28} name="event" color={color} />,
                 }}
             />
             <Tabs.Screen
@@ -33,10 +42,8 @@ export default function TabLayout() {
         </Tabs>
     );
 }
-
 const options: BottomTabNavigationOptions = {
     headerTitleAlign: "center",
-    headerStyle: { backgroundColor: colors.accent },
     tabBarStyle: {
         backgroundColor: colors.accent,
     },

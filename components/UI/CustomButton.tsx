@@ -1,14 +1,18 @@
 import { Platform, Pressable, PressableProps, StyleSheet, Text, ViewStyle } from "react-native";
 import { colors } from "../../constants/colors";
-import { PropsWithChildren, useMemo } from "react";
+import { ComponentProps, PropsWithChildren, useMemo } from "react";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+type MaterialIconName = ComponentProps<typeof MaterialIcons>['name'];
 
 type ButtonProps = {
     type?: 'primary' | 'secondary' | 'accent' | 'danger'
     size?: 'sm' | 'md' | 'lg',
     fullWidth?: boolean,
-    customStyle?: ViewStyle
+    customStyle?: ViewStyle,
+    icon?: MaterialIconName
 }
-export default function CustomButton({type = 'primary', size = 'md', fullWidth = false, children, customStyle, ...Attr} : PropsWithChildren<PressableProps> & ButtonProps) {
+
+export default function CustomButton({type = 'primary', size = 'md', fullWidth = false, icon, children, customStyle, ...Attr} : PropsWithChildren<PressableProps> & ButtonProps) {
     const getSize = useMemo(() => {
         return size === 'lg' ? {minWidth: 140, fontSize: 18} : size === 'sm' ? {minWidth: 80, fontSize: 14} : {minWidth: 100, fontSize: 16}; 
     }, [size]);
@@ -18,6 +22,10 @@ export default function CustomButton({type = 'primary', size = 'md', fullWidth =
 
     return (
         <Pressable android_ripple={{ color: colors.background }} style={({pressed}) => ([pressed && {opacity: Platform.select({ios: 0.7 })}, styles.buttonContainer, getType, {width: fullWidth? '100%': undefined}, customStyle])} {...Attr}>
+            {
+                icon && 
+                <MaterialIcons name={icon} size={20} color={'white'} style={{ marginBottom: 4 }} />
+            }
             <Text style={[styles.buttonText, getSize]}>{ children }</Text>
         </Pressable>
     )
@@ -28,11 +36,16 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 16,
         borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        columnGap: 4,
         elevation: 4,
         shadowColor: 'black',
-        justifyContent: 'center',
         shadowOpacity: 0.4,
-        shadowOffset: {width: 0, height: 0}
+        shadowOffset: {width: 0, height: 0},
+        boxShadow: 'inset 4px 4px 4px -3px white',
+        borderWidth: 0.2,
     },
     buttonText: {
         fontFamily: 'poppins-med',

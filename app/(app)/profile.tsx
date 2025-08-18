@@ -3,27 +3,26 @@ import { useAuth } from "../../stores/useAuth";
 import CustomButton from "../../components/UI/CustomButton";
 import { colors } from "../../constants/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import ProfileData from "../../components/profile/ProfileData";
 
 export default function ProfileTab() {
-    const tes = [1, 2, 3, 4, 5, 6];
-    const { logout } = useAuth();
+    const { user, logout, isAdmin } = useAuth();
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
                 <View style={styles.profile}>
                     <MaterialIcons name="person" size={50} color={colors.light} />
                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.profileText}>
-                        Nama Pengguna Panjang
+                        { user?.fullName || 'Nama User' }
                     </Text>
-                    <Text style={styles.profileDesc}>Informasi tambahan</Text>
+                    <Text style={styles.profileDesc}>{user?.email || 'email@user.com'}</Text>
+                    <Text style={styles.profileDesc}>{isAdmin ? 'Admin' : 'Member' }</Text>
                 </View>
             </View>
             <View style={styles.detailContainer}>
                 <View style={styles.detailContent}>
-                    <View style={{ flex: 1 }}>
-                        
-                    </View>
-                    <CustomButton onPress={logout} fullWidth type="danger" customStyle={{ borderRadius: 0, paddingVertical: 14 }} size="lg">
+                    <ProfileData />
+                    <CustomButton onPress={logout} fullWidth type="danger" customStyle={{ paddingVertical: 14 }} size="lg">
                         Logout
                     </CustomButton>
                 </View>
@@ -37,8 +36,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        height: 180,
-        backgroundColor: colors.secondary500,
+        height: 250,
+        backgroundColor: colors.primary500,
         justifyContent: "center",
     },
     profile: {
@@ -67,6 +66,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.light,
         overflow: "hidden",
         elevation: 2,
+        padding: 8,
     },
-    detailText: {},
 });

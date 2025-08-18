@@ -12,7 +12,7 @@ export default function GridContainer({ items, itemKey, children, childStyle, ha
                 {
                     items.map(item => (
                         <View key={item[itemKey]} style={styles.grid}>
-                            <Pressable android_ripple={{ color: 'white', radius: 125 }} style={[styles.gridItem, childStyle, {backgroundColor: item.color ?? colors.light}]} onPress={handlePress ? () => handlePress(item) :  () => router.navigate(item.link)}>
+                            <Pressable android_ripple={{ color: colors.background, radius: 125 }} style={[styles.gridItem, childStyle, {backgroundColor: colors.primary500}]} onPress={handlePress ? () => handlePress(item) :  () => router.navigate(item.link)}>
                                 {children(item)}
                             </Pressable>
                         </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         padding: 8
     },
     gridItem: {
-        boxShadow: `0px 2px 4px -1px ${colors.background}`,
+        boxShadow: `0px 2px 4px -1px black`,
         borderRadius: 4,
         flex: 1
     }

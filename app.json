@@ -29,7 +29,19 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+        [
+        "expo-camera",
+        {
+          "cameraPermission": "Izinkan aplikasi iLAB GIS menggunakan kamera."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Izinkan aplikasi iLAB GIS mengakses foto di dalam perangkat."
+        }
+      ]
     ],
     "extra": {
       "router": {},

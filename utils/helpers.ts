@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { colors } from "../constants/colors";
 
 export const confirm = (title: string, message: string, confirm: string, style?: "default" | "cancel" | "destructive" | undefined): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -39,5 +40,12 @@ export function resolveModalResult(value: any) {
     }
 }
 
-export const isEmail = (email: string) =>
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+export const isEmail = (email: string) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+
+export const screenOptions = {
+    headerShown: false,
+    headerTitleAlign: "center",
+    headerStyle: { backgroundColor: colors.accent },
+    headerTintColor: colors.light,
+    headerTitleStyle: { fontFamily: "poppins-semi", fontSize: 18 },
+}
