@@ -42,10 +42,9 @@ export default function AdminLayout() {
                         drawerLabelStyle: { fontFamily: "poppins-semi" },
                         drawerActiveBackgroundColor: colors.accent,
                         drawerActiveTintColor: colors.light,
-                        sceneStyle: {
-                            backgroundColor: "#ece6e6ff",
-                        },
                         headerTitleStyle: { fontFamily: "poppins-bold", lineHeight: 24, color: colors.accent },
+                        headerRight: () => <AddButton />,
+                        headerRightContainerStyle: { paddingRight: 24 },
                     }}
                 >
                     <Drawer.Screen name="dashboard" options={{ title: "Dashboard", drawerIcon: ({ size, color }) => <MaterialIcons name="home" size={size} color={color} /> }} />
@@ -54,8 +53,6 @@ export default function AdminLayout() {
                         options={{
                             title: "Bootcamps",
                             drawerIcon: ({ size, color }) => <MaterialIcons name="event" size={size} color={color} />,
-                            headerRight: () => <AddButton />,
-                            headerRightContainerStyle: { paddingRight: 24 },
                         }}
                     />
                     <Drawer.Screen

@@ -2,14 +2,15 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../../constants/colors";
 
 type DashboardItemProps = {
-    title?: string
+    title?: string,
+    value?: number
 }
-export default function DashboardItem({title = 'Judul Insight'} : DashboardItemProps) {
+export default function DashboardItem({title, value} : DashboardItemProps) {
     return (
         <View style={styles.grid}>
             <View style={styles.gridItem}>
                 <Text style={styles.title}>{ title }</Text>
-                <Text style={styles.data}>20</Text>
+                <Text style={styles.data}>{value}</Text>
             </View>
         </View>
     );
@@ -18,7 +19,8 @@ export default function DashboardItem({title = 'Judul Insight'} : DashboardItemP
 const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
         grid: {
-        width: screenWidth / 2,
+        width: (screenWidth - 6) / 2,
+        marginHorizontal: 'auto',
         aspectRatio: 1,
         padding: 8,
     },

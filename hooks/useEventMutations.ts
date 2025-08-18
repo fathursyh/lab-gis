@@ -23,7 +23,9 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
             Toast.error("Terjadi kesalahan!");
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["bootcamps", ""] });
+            queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard"] });
+
         },
     });
 
@@ -38,7 +40,8 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
             console.log(_err)
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["bootcamps", ""] });
+            queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
     });
 
@@ -75,7 +78,8 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
             Toast.error("Terjadi kesalahan!");
         },
         onSettled: () => {
-            search !== "" && queryClient.invalidateQueries({ queryKey: ["bootcamps", ""] });
+            search !== "" && queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
     });
 

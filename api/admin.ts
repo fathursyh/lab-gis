@@ -50,3 +50,8 @@ export async function deleteEvent(token: string, id: string) {
         timeoutErrorMessage: "Gagal menghapus event.",
     });
 }
+
+export async function fetchDashboardData(token: string) {
+    const res = await axios.get(`${pc}/api/admin-only/dashboard`, { headers: { Authorization: `Bearer ${token}` }, timeout: 5000, timeoutErrorMessage: "Gagal fetch dashboard." });
+    return res.data;
+}
