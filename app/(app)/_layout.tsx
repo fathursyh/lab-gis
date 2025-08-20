@@ -26,7 +26,6 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="all-bootcamps"
                 options={{
-                    tabBarBadge: 3,
                     title: "Bootcamps",
                     headerShown: true,
                     tabBarIcon: ({ color }) => <MaterialIcons size={28} name="event" color={color} />,

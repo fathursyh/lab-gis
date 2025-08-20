@@ -11,13 +11,13 @@ import "dayjs/locale/id";
 import rupiahFormat from "../../../utils/formatter";
 import CustomButton from "../../../components/UI/CustomButton";
 import { host } from "../../../secrets";
+import { defaultImage } from "../../../utils/helpers";
 dayjs.locale("id");
 
-const defaultImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 export default function DetailBootcamp() {
     const { id } = useLocalSearchParams();
-    const { token } = useAuth();
+    const { token, isAdmin } = useAuth();
     const { setOptions } = useNavigation();
 
     const { data, error, isFetching } = useQuery<BootcampType>({
@@ -65,12 +65,15 @@ export default function DetailBootcamp() {
                 <Image src={data?.banner ? `${host}${data?.banner}`: defaultImage} style={styles.banner} resizeMode="cover" />
             </View>
             <View style={styles.body}>
+                {
+                    !isAdmin ?
                 <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
                     {
                         data?.registrations.length > 0 ? 
                         'Lihat Pembayaran' : 'Daftar Bootcamp'
                     }
-                </CustomButton>
+                </CustomButton> : undefined
+                }
                 <ScrollView contentContainerStyle={{ gap: 4 }}>
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />
                     <BootcampDetailCard title="Tentang Bootcamp" body={data?.description} />

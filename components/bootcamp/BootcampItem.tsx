@@ -7,8 +7,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 dayjs.locale("id");
 import { useMemo } from "react";
-
-const defaultImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+import { defaultImage } from "../../utils/helpers";
 
 export default function BootcampItem({ title, startDate, mentor, banner, price }: BootcampType) {
     const formattedDate = useMemo(() => {
