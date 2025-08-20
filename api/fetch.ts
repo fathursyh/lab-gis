@@ -3,6 +3,15 @@ import { host } from "../secrets";
 
 const pc = host ?? "http://localhost:3000";
 
+export async function fetchFiveBanners(token: string) {
+      const res = await axios.get(`${pc}/api/event/five-banners`, {
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 5000,
+        timeoutErrorMessage: "Gagal fetch member.",
+    });
+    return res.data;
+}
+
 export async function fetchMembers(token: string, pageParam: any, search: string) {
     const res = await axios.get(`${pc}/api/user/all-users`, {
         headers: { Authorization: `Bearer ${token}` },

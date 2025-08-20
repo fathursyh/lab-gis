@@ -4,6 +4,10 @@ import { colors } from "../../constants/colors";
 import GridContainer from "../../components/UI/containers/GridContainer";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { GridItemType } from "../../types/Types";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "../../stores/useAuth";
+import { fetchFiveBanners } from "../../api/fetch";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 const menuGrid: GridItemType[] = [
     { title: "All Bootcamps", link: "/all-bootcamps", icon: "event" },
@@ -12,19 +16,22 @@ const menuGrid: GridItemType[] = [
     { title: "Scan QR", link: "/qr-scanner", icon: "qr-code" },
 ];
 
-const data = [
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
-
 export default function HomeTab() {
+    const { token } = useAuth();
+    const { data, isFetching } = useQuery({
+        queryKey: ["home"],
+        queryFn: () => fetchFiveBanners(token!),
+        staleTime: 1000 * 60 * 10,
+        gcTime: 1000 * 60 * 10,
+    });
     return (
         <ScrollView style={styles.rootContainer} bounces={false} alwaysBounceVertical={false}>
             <View style={styles.headerContainer}>
-                <View style={{ position: "absolute", bottom: -40 }}>
-                    <CustomCarousel data={data} autoplay />
-                </View>
+                {!isFetching && (
+                    <Animated.View entering={FadeInUp.duration(300)} style={{ position: "absolute", bottom: -40 }}>
+                        <CustomCarousel data={data?.map((item: any) => item.banner)} autoplay />
+                    </Animated.View>
+                )}
             </View>
             <View style={{ flex: 1 }}>
                 <GridContainer
