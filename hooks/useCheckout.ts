@@ -24,18 +24,17 @@ export function useCheckout() {
            queryFn: () => getRegistrationData(token!, event.id!),
            refetchOnWindowFocus: true,
        });
-   
        useEffect(() => {
            if (registration) {
                setShowLink({
                    container: true,
-                   link: registration?.Payment.paymentLink,
+                   link: registration?.payment.paymentLink,
                });
            }
        }, [registration]);
    
        const isPaid = useMemo(() => {
-           return registration?.Payment.payments === "PAID";
+           return registration?.payment?.payments === "PAID";
        }, [registration]);
    
        async function generateLink() {

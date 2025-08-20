@@ -1,5 +1,5 @@
 import { Controller, RegisterOptions } from "react-hook-form";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Keyboard, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../constants/colors";
@@ -55,7 +55,10 @@ export default function CustomDatePicker({ control, selectedDate, name, errorMes
                     control={control}
                     name={name}
                     render={() => (
-                        <View style={styles.inputContainer} onTouchEnd={() => setShowDate(true)}>
+                        <View style={styles.inputContainer} onTouchEnd={() => {
+                            Keyboard.dismiss();
+                            setShowDate(true);
+                        }}>
                             <Text style={[styles.input, { color: !selectedDate ? "#616161ff" : colors.dark }]}>{formattedDate ?? "Tekan untuk pilih tanggal"}</Text>
                             <Pressable android_ripple={{ color: colors.background }} style={styles.showButton}>
                                 <MaterialIcons name="calendar-month" size={18} color={colors.accent} />

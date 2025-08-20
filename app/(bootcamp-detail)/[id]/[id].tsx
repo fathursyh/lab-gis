@@ -26,8 +26,14 @@ export default function DetailBootcamp() {
         refetchOnWindowFocus: true,
     });
 
-    const formattedDate = useMemo(() => {
+    const startDate = useMemo(() => {
         return dayjs(data?.startDate).format("DD MMMM YYYY");
+    }, [data]);
+    const endDate = useMemo(() => {
+        return dayjs(data?.endDate).format("DD MMMM YYYY");
+    }, [data]);
+    const registerDate = useMemo(() => {
+        return dayjs(data?.registerDate).format("DD MMMM YYYY");
     }, [data]);
 
     const price = useMemo(() => {
@@ -43,7 +49,6 @@ export default function DetailBootcamp() {
             });
         }
     }, [data]);
-
     if (isFetching) {
         return (
             <View style={styles.basicContainer}>
@@ -51,7 +56,6 @@ export default function DetailBootcamp() {
             </View>
         );
     }
-
     if (error) {
         return (
             <View style={styles.basicContainer}>
@@ -67,7 +71,7 @@ export default function DetailBootcamp() {
             <View style={styles.body}>
                 {
                     !isAdmin ?
-                <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
+                <CustomButton disabled={data?.endRegisterDate} isDisabled={data?.endRegisterDate} customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
                     {
                         data?.registrations.length > 0 ? 
                         'Lihat Pembayaran' : 'Daftar Bootcamp'
@@ -78,11 +82,16 @@ export default function DetailBootcamp() {
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />
                     <BootcampDetailCard title="Tentang Bootcamp" body={data?.description} />
                     <BootcampDetailCard title="Mentor" body={data?.mentor} />
+                    <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, 'day')} hari )`} />
                     <View style={styles.bodyGrid}>
-                        <BootcampDetailCard title="Tanggal Event" body={formattedDate} extraStyle={{ flex: 3 }} />
+                        <BootcampDetailCard title="Tanggal Event" body={startDate} extraStyle={{ flex: 1 }} />
+                        <BootcampDetailCard title="Tanggal Selesai" body={endDate} extraStyle={{ flex: 1 }} />
+                    </View>
+                    <View style={styles.bodyGrid}>
+                        <BootcampDetailCard title="Lokasi Offline" body={data?.location} extraStyle={{ flex: 3 }} />
                         <BootcampDetailCard title="Quota" body={data?.quota} extraStyle={{ flex: 2 }} />
                     </View>
-                    <BootcampDetailCard title="Lokasi" body={data?.location} />
+                    <BootcampDetailCard title="Link Online" body={data?.onlineLocation} />
                 </ScrollView>
             </View>
         </View>

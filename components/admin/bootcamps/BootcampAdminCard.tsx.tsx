@@ -26,6 +26,9 @@ export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
     const endDate = useMemo(() => {
         return dayjs(item.endDate).format("DD MMMM YY");
     }, [item.endDate]);
+    const registerDate = useMemo(() => {
+        return dayjs(item.registerDate).format("DD MMMM YY");
+    }, [item.registerDate]);
 
     async function deleteEvent(id: string, title: string) {
         const confirmation = await confirm("Hapus Bootcamp?", `Anda akan menghapus ${title}`, "Hapus", "destructive");
@@ -52,11 +55,18 @@ export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
                 </View>
             </View>
 
+            <View style={styles.row}>
+                <Text style={styles.label}>Registration:</Text>
+                <Text style={styles.value} numberOfLines={1}>
+                    {registerDate}
+                </Text>
+            </View>
+
             {/* Dates */}
             <View style={styles.row}>
-                <Text style={styles.label}>Start:</Text>
+                <Text style={[styles.label, {color: colors.info}]}>Start:</Text>
                 <Text style={styles.value}>{startDate}</Text>
-                <Text style={styles.label}>End:</Text>
+                <Text style={[styles.label, {color: colors.error}]}>End:</Text>
                 <Text style={styles.value}>{endDate}</Text>
             </View>
 
@@ -71,6 +81,12 @@ export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
                 <Text style={styles.label}>Location:</Text>
                 <Text style={styles.value} numberOfLines={1}>
                     {item.location}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>Online Link:</Text>
+                <Text style={styles.value} numberOfLines={1}>
+                    {item.onlineLocation}
                 </Text>
             </View>
 
