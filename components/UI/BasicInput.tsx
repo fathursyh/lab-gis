@@ -12,13 +12,14 @@ type InputProps = {
     password?: boolean;
     containerStyle?: ViewStyle;
     extraStyle?: TextStyle;
+    opsional?: boolean;
     errorMessage?: string | null;
     manual?: boolean;
     manualValue?: (value: any) => any;
     customOnChange?: (text: any) => any
 };
 
-export default function BasicInput({ control, name, rules, label, extraStyle, containerStyle, password = false, errorMessage, manual = false, manualValue, customOnChange, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
+export default function BasicInput({ control, name, rules, label, extraStyle, opsional = false, containerStyle, password = false, errorMessage, manual = false, manualValue, customOnChange, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
     const [showPassword, setShowPassword] = useState(false);
 
     const secureText = useMemo(() => {
@@ -33,7 +34,12 @@ export default function BasicInput({ control, name, rules, label, extraStyle, co
     return (
         <Controller control={control} name={name} render={({field: {value, onChange, onBlur, ref}}) => (
             <View style={styles.container}>
-                <Text style={styles.label}>{label}</Text>
+                <Text style={styles.label}>
+                    {label}
+                    {
+                        opsional && <Text style={{ fontSize: 10, color: colors.info }}> (opsional)</Text>
+                    }
+                </Text>
                 <View style={[styles.inputContainer, errorMessage && { borderColor: colors.error }, containerStyle]}>
                     <TextInput ref={ref} style={[styles.input, extraStyle]} {...Attr} secureTextEntry={secureText} maxLength={100} autoCapitalize="none" value={!manual ? value : manualValue!(value).toString()} onChangeText={!manual? onChange : (text) => {
                         const raw = customOnChange!(text);

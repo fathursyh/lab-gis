@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     headerContent: {
         flex: 1,
         backgroundColor: colors.accent,
+        justifyContent: 'center',
         borderRadius: 8,
         padding: 14,
         elevation: 4,

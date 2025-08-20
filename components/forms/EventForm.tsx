@@ -17,7 +17,9 @@ type EventInput = {
     description: string;
     mentor: string;
     quota: number | string;
+    onlineLocation: string;
     location: string;
+    registerDate: string;
     startDate: string;
     endDate: string;
     banner: any;
@@ -32,10 +34,13 @@ export default function EventForm({editData} : ModalProps) {
         watch,
         handleSubmit,
         setFocus,
+        setError,
         formState: { errors, isSubmitting },
     } = useForm<EventInput>({ mode: "onSubmit", reValidateMode: "onBlur", defaultValues: { 
         title: editData?.title, description: editData?.description, mentor: editData?.mentor,
+        onlineLocation: editData?.onlineLocation,
         location: editData?.location, quota: editData?.quota ? `${editData?.quota}` : undefined, price: editData?.price,
+        registerDate: editData?.registerDate?.toLocaleString(),
         startDate: editData?.startDate?.toLocaleString(), endDate: editData?.endDate?.toLocaleString(),
         banner: editData?.banner ? {uri: `${host}${editData.banner}`, name: '', type: 'image/jpeg'} : undefined
      } });
@@ -43,6 +48,7 @@ export default function EventForm({editData} : ModalProps) {
     const { addMutation, updateMutation } = useEventMutations({});
 
     const title = editData ? 'Update' : 'Tambah';
+    const registerDate = watch("registerDate");
     const startDate = watch("startDate");
     const endDate = watch("endDate");
 
@@ -52,8 +58,23 @@ export default function EventForm({editData} : ModalProps) {
 
     const onSubmit: SubmitHandler<EventInput> = async (data) => {
         Keyboard.dismiss();
+        if (!data.location && !data.onlineLocation) {
+            setError('onlineLocation', {
+                type: 'required',
+                message: 'Salah satu jenis lokasi wajib terisi.'
+            })
+            setError('location', {
+                type: 'required',
+                message: 'Salah satu jenis lokasi wajib terisi.'
+            });
+            return;
+        }
+        if (!data.location) data.location = '-';
+        if (!data.onlineLocation) data.onlineLocation = '-';
+     
         if (editData) {
-            updateMutation.mutate({data, id: editData.id})
+            const deleteBanner = data.banner === '';
+            updateMutation.mutate({id: editData.id, data: {...data, deleteBanner}})
         } else {
             addMutation.mutate(data);
         }
@@ -109,19 +130,30 @@ export default function EventForm({editData} : ModalProps) {
                 }}
             />
             <BasicInput
-                label="Lokasi Bootcamp"
+                opsional
+                label="Lokasi Bootcamp Offline"
                 placeholder="Masukan nama lokasi"
                 id="location"
                 inputMode="text"
                 control={control}
                 name="location"
                 errorMessage={errors.location?.message}
+                onSubmitEditing={() => setFocus("onlineLocation")}
+                submitBehavior="submit"
+                returnKeyType="next"
+            />
+            <BasicInput
+                opsional
+                label="Lokasi Bootcamp Online"
+                placeholder="Masukan nama lokasi"
+                id="onlineLocation"
+                inputMode="text"
+                control={control}
+                name="onlineLocation"
+                errorMessage={errors.onlineLocation?.message}
                 onSubmitEditing={() => setFocus("quota")}
                 submitBehavior="submit"
                 returnKeyType="next"
-                rules={{
-                    required: "Lokasi bootcamp tidak boleh kosong.",
-                }}
             />
             <BasicInput
                 label="Kuota Bootcamp"
@@ -164,12 +196,27 @@ export default function EventForm({editData} : ModalProps) {
             />
             <CustomDatePicker
                 control={control}
+                selectedDate={registerDate}
+                name="registerDate"
+                label="Tanggal Pendaftaran"
+                errorMessage={errors.registerDate?.message}
+                rules={{
+                    required: "Tanggal pendaftaran tidak boleh kosong.",
+                }}
+            />
+            <CustomDatePicker
+                control={control}
                 selectedDate={startDate}
                 name="startDate"
                 label="Tanggal Mulai"
                 errorMessage={errors.startDate?.message}
                 rules={{
                     required: "Tanggal mulai tidak boleh kosong.",
+                    validate: {
+                        checkPendaftaran: (value) => {
+                            return dayjs(value).diff(registerDate) > 0 || 'Tanggal mulai minimal sehari di depan tanggal pendaftaran.'
+                        }
+                    }
                 }}
             />
             <CustomDatePicker
@@ -182,13 +229,13 @@ export default function EventForm({editData} : ModalProps) {
                     required: "Tanggal selesai tidak boleh kosong.",
                     validate: {
                         checkMulai: (value) => {
-                            return dayjs(value).diff(startDate) >= 0 || "Tanggal selesai tidak boleh di belakang tanggal mulai";
+                            return dayjs(value).diff(startDate) >= 0 || "Tanggal selesai tidak boleh di belakang tanggal mulai.";
                         },
                     },
                 }}
             />
             <View>
-                <Text style={[styles.label, { marginTop: 8 }]}>Banner</Text>
+                <Text style={[styles.label, { marginTop: 8 }]}>Banner <Text style={{ fontSize: 10, color: colors.info }}>(opsional)</Text></Text>
                 <CustomImagePicker control={control} name="banner" />
             </View>
             <CustomButton disabled={isSubmitting} type="accent" customStyle={{ marginTop: 24, paddingVertical: 14 }} onTouchEnd={handleSubmit(onSubmit)}>

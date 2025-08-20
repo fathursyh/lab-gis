@@ -35,9 +35,9 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
             Toast.success("Data berhasil diupdate!");
             dismiss(1);
         },
-        onError: (_err, _id, _) => {
+        onError: (_err: any, _id, _) => {
             Toast.error("Terjadi kesalahan!");
-            console.log(_err)
+            console.log(_err?.response.message)
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["bootcamps"] });

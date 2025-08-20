@@ -9,14 +9,16 @@ type ButtonProps = {
     size?: 'sm' | 'md' | 'lg',
     fullWidth?: boolean,
     customStyle?: ViewStyle,
-    icon?: MaterialIconName
+    icon?: MaterialIconName,
+    isDisabled?: boolean,
 }
 
-export default function CustomButton({type = 'primary', size = 'md', fullWidth = false, icon, children, customStyle, ...Attr} : PropsWithChildren<PressableProps> & ButtonProps) {
+export default function CustomButton({type = 'primary', size = 'md', isDisabled = false, fullWidth = false, icon, children, customStyle, ...Attr} : PropsWithChildren<PressableProps> & ButtonProps) {
     const getSize = useMemo(() => {
         return size === 'lg' ? {minWidth: 140, fontSize: 18} : size === 'sm' ? {minWidth: 80, fontSize: 14} : {minWidth: 100, fontSize: 16}; 
     }, [size]);
     const getType = useMemo(() => {
+        if (isDisabled) return {backgroundColor: 'gray'}
         return type === 'primary' ? {backgroundColor: colors.secondary500} : type === 'secondary' ? {backgroundColor: colors.primary500} : type === 'accent' ? {backgroundColor: colors.accent} : {backgroundColor: colors.error}
     }, [type]);
 

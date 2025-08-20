@@ -11,13 +11,13 @@ import "dayjs/locale/id";
 import rupiahFormat from "../../../utils/formatter";
 import CustomButton from "../../../components/UI/CustomButton";
 import { host } from "../../../secrets";
+import { defaultImage } from "../../../utils/helpers";
 dayjs.locale("id");
 
-const defaultImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 export default function DetailBootcamp() {
     const { id } = useLocalSearchParams();
-    const { token } = useAuth();
+    const { token, isAdmin } = useAuth();
     const { setOptions } = useNavigation();
 
     const { data, error, isFetching } = useQuery<BootcampType>({
@@ -26,8 +26,14 @@ export default function DetailBootcamp() {
         refetchOnWindowFocus: true,
     });
 
-    const formattedDate = useMemo(() => {
+    const startDate = useMemo(() => {
         return dayjs(data?.startDate).format("DD MMMM YYYY");
+    }, [data]);
+    const endDate = useMemo(() => {
+        return dayjs(data?.endDate).format("DD MMMM YYYY");
+    }, [data]);
+    const registerDate = useMemo(() => {
+        return dayjs(data?.registerDate).format("DD MMMM YYYY");
     }, [data]);
 
     const price = useMemo(() => {
@@ -43,7 +49,6 @@ export default function DetailBootcamp() {
             });
         }
     }, [data]);
-
     if (isFetching) {
         return (
             <View style={styles.basicContainer}>
@@ -51,7 +56,6 @@ export default function DetailBootcamp() {
             </View>
         );
     }
-
     if (error) {
         return (
             <View style={styles.basicContainer}>
@@ -65,21 +69,29 @@ export default function DetailBootcamp() {
                 <Image src={data?.banner ? `${host}${data?.banner}`: defaultImage} style={styles.banner} resizeMode="cover" />
             </View>
             <View style={styles.body}>
-                <CustomButton customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
+                {
+                    !isAdmin ?
+                <CustomButton disabled={data?.endRegisterDate} isDisabled={data?.endRegisterDate} customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
                     {
                         data?.registrations.length > 0 ? 
                         'Lihat Pembayaran' : 'Daftar Bootcamp'
                     }
-                </CustomButton>
+                </CustomButton> : undefined
+                }
                 <ScrollView contentContainerStyle={{ gap: 4 }}>
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />
                     <BootcampDetailCard title="Tentang Bootcamp" body={data?.description} />
                     <BootcampDetailCard title="Mentor" body={data?.mentor} />
+                    <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, 'day')} hari )`} />
                     <View style={styles.bodyGrid}>
-                        <BootcampDetailCard title="Tanggal Event" body={formattedDate} extraStyle={{ flex: 3 }} />
+                        <BootcampDetailCard title="Tanggal Event" body={startDate} extraStyle={{ flex: 1 }} />
+                        <BootcampDetailCard title="Tanggal Selesai" body={endDate} extraStyle={{ flex: 1 }} />
+                    </View>
+                    <View style={styles.bodyGrid}>
+                        <BootcampDetailCard title="Lokasi Offline" body={data?.location} extraStyle={{ flex: 3 }} />
                         <BootcampDetailCard title="Quota" body={data?.quota} extraStyle={{ flex: 2 }} />
                     </View>
-                    <BootcampDetailCard title="Lokasi" body={data?.location} />
+                    <BootcampDetailCard title="Link Online" body={data?.onlineLocation} />
                 </ScrollView>
             </View>
         </View>

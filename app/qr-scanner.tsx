@@ -59,8 +59,8 @@ export default function QrScanner() {
                 }}
                 onBarcodeScanned={onBarcodeScanned}
             />
-            <Pressable android_ripple={{ color: colors.background, radius: 30 }} style={styles.flashlight} onPress={toggleFlash}>
-                <MaterialIcons name="flashlight-on" size={40} color={colors.light} />
+            <Pressable android_ripple={{ color: colors.background, radius: 30 }} style={styles.flashlight} onTouchStart={toggleFlash}>
+                <MaterialIcons name={flash ? 'flashlight-off' : 'flashlight-on'} size={40} color={colors.light} />
             </Pressable>
         </View>
     );
