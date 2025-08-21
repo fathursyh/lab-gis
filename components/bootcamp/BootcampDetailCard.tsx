@@ -24,7 +24,7 @@ export default function BootcampDetailCard({ title, body, extraStyle }: CardProp
             {
                 isLink &&
                 <TouchableOpacity style={{ padding: 2}} onPressIn={() => Linking.openURL(body)}>
-                    <MaterialIcons name="link" size={20} />
+                    <MaterialIcons name="open-in-new" size={20} />
                 </TouchableOpacity>
             }
         </View>

@@ -39,12 +39,10 @@ export default function DashboardBody({ token }: { token: string }) {
 
 const styles = StyleSheet.create({
     dashboardContainer: {
-        flex: 3,
         flexWrap: "wrap",
         flexDirection: "row",
     },
     basicContainer: {
-        flex: 3,
         justifyContent: "center",
         alignItems: "center",
     },

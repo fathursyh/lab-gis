@@ -16,6 +16,14 @@ export async function fetchAllBootcamp(token: string, pageParam: any, search: st
     return res.data;
 }
 
+export async function fetchActiveBootcamps(token: string) {
+       const res = await axios.get(`${pc}/api/admin-only/active-events`, {
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 5000,
+    });
+    return res.data;
+}
+
 export async function postEvent(token: string, data: BootcampType) {
     const formData = new FormData();
 

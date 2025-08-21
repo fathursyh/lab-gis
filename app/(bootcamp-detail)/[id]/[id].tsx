@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     body: {
-        flex: 3,
+        flex: 4,
         padding: 12,
         paddingBottom: "12%",
     },

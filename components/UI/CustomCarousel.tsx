@@ -2,6 +2,7 @@ import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Carousel, {
 } from "react-native-reanimated-carousel";
 import { colors } from "../../constants/colors";
+import { host } from "../../secrets";
 
 const width = Dimensions.get("window").width;
 
@@ -24,7 +25,7 @@ function CustomCarousel({data, autoplay = false} : {data: string[], autoplay?: b
         <View
           style={styles.imageContainer}
         >
-          <Image style={styles.image} src={item ?? "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} resizeMode="cover" />
+          <Image style={styles.image} src={item ? `${host}${item}` : "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} resizeMode="cover" />
         </View>
       )}
     />

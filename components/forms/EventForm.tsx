@@ -7,10 +7,12 @@ import CustomDatePicker from "../UI/CustomDatePicker";
 import dayjs from "dayjs";
 import CustomImagePicker from "../UI/CustomImagePicker";
 import { useEventMutations } from "../../hooks/useEventMutations";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import rupiahFormat from "../../utils/formatter";
 import { BootcampType } from "../../types/BootcampType";
 import { host } from "../../secrets";
+import { useHandleDirtyForm } from "../../hooks/useSearch";
+import { dismiss } from "expo-router/build/global-state/routing";
 
 type EventInput = {
     title: string;
@@ -26,28 +28,43 @@ type EventInput = {
     price: number;
 };
 
-type ModalProps = {editData?: BootcampType}
+type ModalProps = { editData?: BootcampType };
 
-export default function EventForm({editData} : ModalProps) {
+export default function EventForm({ editData }: ModalProps) {
     const {
         control,
         watch,
         handleSubmit,
         setFocus,
         setError,
-        formState: { errors, isSubmitting },
-    } = useForm<EventInput>({ mode: "onSubmit", reValidateMode: "onBlur", defaultValues: { 
-        title: editData?.title, description: editData?.description, mentor: editData?.mentor,
-        onlineLocation: editData?.onlineLocation,
-        location: editData?.location, quota: editData?.quota ? `${editData?.quota}` : undefined, price: editData?.price,
-        registerDate: editData?.registerDate?.toLocaleString(),
-        startDate: editData?.startDate?.toLocaleString(), endDate: editData?.endDate?.toLocaleString(),
-        banner: editData?.banner ? {uri: `${host}${editData.banner}`, name: '', type: 'image/jpeg'} : undefined
-     } });
+        formState: { errors, isSubmitting, isDirty, isValid, isSubmitSuccessful },
+    } = useForm<EventInput>({
+        mode: "onSubmit",
+        reValidateMode: "onBlur",
+        defaultValues: {
+            title: editData?.title,
+            description: editData?.description,
+            mentor: editData?.mentor,
+            onlineLocation: editData?.onlineLocation,
+            location: editData?.location,
+            quota: editData?.quota ? `${editData?.quota}` : undefined,
+            price: editData?.price,
+            registerDate: editData?.registerDate?.toLocaleString(),
+            startDate: editData?.startDate?.toLocaleString(),
+            endDate: editData?.endDate?.toLocaleString(),
+            banner: editData?.banner ? { uri: `${host}${editData.banner}`, name: "", type: "image/jpeg" } : undefined,
+        },
+    });
+
+    if (!editData) useHandleDirtyForm(isDirty, isValid, isSubmitSuccessful);
+    
+    useEffect(() => {
+        if (isSubmitSuccessful) dismiss();
+    }, [isSubmitSuccessful]);
 
     const { addMutation, updateMutation } = useEventMutations({});
 
-    const title = editData ? 'Update' : 'Tambah';
+    const title = editData ? "Update" : "Tambah";
     const registerDate = watch("registerDate");
     const startDate = watch("startDate");
     const endDate = watch("endDate");
@@ -59,24 +76,28 @@ export default function EventForm({editData} : ModalProps) {
     const onSubmit: SubmitHandler<EventInput> = async (data) => {
         Keyboard.dismiss();
         if (!data.location && !data.onlineLocation) {
-            setError('onlineLocation', {
-                type: 'required',
-                message: 'Salah satu jenis lokasi wajib terisi.'
-            })
-            setError('location', {
-                type: 'required',
-                message: 'Salah satu jenis lokasi wajib terisi.'
+            setError("onlineLocation", {
+                type: "required",
+                message: "Salah satu jenis lokasi wajib terisi.",
+            });
+            setError("location", {
+                type: "required",
+                message: "Salah satu jenis lokasi wajib terisi.",
             });
             return;
         }
-        if (!data.location) data.location = '-';
-        if (!data.onlineLocation) data.onlineLocation = '-';
-     
-        if (editData) {
-            const deleteBanner = data.banner === '';
-            updateMutation.mutate({id: editData.id, data: {...data, deleteBanner}})
-        } else {
-            addMutation.mutate(data);
+        if (!data.location) data.location = "-";
+        if (!data.onlineLocation) data.onlineLocation = "-";
+
+        try {
+            if (editData) {
+                const deleteBanner = data.banner === "";
+                await updateMutation.mutateAsync({ id: editData.id, data: { ...data, deleteBanner } });
+            } else {
+                await addMutation.mutateAsync(data);
+            }
+        } catch (err) {
+            throw new Error();
         }
     };
     return (
@@ -214,9 +235,9 @@ export default function EventForm({editData} : ModalProps) {
                     required: "Tanggal mulai tidak boleh kosong.",
                     validate: {
                         checkPendaftaran: (value) => {
-                            return dayjs(value).diff(registerDate) > 0 || 'Tanggal mulai minimal sehari di depan tanggal pendaftaran.'
-                        }
-                    }
+                            return dayjs(value).diff(registerDate) > 0 || "Tanggal mulai minimal sehari di depan tanggal pendaftaran.";
+                        },
+                    },
                 }}
             />
             <CustomDatePicker
@@ -235,7 +256,9 @@ export default function EventForm({editData} : ModalProps) {
                 }}
             />
             <View>
-                <Text style={[styles.label, { marginTop: 8 }]}>Banner <Text style={{ fontSize: 10, color: colors.info }}>(opsional)</Text></Text>
+                <Text style={[styles.label, { marginTop: 8 }]}>
+                    Banner <Text style={{ fontSize: 10, color: colors.info }}>(opsional)</Text>
+                </Text>
                 <CustomImagePicker control={control} name="banner" />
             </View>
             <CustomButton disabled={isSubmitting} type="accent" customStyle={{ marginTop: 24, paddingVertical: 14 }} onTouchEnd={handleSubmit(onSubmit)}>

@@ -66,7 +66,7 @@ function StackLayout() {
                         <Stack.Screen
                             name="event-modal"
                             options={{
-                                title: "Event Modal",
+                                title: "Event Form",
                                 presentation: "modal",
                                 animation: "slide_from_bottom",
                                 headerShown: true,

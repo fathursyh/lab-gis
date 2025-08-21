@@ -1,4 +1,4 @@
-import { PropsWithChildren, RefAttributes, useCallback, useMemo, useState } from "react";
+import { memo, PropsWithChildren, RefAttributes, useCallback, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native";
 import { colors } from "../../constants/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -19,7 +19,7 @@ type InputProps = {
     customOnChange?: (text: any) => any
 };
 
-export default function BasicInput({ control, name, rules, label, extraStyle, opsional = false, containerStyle, password = false, errorMessage, manual = false, manualValue, customOnChange, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
+function BasicInput({ control, name, rules, label, extraStyle, opsional = false, containerStyle, password = false, errorMessage, manual = false, manualValue, customOnChange, ...Attr }: PropsWithChildren<TextInputProps> & InputProps & RefAttributes<TextInput>) {
     const [showPassword, setShowPassword] = useState(false);
 
     const secureText = useMemo(() => {
@@ -58,6 +58,8 @@ export default function BasicInput({ control, name, rules, label, extraStyle, op
         />
     );
 }
+
+export default memo(BasicInput);
 
 const styles = StyleSheet.create({
     container: {
