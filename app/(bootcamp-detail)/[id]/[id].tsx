@@ -11,9 +11,9 @@ import "dayjs/locale/id";
 import rupiahFormat from "../../../utils/formatter";
 import CustomButton from "../../../components/UI/CustomButton";
 import { host } from "../../../secrets";
-import { defaultImage } from "../../../utils/helpers";
+import { confirm, defaultImage } from "../../../utils/helpers";
+import { generateTodayQR } from "../../../api/admin";
 dayjs.locale("id");
-
 
 export default function DetailBootcamp() {
     const { id } = useLocalSearchParams();
@@ -39,6 +39,13 @@ export default function DetailBootcamp() {
     const price = useMemo(() => {
         return rupiahFormat(data?.price ?? 0);
     }, [data]);
+
+    async function generateQR() {
+        if (!isAdmin) return;
+        const confirmation = await confirm("Generate QR", `Buat dan share kode QR untuk hari ini?`, "OK", "default");
+        if (!confirmation) return;
+        await generateTodayQR(token!, data?.id!);
+    }
 
     useLayoutEffect(() => {
         if (data) {
@@ -66,23 +73,37 @@ export default function DetailBootcamp() {
     return (
         <View style={styles.rootContainer}>
             <View style={styles.header}>
-                <Image src={data?.banner ? `${host}${data?.banner}`: defaultImage} style={styles.banner} resizeMode="cover" />
+                <Image src={data?.banner ? `${host}${data?.banner}` : defaultImage} style={styles.banner} resizeMode="cover" />
             </View>
             <View style={styles.body}>
-                {
-                    !isAdmin ?
-                <CustomButton disabled={data?.endRegisterDate} isDisabled={data?.endRegisterDate} customStyle={{ paddingVertical: 16, marginBottom: 6, }} type="accent" size="lg" onPress={() => router.navigate({pathname: `/(bootcamp-detail)/${id}/checkout`, params: {data: JSON.stringify(data)}})}>
-                    {
-                        data?.registrations.length > 0 ? 
-                        'Lihat Pembayaran' : 'Daftar Bootcamp'
-                    }
-                </CustomButton> : undefined
-                }
+                {!isAdmin ? (
+                    <CustomButton
+                        disabled={data?.endRegisterDate}
+                        isDisabled={data?.endRegisterDate}
+                        customStyle={{ paddingVertical: 16, marginBottom: 6 }}
+                        type="accent"
+                        size="lg"
+                        onPress={() => router.navigate({ pathname: `/(bootcamp-detail)/${id}/checkout`, params: { data: JSON.stringify(data) } })}
+                    >
+                        {data?.registrations.length > 0 ? "Lihat Pembayaran" : "Daftar Bootcamp"}
+                    </CustomButton>
+                ) : (
+                    <CustomButton
+                        disabled={!data?.endRegisterDate}
+                        isDisabled={!data?.endRegisterDate}
+                        customStyle={{ paddingVertical: 16, marginBottom: 6 }}
+                        type="accent"
+                        size="lg"
+                        onPress={generateQR}
+                    >
+                        Generate QR
+                    </CustomButton>
+                )}
                 <ScrollView contentContainerStyle={{ gap: 4 }}>
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />
                     <BootcampDetailCard title="Tentang Bootcamp" body={data?.description} />
                     <BootcampDetailCard title="Mentor" body={data?.mentor} />
-                    <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, 'day')} hari )`} />
+                    <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, "day")} hari )`} />
                     <View style={styles.bodyGrid}>
                         <BootcampDetailCard title="Tanggal Event" body={startDate} extraStyle={{ flex: 1 }} />
                         <BootcampDetailCard title="Tanggal Selesai" body={endDate} extraStyle={{ flex: 1 }} />
@@ -111,13 +132,13 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
     },
     banner: {
-        height: '100%',
-        width: '100%'
+        height: "100%",
+        width: "100%",
     },
     body: {
         flex: 3,
         padding: 12,
-        paddingBottom: '12%',
+        paddingBottom: "12%",
     },
     bodyGrid: {
         flexDirection: "row",
