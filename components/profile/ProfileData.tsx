@@ -1,15 +1,36 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/colors";
 import ProfileDataCard from "./ProfileDataCard";
+import { useQuery } from "@tanstack/react-query";
+import { getUserCertificates } from "../../api/fetch";
 
-export default function ProfileData() {
+export default function ProfileData({token}: any) {
+      const {data, isFetching, isError} = useQuery({
+        queryKey: [token],
+        queryFn: () => getUserCertificates(token!),
+        staleTime: 1000 * 60 * 5,
+    })
+    if (isFetching) return (
+        <View style={styles.basicContainer}>
+            <ActivityIndicator />
+        </View>
+    )
+    if (isError) return (
+        <View style={styles.basicContainer}>
+            <Text style={{ fontFamily: 'poppins' }}>Terjadi kesalahan.</Text>
+        </View>
+    )
     return (
         <View style={styles.container}>
             <Text style={styles.profileTitle}>Sertifikat Terbaru</Text>
             <View style={styles.profile}>
-                {Array.from({ length: 5 }, (_, i) => i + 1).map((item, i) => (
-                    <ProfileDataCard key={i} index={i + 1} />
-                ))}
+                {
+                    data?.data.length > 0 ?
+                    data?.data.map((item: any, index: number) => (
+                    <ProfileDataCard key={item.id} title={item.registration.event.title} date={item.createdAt} index={index + 1} />
+                )) :
+                    <Text style={{ fontFamily: 'poppins' }}>Belum ada sertifikat.</Text>
+                }
             </View>
         </View>
     );
@@ -18,6 +39,11 @@ export default function ProfileData() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    basicContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     profile: {
         flex: 1,

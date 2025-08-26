@@ -27,9 +27,9 @@ export default function HomeTab() {
     return (
         <ScrollView style={styles.rootContainer} bounces={false} alwaysBounceVertical={false}>
             <View style={styles.headerContainer}>
-                {!isFetching && (
+                {(!isFetching) && (
                     <Animated.View entering={FadeInUp.duration(300)} style={{ position: "absolute", bottom: -40 }}>
-                        <CustomCarousel data={data?.map((item: any) => item.banner)} autoplay />
+                        <CustomCarousel data={data} autoplay />
                     </Animated.View>
                 )}
             </View>

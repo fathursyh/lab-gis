@@ -6,7 +6,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ProfileData from "../../components/profile/ProfileData";
 
 export default function ProfileTab() {
-    const { user, logout, isAdmin } = useAuth();
+    const { user, logout, isAdmin, token } = useAuth();
     return (
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
@@ -21,7 +21,7 @@ export default function ProfileTab() {
             </View>
             <View style={styles.detailContainer}>
                 <View style={styles.detailContent}>
-                    <ProfileData />
+                    <ProfileData token={token!} />
                     <CustomButton onPress={logout} fullWidth type="danger" customStyle={{ paddingVertical: 14 }} size="lg">
                         Logout
                     </CustomButton>

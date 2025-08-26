@@ -4,7 +4,7 @@ import { host } from "../secrets";
 const pc = host ?? "http://localhost:3000";
 
 export async function fetchFiveBanners(token: string) {
-      const res = await axios.get(`${pc}/api/event/five-banners`, {
+    const res = await axios.get(`${pc}/api/event/five-banners`, {
         headers: { Authorization: `Bearer ${token}` },
         timeout: 5000,
         timeoutErrorMessage: "Gagal fetch member.",
@@ -31,7 +31,7 @@ export async function fetchAllBootcampsTagged(token: string, pageParam: any, sea
         params: { page: pageParam, search: search },
     });
     if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
-    const eventData = res.data.data.map((item: any) => ({...item, price: item.registrations.length > 0 ? item.registrations[0].status : item.price}));
+    const eventData = res.data.data.map((item: any) => ({ ...item, price: item.registrations.length > 0 ? item.registrations[0].status : item.price }));
     return {
         data: eventData,
         pagination: res.data.pagination,
@@ -47,7 +47,7 @@ export async function fetchMyBootcamp(token: string, pageParam: any, search: str
         params: { page: pageParam, search: search },
     });
     if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
-    const eventData = res.data.data.map((item: any) => ({...item.event, price: item.status}));
+    const eventData = res.data.data.map((item: any) => ({ ...item.event, price: item.status }));
     return {
         data: eventData,
         pagination: res.data.pagination,
@@ -63,6 +63,12 @@ export async function fetchBootcampDetail(token: string, id: string) {
 
 export async function getRegistrationData(token: string, eventId: string) {
     const res = await axios.get(`${pc}/api/registration/getRegistration/${eventId}`, { headers: { Authorization: `Bearer ${token}` }, timeout: 5000, timeoutErrorMessage: "Gagal fetch registrasi." });
+    if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
+    return res.data;
+}
+
+export async function getUserCertificates(token: string) {
+    const res = await axios.get(`${pc}/api/user/user-certificates`, { headers: { Authorization: `Bearer ${token}` }, timeout: 5000, timeoutErrorMessage: "Gagal tersambung." });
     if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
     return res.data;
 }

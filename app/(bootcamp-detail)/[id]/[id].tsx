@@ -105,7 +105,7 @@ export default function DetailBootcamp() {
                     <BootcampDetailCard title="Mentor" body={data?.mentor} />
                     <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, "day")} hari )`} />
                     <View style={styles.bodyGrid}>
-                        <BootcampDetailCard title="Tanggal Event" body={startDate} extraStyle={{ flex: 1 }} />
+                        <BootcampDetailCard title="Tanggal Mulai" body={startDate} extraStyle={{ flex: 1 }} />
                         <BootcampDetailCard title="Tanggal Selesai" body={endDate} extraStyle={{ flex: 1 }} />
                     </View>
                     <View style={styles.bodyGrid}>
