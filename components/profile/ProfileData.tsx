@@ -27,7 +27,7 @@ export default function ProfileData({token}: any) {
                 {
                     data?.data.length > 0 ?
                     data?.data.map((item: any, index: number) => (
-                    <ProfileDataCard key={item.id} title={item.registration.event.title} date={item.createdAt} index={index + 1} />
+                    <ProfileDataCard key={item.id} id={item.id} title={item.registration.event.title} date={item.createdAt} index={index + 1} />
                 )) :
                     <Text style={{ fontFamily: 'poppins' }}>Belum ada sertifikat.</Text>
                 }

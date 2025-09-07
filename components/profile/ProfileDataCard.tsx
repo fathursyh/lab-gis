@@ -1,26 +1,31 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/colors";
 import { useMemo } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
+import { host } from "../../secrets";
 dayjs.locale("id");
 
 type CardProps = {
+    id?: string;
     title?: string,
     date?: string,
     index: number,
 }
-export default function ProfileDataCard({title, date, index} : CardProps) {
+export default function ProfileDataCard({id, title, date, index} : CardProps) {
     const formattedDate = useMemo(() => {
         return dayjs(date).format('MM/YY')
-    }, [date])
+    }, [date]);
+    function openCertificate() {
+        Linking.openURL(`${host}/certificate/${id}`);
+    }
     return (
-        <View style={styles.certificateCard}>
+        <Pressable onPress={openCertificate} style={styles.certificateCard}>
             <Text style={{ fontFamily: "poppins", maxWidth: "80%", color: colors.primary500 }} numberOfLines={1}>
                 {index}.  {title}
             </Text>
             <Text style={{ color: colors.accent }}>{ formattedDate }</Text>
-        </View>
+        </Pressable>
     );
 }
 
