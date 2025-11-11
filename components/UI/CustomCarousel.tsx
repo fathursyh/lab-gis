@@ -2,7 +2,7 @@ import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-nati
 import Carousel, {
 } from "react-native-reanimated-carousel";
 import { colors } from "../../constants/colors";
-import { host } from "../../secrets";
+import { host } from "../../host";
 import { Link } from "expo-router";
 
 const width = Dimensions.get("window").width;

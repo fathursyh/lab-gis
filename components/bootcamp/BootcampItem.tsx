@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { BootcampType } from "../../types/BootcampType";
-import { host } from "../../secrets";
+import { host } from "../../host";
 import rupiahFormat from "../../utils/formatter";
 import { colors } from "../../constants/colors";
 import dayjs from "dayjs";

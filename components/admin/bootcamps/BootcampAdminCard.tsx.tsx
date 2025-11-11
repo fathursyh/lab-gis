@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import { confirm, defaultImage } from "../../../utils/helpers";
 import { Link, useRouter } from "expo-router";
-import { host } from "../../../secrets";
+import { host } from "../../../host";
 dayjs.locale("id");
 
 type CardProps = {

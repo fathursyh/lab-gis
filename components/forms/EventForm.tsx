@@ -10,7 +10,7 @@ import { useEventMutations } from "../../hooks/useEventMutations";
 import { useCallback, useEffect } from "react";
 import rupiahFormat from "../../utils/formatter";
 import { BootcampType } from "../../types/BootcampType";
-import { host } from "../../secrets";
+import { host } from "../../host";
 import { useHandleDirtyForm } from "../../hooks/useSearch";
 import { dismiss } from "expo-router/build/global-state/routing";
 
@@ -57,7 +57,7 @@ export default function EventForm({ editData }: ModalProps) {
     });
 
     if (!editData) useHandleDirtyForm(isDirty, isValid, isSubmitSuccessful);
-    
+
     useEffect(() => {
         if (isSubmitSuccessful) dismiss();
     }, [isSubmitSuccessful]);

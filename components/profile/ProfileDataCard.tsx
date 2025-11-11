@@ -3,7 +3,7 @@ import { colors } from "../../constants/colors";
 import { useMemo } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/id";
-import { host } from "../../secrets";
+import { host } from "../../host";
 dayjs.locale("id");
 
 type CardProps = {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { host } from "../secrets";
+import { host } from "../host";
 
 const pc = host ?? "http://localhost:3000";
 

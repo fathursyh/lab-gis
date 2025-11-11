@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/id";
 import rupiahFormat from "../../../utils/formatter";
 import CustomButton from "../../../components/UI/CustomButton";
-import { host } from "../../../secrets";
+import { host } from "../../../host";
 import { confirm, defaultImage } from "../../../utils/helpers";
 import { generateTodayQR } from "../../../api/admin";
 dayjs.locale("id");

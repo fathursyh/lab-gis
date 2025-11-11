@@ -1,5 +1,5 @@
 import axios from "axios";
-import { host } from "../secrets";
+import { host } from "../host";
 import { BootcampType } from "../types/BootcampType";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
