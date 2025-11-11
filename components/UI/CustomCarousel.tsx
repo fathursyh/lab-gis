@@ -1,4 +1,4 @@
-import { Dimensions, Image, Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Carousel, {
 } from "react-native-reanimated-carousel";
 import { colors } from "../../constants/colors";
@@ -10,7 +10,7 @@ const width = Dimensions.get("window").width;
 function CustomCarousel({ data, autoplay = false }: { data: any[], autoplay?: boolean }) {
   return (
     <Carousel
-      data={data.map(item => item.banner)}
+      data={data}
       autoPlay={autoplay}
       autoPlayInterval={3000}
       scrollAnimationDuration={1400}
@@ -23,13 +23,16 @@ function CustomCarousel({ data, autoplay = false }: { data: any[], autoplay?: bo
         parallaxScrollingOffset: 50,
       }}
       renderItem={({ item, index }) => (
-        <Link href={`/(bootcamp-detail)/${data[index].id}`} asChild>
-          <Pressable
-            style={styles.imageContainer}
-          >
-            <Image style={styles.image} src={item ? `${host}${item}` : "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} resizeMode="cover" />
-          </Pressable>
-        </Link>
+        <>
+          <Link href={`/(bootcamp-detail)/${item.id}`} asChild>
+            <Pressable
+              style={styles.imageContainer}
+            >
+              <Image style={styles.image} src={item.banner ? `${host}${item.banner}` : "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} resizeMode="cover" />
+              <Text style={styles.title}>{item.title}</Text>
+            </Pressable>
+          </Link>
+        </>
       )}
     />
   );
@@ -37,6 +40,7 @@ function CustomCarousel({ data, autoplay = false }: { data: any[], autoplay?: bo
 
 const styles = StyleSheet.create({
   imageContainer: {
+    position: 'relative',
     flex: 1,
     justifyContent: "center",
     overflow: 'hidden',
@@ -49,7 +53,20 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%'
-  }
+  },
+  title: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
+    width: '100%',
+    textAlign: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    paddingVertical: 8,
+    color: colors.primary500,
+    fontSize: 16,
+    fontFamily: "poppins-bold",
+
+  },
 });
 
 export default CustomCarousel;

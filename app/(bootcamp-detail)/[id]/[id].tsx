@@ -40,6 +40,11 @@ export default function DetailBootcamp() {
         return rupiahFormat(data?.price ?? 0);
     }, [data]);
 
+    const status = useMemo(() => {
+        return data?.endRegisterDate ? 'Tutup'
+        : `${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, "day")} hari )`;
+    }, [data])
+
     async function generateQR() {
         if (!isAdmin) return;
         const confirmation = await confirm("Generate QR", `Buat dan share kode QR untuk hari ini?`, "OK", "default");
@@ -70,6 +75,7 @@ export default function DetailBootcamp() {
             </View>
         );
     }
+
     return (
         <View style={styles.rootContainer}>
             <View style={styles.header}>
@@ -103,7 +109,7 @@ export default function DetailBootcamp() {
                     <BootcampDetailCard title="Harga Bootcamp" body={price} />
                     <BootcampDetailCard title="Tentang Bootcamp" body={data?.description} />
                     <BootcampDetailCard title="Mentor" body={data?.mentor} />
-                    <BootcampDetailCard title="Pembukaan Registrasi" body={`${registerDate} ( ${dayjs(data?.startDate).diff(data?.registerDate, "day")} hari )`} />
+                    <BootcampDetailCard title="Pembukaan Registrasi" body={status} />
                     <View style={styles.bodyGrid}>
                         <BootcampDetailCard title="Tanggal Mulai" body={startDate} extraStyle={{ flex: 1 }} />
                         <BootcampDetailCard title="Tanggal Selesai" body={endDate} extraStyle={{ flex: 1 }} />

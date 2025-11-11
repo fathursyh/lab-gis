@@ -22,7 +22,6 @@ export default function QrScanner() {
     const [flash, setFlash] = useState<boolean>(false);
     const { dismiss } = useRouter();
     const qrData = useRef("");
-
     async function onBarcodeScanned(qr: any) {
         if (!isScanned) {
             setIsScanned(true);

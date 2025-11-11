@@ -30,13 +30,13 @@ export default function Members() {
                         onSubmitEditing={changeSearch}
                         placeholderTextColor={colors.placeholder}
                     />
-                    <TouchableOpacity style={styles.clearButton} onPress={() => {
+                    <TouchableOpacity style={styles.clearButton} onPressOut={() => {
                         inputRef.current?.clear(); setSearch(''); inputText.current = "";
                     }}>
                         <MaterialIcons name="close" size={18} color={colors.placeholder} />
                     </TouchableOpacity>
                 </View>
-                <CustomButton size="sm" onPress={changeSearch}>
+                <CustomButton size="sm" onPressOut={changeSearch}>
                     Cari
                 </CustomButton>
             </View>
