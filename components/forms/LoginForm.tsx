@@ -61,7 +61,6 @@ export default function LoginForm() {
                     password
                     id="password"
                     placeholder="Masukan password"
-                    inputMode="text"
                     control={control}
                     name="password"
                     errorMessage={errors.password?.message}

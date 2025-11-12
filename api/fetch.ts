@@ -72,3 +72,9 @@ export async function getUserCertificates(token: string) {
     if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
     return res.data;
 }
+
+export async function getCertificate(token: string, registrationId: string) {
+    const res = await axios.get(`${pc}/getCertificate/${registrationId}`, { headers: { Authorization: `Bearer ${token}` }, timeout: 5000, timeoutErrorMessage: "Gagal tersambung." });
+    if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
+    return res.data;
+}

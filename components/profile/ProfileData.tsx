@@ -6,9 +6,11 @@ import { getUserCertificates } from "../../api/fetch";
 
 export default function ProfileData({token}: any) {
       const {data, isFetching, isError} = useQuery({
-        queryKey: [token],
+        queryKey: [token, 'profile-certificates'],
         queryFn: () => getUserCertificates(token!),
-        staleTime: 1000 * 60 * 5,
+        staleTime: 1000 * 30,
+        gcTime: 1000 * 30
+
     })
     if (isFetching) return (
         <View style={styles.basicContainer}>
@@ -27,7 +29,7 @@ export default function ProfileData({token}: any) {
                 {
                     data?.data.length > 0 ?
                     data?.data.map((item: any, index: number) => (
-                    <ProfileDataCard key={item.id} id={item.id} title={item.registration.event.title} date={item.createdAt} index={index + 1} />
+                    <ProfileDataCard key={item.id} certificateNumber={item.certificateNumber} title={item.registration.event.title} date={item.createdAt} index={index + 1} />
                 )) :
                     <Text style={{ fontFamily: 'poppins' }}>Belum ada sertifikat.</Text>
                 }

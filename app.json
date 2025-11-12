@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "lab-gis",
+    "name": "Lab IGIS",
     "slug": "lab-gis",
     "scheme": "lab-gis",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/gis-logo.jpeg",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/gis-logo.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#7A73D1"
     },

@@ -7,17 +7,17 @@ import { host } from "../../host";
 dayjs.locale("id");
 
 type CardProps = {
-    id?: string;
+    certificateNumber?: string;
     title?: string,
     date?: string,
     index: number,
 }
-export default function ProfileDataCard({id, title, date, index} : CardProps) {
+export default function ProfileDataCard({title, date, index, certificateNumber} : CardProps) {
     const formattedDate = useMemo(() => {
         return dayjs(date).format('MM/YY')
     }, [date]);
     function openCertificate() {
-        Linking.openURL(`${host}/certificate/${id}`);
+        Linking.openURL(`${host}/certificate/${certificateNumber}`);
     }
     return (
         <Pressable onPress={openCertificate} style={styles.certificateCard}>

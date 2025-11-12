@@ -32,7 +32,7 @@ function BasicInput({ control, name, rules, label, extraStyle, opsional = false,
     }, [password]);
 
     return (
-        <Controller control={control} name={name} render={({field: {value, onChange, onBlur, ref}}) => (
+        <Controller control={control} name={name} render={({ field: { value, onChange, onBlur, ref } }) => (
             <View style={styles.container}>
                 <Text style={styles.label}>
                     {label}
@@ -41,10 +41,13 @@ function BasicInput({ control, name, rules, label, extraStyle, opsional = false,
                     }
                 </Text>
                 <View style={[styles.inputContainer, errorMessage && { borderColor: colors.error }, containerStyle]}>
-                    <TextInput ref={ref} style={[styles.input, extraStyle]} {...Attr} secureTextEntry={secureText} maxLength={100} autoCapitalize="none" value={!manual ? value : manualValue!(value).toString()} onChangeText={!manual? onChange : (text) => {
-                        const raw = customOnChange!(text);
-                        onChange(raw)
-                    }} onBlur={onBlur} />
+                    <TextInput
+                        ref={ref}
+                        style={[styles.input, extraStyle, {fontFamily: !secureText ? "poppins" : undefined }]} {...Attr} secureTextEntry={secureText} maxLength={100} autoCapitalize="none" value={!manual ? value : manualValue!(value).toString()} onChangeText={!manual ? onChange : (text) => {
+                            const raw = customOnChange!(text);
+                            onChange(raw)
+                        }} onBlur={onBlur}
+                    />
                     {password && (
                         <Pressable android_ripple={{ color: colors.background }} style={styles.eyeButton} onPress={togglePassword}>
                             <MaterialIcons name="remove-red-eye" size={18} color={colors.accent} />
@@ -54,7 +57,7 @@ function BasicInput({ control, name, rules, label, extraStyle, opsional = false,
                 {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
             </View>
         )}
-        rules={rules}
+            rules={rules}
         />
     );
 }
@@ -80,7 +83,6 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        fontFamily: "poppins",
         fontSize: 16,
         paddingHorizontal: 10,
         paddingBottom: 4,
