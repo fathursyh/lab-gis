@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { colors } from "../../constants/colors";
 
-export default function ListInfo({ dataCount, refetch }: { dataCount: number, refetch: ({ }) => void }) {
+export default function ListInfo({ dataCount, refetch }: { dataCount: number | string, refetch: ({ }) => void }) {
     return (
         <View style={styles.listInfo}>
             <Text style={styles.listInfoText}><Text style={{ fontFamily: 'poppins-semi', color: colors.primary500 }}>{dataCount}</Text> Bootcamp</Text>

@@ -5,10 +5,10 @@ import { useMemo } from "react";
 type Props = {
     search: string,
     queryKey: string
-    fetchFn: (token: string, pageParams: any, search: string) => any,
     stale?: number
+    fetchFn: (token: string, pageParams: any, search: string) => any,
 }
-export function useInfiniteFetch({ search, queryKey, fetchFn, stale }: Props) {
+export function useInfiniteFetch({ search, queryKey, stale, fetchFn }: Props) {
     const { token } = useAuth();
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status, refetch, isRefetching } = useInfiniteQuery({
         queryKey: [queryKey, search],
@@ -28,6 +28,7 @@ export function useInfiniteFetch({ search, queryKey, fetchFn, stale }: Props) {
     const filteredData = useMemo(() => {
         return data?.pages.flatMap((page) => page.data) ?? [];
     }, [data?.pages, search])
+
     const dataCount = useMemo(() => {
         return data?.pages[0].pagination.total ?? [];
     }, [data?.pages]);

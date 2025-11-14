@@ -37,7 +37,7 @@ export default function DetailBootcamp() {
         await generateTodayQR(token!, data?.id!);
     }
 
-    const passedView = useMemo(() => {
+    const isPassed = useMemo(() => {
         const [registration] = data?.registrations ?? [];
         if (registration?.status === 'passed') return true;
         return false
@@ -98,7 +98,7 @@ export default function DetailBootcamp() {
                     </CustomButton>
                 )}
                 {
-                    !passedView ?
+                    !isPassed ?
                         <DetailBody data={data} />
                         :
                         <PassedView token={token} id={data?.registrations[0].id} />

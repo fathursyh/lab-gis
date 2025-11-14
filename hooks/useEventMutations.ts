@@ -15,7 +15,7 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
         mutationFn: (data: any) => postEvent(token!, data),
         onSuccess: () => {
             Toast.success("Data berhasil ditambah!");
-            queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            queryClient.invalidateQueries({ queryKey: ["admin-bootcamps"] });
             queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
         onError: (_err, _id, _) => {
@@ -27,7 +27,7 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
         mutationFn: ({ data, id }: any) => updateEvent(token!, data, id),
         onSuccess: () => {
             Toast.success("Data berhasil diupdate!");
-            queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            queryClient.invalidateQueries({ queryKey: ["admin-bootcamps"] });
             queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
         onError: (_err: any, _id, _) => {
@@ -38,11 +38,11 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
     const deleteMutation = useMutation({
         mutationFn: ({ id }: any) => deleteEvent(token!, id),
         onMutate: async ({ id, _ }: any) => {
-            await queryClient.cancelQueries({ queryKey: ["bootcamps", search] });
+            await queryClient.cancelQueries({ queryKey: ["admin-bootcamps", search] });
 
-            const previousData = queryClient.getQueryData<InfiniteData<any>>(["bootcamps", search]);
+            const previousData = queryClient.getQueryData<InfiniteData<any>>(["admin-bootcamps", search]);
 
-            queryClient.setQueryData<InfiniteData<any>>(["bootcamps", search], (oldData) => {
+            queryClient.setQueryData<InfiniteData<any>>(["admin-bootcamps", search], (oldData) => {
                 if (!oldData) return oldData;
                 return {
                     ...oldData,
@@ -63,12 +63,12 @@ export const useEventMutations = ({ search }: EventMutationProps) => {
         },
         onError: (_err, _id, context) => {
             if (context?.previousData) {
-                queryClient.setQueryData(["bootcamps", search], context.previousData);
+                queryClient.setQueryData(["admin-bootcamps", search], context.previousData);
             }
             Toast.error("Terjadi kesalahan!");
         },
         onSettled: () => {
-            search !== "" && queryClient.invalidateQueries({ queryKey: ["bootcamps"] });
+            search !== "" && queryClient.invalidateQueries({ queryKey: ["admin-bootcamps"] });
             queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         },
     });
