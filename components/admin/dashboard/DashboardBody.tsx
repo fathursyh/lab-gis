@@ -29,10 +29,10 @@ export default function DashboardBody({ token }: { token: string }) {
         );
     return (
         <View style={styles.dashboardContainer}>
-            <DashboardItem title="Bootcamp Aktif" value={data.activeEvents} />
-            <DashboardItem title="Total User" value={data.totalUsers} />
-            <DashboardItem title="Total Transaksi" value={data.totalPayments} />
-            <DashboardItem title="Total Bootcamp" value={data.totalEvents} />
+            <DashboardItem title="Bootcamp Ongoing" value={data.activeEvents} icon="event-available" />
+            <DashboardItem title="Total User" value={data.totalUsers} icon="people" />
+            <DashboardItem title="Total Transaksi" value={data.totalPayments} icon="money" />
+            <DashboardItem title="Total Bootcamp" value={data.totalEvents} icon="event" />
         </View>
     );
 }

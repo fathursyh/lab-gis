@@ -56,6 +56,13 @@ export default function AdminLayout() {
                         }}
                     />
                     <Drawer.Screen
+                        name="users"
+                        options={{
+                            title: "Users",
+                            drawerIcon: ({ size, color }) => <MaterialIcons name="people" size={size} color={color} />,
+                        }}
+                    />
+                    <Drawer.Screen
                         name="logout"
                         listeners={{
                             drawerItemPress: (e) => {
