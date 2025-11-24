@@ -10,7 +10,7 @@ import { colors } from "../constants/colors";
 function PermissionComponent({ requestPermission }: { requestPermission: () => void }) {
     return (
         <View style={styles.container}>
-            <CustomButton type="accent" onPress={requestPermission}>
+            <CustomButton type="accent" onPressOut={requestPermission}>
                 Izinkan Kamera
             </CustomButton>
         </View>

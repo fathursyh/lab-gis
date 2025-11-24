@@ -4,15 +4,16 @@ import { useMemo } from "react";
 
 type Props = {
     search: string,
+    extraKey?: any,
     queryKey: string
     stale?: number
-    fetchFn: (token: string, pageParams: any, search: string) => any,
+    fetchFn: (token: string, pageParams: any, search: string, ...rest: any) => any,
 }
-export function useInfiniteFetch({ search, queryKey, stale, fetchFn }: Props) {
+export function useInfiniteFetch({ search, queryKey, stale, extraKey, fetchFn }: Props) {
     const { token } = useAuth();
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage, status, refetch, isRefetching } = useInfiniteQuery({
-        queryKey: [queryKey, search],
-        queryFn: (params) => fetchFn(token!, params.pageParam, search),
+        queryKey: [queryKey, search, extraKey],
+        queryFn: (params) => fetchFn(token!, params.pageParam, search, extraKey),
         initialPageParam: 1,
         staleTime: stale ?? undefined,
         gcTime: search !== '' ? 0 : 5 * 60 * 1000,

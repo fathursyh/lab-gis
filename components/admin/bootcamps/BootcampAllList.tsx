@@ -7,9 +7,8 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View }
 import { colors } from "../../../constants/colors";
 import ListInfo from "../../UI/ListInfo";
 import { useEventMutations } from "../../../hooks/useEventMutations";
-import { BootcampType } from "../../../types/BootcampType";
 
-type ActiveTab = 'ongoing' | 'completed';
+type ActiveTab = 'ongoing' | 'completed' | 'upcoming';
 const staleTime = 1000 * 60 * 10;
 
 export default function BootcampAllList({ search }: { search: string }) {
@@ -17,26 +16,13 @@ export default function BootcampAllList({ search }: { search: string }) {
 
     const { data, dataCount, isRefetching, isFetchingNextPage, status, filteredData, refetch, loadMore } = useInfiniteFetch({
         search,
+        extraKey: activeTab,
         fetchFn: fetchAllBootcamp,
         queryKey: "admin-bootcamps",
         stale: staleTime,
     });
 
-    const bootcampData = useMemo(() => {
-        const today = new Date();
-        return filteredData.filter((bootcamp: BootcampType) => {
-            const endDate = new Date(bootcamp.endDate!);
-            if (activeTab === "ongoing") {
-                return today <= endDate;
-            }
-
-            if (activeTab === "completed") {
-                return today > endDate;
-            }
-        })
-    }, [activeTab, filteredData]);
-
-    const { deleteMutation } = useEventMutations({ search });
+    const { deleteMutation } = useEventMutations({ search, extraKey: activeTab });
 
     const renderItem = useCallback(
         ({ item }: any) => {
@@ -62,17 +48,16 @@ export default function BootcampAllList({ search }: { search: string }) {
                 </View>
             </>
         );
-
     return (
         <>
-            {bootcampData.length > 0 ? (
+            <BootcampTab activeTab={activeTab} onChange={setActiveTab} />
+            {filteredData.length > 0 ? (
                 <>
-                    <BootcampTab activeTab={activeTab} onChange={setActiveTab} />
-                    <ListInfo refetch={refetch} dataCount={`${bootcampData.length} / ${dataCount}`} />
+                    <ListInfo refetch={refetch} dataCount={dataCount} />
                     <FlatList
                         initialNumToRender={10}
                         maxToRenderPerBatch={10}
-                        data={bootcampData}
+                        data={filteredData}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                         onEndReached={loadMore}
@@ -93,46 +78,38 @@ export default function BootcampAllList({ search }: { search: string }) {
     );
 }
 
-function BootcampTab({ activeTab, onChange }: { activeTab: ActiveTab, onChange: React.ComponentState }) {
+function BootcampTab({ activeTab, onChange }: { activeTab: ActiveTab, onChange: (tab: ActiveTab) => void }) {
+
+    // Define tabs configuration
+    const tabs: { key: ActiveTab; label: string }[] = [
+        { key: "upcoming", label: "Upcoming" },
+        { key: "ongoing", label: "Ongoing" },
+        { key: "completed", label: "Completed" },
+    ];
+
     return (
         <View style={tab.container}>
-            {/* Ongoing Tab */}
-            <TouchableOpacity
-                style={[
-                    tab.tab,
-                    activeTab === "ongoing" && tab.activeTab
-                ]}
-                onPress={() => onChange("ongoing")}
-            >
-                <Text
+            {tabs.map((item) => (
+                <TouchableOpacity
+                    key={item.key}
                     style={[
-                        tab.tabText,
-                        activeTab === "ongoing" && tab.activeText
+                        tab.tab,
+                        activeTab === item.key && tab.activeTab
                     ]}
+                    onPress={() => onChange(item.key)}
                 >
-                    Ongoing
-                </Text>
-            </TouchableOpacity>
-
-            {/* Completed Tab */}
-            <TouchableOpacity
-                style={[
-                    tab.tab,
-                    activeTab === "completed" && tab.activeTab
-                ]}
-                onPress={() => onChange("completed")}
-            >
-                <Text
-                    style={[
-                        tab.tabText,
-                        activeTab === "completed" && tab.activeText
-                    ]}
-                >
-                    Completed
-                </Text>
-            </TouchableOpacity>
+                    <Text
+                        style={[
+                            tab.tabText,
+                            activeTab === item.key && tab.activeText
+                        ]}
+                    >
+                        {item.label}
+                    </Text>
+                </TouchableOpacity>
+            ))}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

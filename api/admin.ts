@@ -5,12 +5,12 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 const pc = host ?? "http://localhost:3000";
 
-export async function fetchAllBootcamp(token: string, pageParam: any, search: string) {
+export async function fetchAllBootcamp(token: string, pageParam: any, search: string, status: string) {
     const res = await axios.get(`${pc}/api/event/`, {
         headers: { Authorization: `Bearer ${token}` },
         timeout: 5000,
         timeoutErrorMessage: "Gagal fetch bootcamp.",
-        params: { page: pageParam, search: search },
+        params: { page: pageParam, search: search, status: status },
     });
     if (res.status !== 200) throw new Error("Terjadi kesalahan, coba lagi.");
     return res.data;

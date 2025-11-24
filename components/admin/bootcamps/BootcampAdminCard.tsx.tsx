@@ -21,13 +21,13 @@ export default function BootcampAdminCard({ item, deleteFn }: CardProps) {
     }, [item.price]);
 
     const startDate = useMemo(() => {
-        return dayjs(item.startDate).format("DD MMMM YY");
+        return dayjs(item.startDate).format("DD MMM YYYY");
     }, [item.startDate]);
     const endDate = useMemo(() => {
-        return dayjs(item.endDate).format("DD MMMM YY");
+        return dayjs(item.endDate).format("DD MMM YYYY");
     }, [item.endDate]);
     const registerDate = useMemo(() => {
-        return dayjs(item.registerDate).format("DD MMMM YY");
+        return dayjs(item.registerDate).format("DD MMM YYYY");
     }, [item.registerDate]);
 
     async function deleteEvent(id: string, title: string) {
